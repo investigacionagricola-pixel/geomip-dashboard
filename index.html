@@ -3,681 +3,1051 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeoMIP — Dashboard General · Ingenio Madre Tierra</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;600;700;900&family=DM+Mono:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<title>GeoMIP — Ingenio Madre Tierra</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=IBM+Plex+Mono:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0A0907;--card:#111009;--raise:#181510;--hover:#1F1B13;
-  --line:rgba(255,232,175,0.06);--lineMd:rgba(255,232,175,0.12);
-  --sienna:#CC5020;--siennaLt:#E86838;
-  --amber:#C48A14;--amberLt:#E2A826;
-  --sage:#387830;--sageLt:#52A044;
-  --teal:#267070;--tealLt:#38A0A0;
-  --red:#A82828;--redLt:#C83838;
-  --chalk:#F0E8D8;--chalkMd:#A89880;--chalkDm:#6A5C4A;
-  --blue:#3B8BD4;--purple:#6A4FB0;
-  --white:#fff;
-  --G:rgba(255,255,255,0.07);--T:#9c9a92;
+  /* ── Verde Agrícola palette ── */
+  --bg:       #0A0F0A;
+  --card:     #0D140D;
+  --raise:    #121A12;
+  --hover:    #172017;
+  --line:     rgba(100,220,100,0.06);
+  --lineMd:   rgba(100,220,100,0.12);
+  --lineHd:   rgba(100,220,100,0.22);
+ 
+  /* Greens */
+  --g1:  #1B4D1B;  /* deep forest  */
+  --g2:  #256025;  /* forest       */
+  --g3:  #2E7A2E;  /* field        */
+  --g4:  #3A9A3A;  /* grass        */
+  --g5:  #4DBF4D;  /* lime         */
+  --g6:  #7DD87D;  /* light green  */
+ 
+  /* Golds / harvest */
+  --gold:   #C8960A;
+  --goldLt: #E8B020;
+  --harvest:#E07020;
+  --harLt:  #F09040;
+ 
+  /* Alerts */
+  --red:    #A83030;
+  --redLt:  #CC4040;
+  --blue:   #2878B8;
+  --blueLt: #3898D8;
+  --teal:   #208060;
+  --tealLt: #30A878;
+ 
+  /* Neutrals */
+  --chalk:   #E8F5E8;
+  --chalkMd: #9AB89A;
+  --chalkDm: #567056;
+  --white:   #ffffff;
+ 
+  --G: rgba(100,220,100,0.07);
+  --T: #7A9A7A;
 }
 body{background:var(--bg);font-family:'Lato',sans-serif;color:var(--chalk);min-height:100vh}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:var(--card)}
-::-webkit-scrollbar-thumb{background:rgba(204,80,32,.5);border-radius:2px}
+::-webkit-scrollbar-thumb{background:var(--g3);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:var(--g4)}
+ 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-@keyframes scan{0%{top:-2px;opacity:.4}100%{top:100vh;opacity:0}}
-@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scan{0%{top:-2px;opacity:.3}100%{top:100vh;opacity:0}}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.scan-line{position:fixed;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(204,80,32,.3),transparent);z-index:0;pointer-events:none;animation:scan 10s linear infinite}
-.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px}
-
+@keyframes grow{from{width:0}to{width:var(--w)}}
+ 
+.scan-line{position:fixed;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(60,180,60,.25),transparent);
+  z-index:0;pointer-events:none;animation:scan 12s linear infinite}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:44px 44px}
+ 
+/* ── LOADING ── */
+#loading{position:fixed;inset:0;background:var(--bg);z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity .5s}
+#loading.hidden{opacity:0;pointer-events:none}
+.load-icon{width:56px;height:56px;background:var(--g3);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center}
+.load-icon span{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:#fff}
+.load-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;
+  color:var(--chalk);letter-spacing:4px;text-transform:uppercase}
+.load-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--g4);letter-spacing:3px}
+.load-bar-bg{width:260px;height:3px;background:var(--lineMd);border-radius:2px;overflow:hidden}
+.load-bar{height:100%;width:0;background:linear-gradient(90deg,var(--g3),var(--g5));
+  border-radius:2px;transition:width .4s ease}
+.load-msg{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--chalkDm);letter-spacing:2px}
+.load-items{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.load-item{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;
+  font-size:8px;color:var(--chalkDm);letter-spacing:1px}
+.load-item .di{width:6px;height:6px;border-radius:50%;background:var(--chalkDm);flex-shrink:0;transition:background .3s}
+.load-item.ok .di{background:var(--g5)}
+.load-item.err .di{background:var(--redLt)}
+ 
 /* ── HEADER ── */
-.hdr{background:rgba(16,15,9,.96);border-bottom:1px solid var(--lineMd);position:sticky;top:0;z-index:100;backdrop-filter:blur(16px)}
-.hdr-stripe{height:2px;background:linear-gradient(90deg,var(--sienna) 0%,var(--amber) 40%,var(--sage) 70%,var(--teal) 100%)}
-.hdr-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:stretch;height:52px}
-.logo{width:30px;height:30px;background:var(--sienna);clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo span{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:#fff}
-.brand-wrap{display:flex;align-items:center;gap:10px;padding-right:20px;border-right:1px solid var(--line);margin-right:4px;flex-shrink:0}
-.brand{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--chalk);letter-spacing:3px;text-transform:uppercase;line-height:1}
-.brand-sub{font-family:'DM Mono',monospace;font-size:7px;color:var(--sienna);letter-spacing:3px}
-.nav{display:flex;align-items:stretch;overflow-x:auto}
-.nbtn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:0 13px;background:transparent;border:none;color:var(--chalkDm);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
+.hdr{background:rgba(13,20,13,.96);border-bottom:1px solid var(--lineMd);
+  position:sticky;top:0;z-index:100;backdrop-filter:blur(16px)}
+.hdr-stripe{height:3px;background:linear-gradient(90deg,var(--g1),var(--g3),var(--g5),var(--goldLt),var(--gold))}
+.hdr-inner{max-width:1440px;margin:0 auto;padding:0 24px;display:flex;align-items:stretch;height:54px}
+.logo-wrap{display:flex;align-items:center;gap:10px;padding-right:20px;
+  border-right:1px solid var(--line);flex-shrink:0;margin-right:6px}
+.logo-hex{width:34px;height:34px;background:var(--g3);
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-hex span{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:#fff}
+.brand{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;
+  color:var(--chalk);letter-spacing:3px;text-transform:uppercase;line-height:1}
+.brand-sub{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--g4);letter-spacing:3px}
+.nav{display:flex;align-items:stretch;overflow-x:auto;gap:0}
+.nbtn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;padding:0 14px;background:transparent;
+  border:none;color:var(--chalkDm);cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color .15s;white-space:nowrap;position:relative}
 .nbtn:hover{color:var(--chalk)}
 .nbtn.act{border-bottom-color:currentColor}
+.nbtn.act::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,currentColor 0%,transparent 100%);opacity:.08;pointer-events:none}
 .hdr-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--chalkDm);flex-shrink:0}
-.live-dot.on{background:var(--sageLt);box-shadow:0 0 0 3px rgba(82,160,68,.3);animation:pulse 2.5s infinite}
+.live-dot.on{background:var(--g5);box-shadow:0 0 0 3px rgba(77,191,77,.25);animation:pulse 2.5s infinite}
 .live-dot.err{background:var(--redLt)}
-#live-txt{font-family:'DM Mono',monospace;font-size:8px;color:var(--chalkDm);letter-spacing:1px}
-.sync-btn{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;padding:4px 11px;background:transparent;border:1px solid var(--lineMd);color:var(--chalkMd);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
-.sync-btn:hover{border-color:var(--sienna);color:var(--siennaLt)}
-.spin-sm{width:10px;height:10px;border:1.5px solid var(--lineMd);border-top-color:var(--amber);border-radius:50%;animation:spin .7s linear infinite;display:none}
-
-/* ── LOADING OVERLAY ── */
-#loading{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s}
-#loading.hidden{opacity:0;pointer-events:none}
-.load-logo{width:48px;height:48px;background:var(--sienna);clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%);display:flex;align-items:center;justify-content:center}
-.load-logo span{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#fff}
-.load-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--chalk);letter-spacing:3px;text-transform:uppercase}
-.load-bar-wrap{width:240px;height:3px;background:var(--lineMd);overflow:hidden}
-.load-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--sienna),var(--amber));transition:width .4s ease}
-.load-msg{font-family:'DM Mono',monospace;font-size:9px;color:var(--chalkDm);letter-spacing:2px}
-.load-sheets{display:flex;flex-direction:column;gap:5px;margin-top:8px}
-.load-sheet{font-family:'DM Mono',monospace;font-size:8px;color:var(--chalkDm);display:flex;align-items:center;gap:8px;letter-spacing:1px}
-.load-sheet .dot{width:6px;height:6px;border-radius:50%;background:var(--chalkDm);flex-shrink:0}
-.load-sheet.ok .dot{background:var(--sageLt)}
-.load-sheet.err .dot{background:var(--redLt)}
-
+#live-txt{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);letter-spacing:1px}
+.sync-btn{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;
+  padding:4px 12px;background:transparent;border:1px solid var(--lineMd);
+  color:var(--chalkMd);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
+.sync-btn:hover{border-color:var(--g4);color:var(--g5)}
+.spin-sm{width:10px;height:10px;border:1.5px solid var(--lineMd);border-top-color:var(--g4);
+  border-radius:50%;animation:spin .7s linear infinite;display:none}
+ 
+/* ── STATUS BAR ── */
+.status-bar{display:flex;align-items:center;gap:14px;padding:7px 16px;
+  background:var(--card);border:1px solid var(--lineMd);margin-bottom:16px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);flex-wrap:wrap}
+.st-item{display:flex;align-items:center;gap:5px}
+.st-dot{width:5px;height:5px;border-radius:50%;background:var(--chalkDm);flex-shrink:0}
+.st-dot.ok{background:var(--g5)}
+.st-dot.err{background:var(--redLt)}
+.st-dot.loading{background:var(--gold);animation:pulse .9s infinite}
+ 
 /* ── MAIN ── */
-.main{max-width:1400px;margin:0 auto;padding:20px 24px 48px;position:relative;z-index:1}
+.main{max-width:1440px;margin:0 auto;padding:20px 24px 60px;position:relative;z-index:1}
 .panel{display:none;animation:up .35s cubic-bezier(.16,1,.3,1) both}
 .panel.show{display:block}
-
-/* ── KPI ── */
+ 
+/* ── MODULE TABS (gráfica / tabla) ── */
+.mod-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:1px solid var(--lineMd)}
+.mtab{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  padding:8px 16px;background:transparent;border:none;color:var(--chalkDm);cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.mtab:hover{color:var(--chalk)}
+.mtab.act{color:var(--g5);border-bottom-color:var(--g5)}
+.mod-view{display:none}
+.mod-view.show{display:block;animation:up .25s ease both}
+ 
+/* ── KPI GRID ── */
 .kpi-grid{display:grid;gap:1px;background:var(--lineMd);border:1px solid var(--lineMd);margin-bottom:16px}
-.kpi{background:var(--card);padding:14px 18px;position:relative;overflow:hidden;transition:background .2s;cursor:default}
+.kpi{background:var(--card);padding:14px 18px;position:relative;overflow:hidden;
+  transition:background .2s;cursor:default}
 .kpi:hover{background:var(--raise)}
-.kpi-accent{position:absolute;top:0;left:0;right:0;height:2px}
-.kpi-label{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:3px;color:var(--chalkDm);text-transform:uppercase;margin-bottom:8px}
-.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:800;line-height:.88;letter-spacing:-1px}
-.kpi-unit{font-size:13px;font-weight:300;color:var(--chalkMd);margin-left:2px}
-.kpi-sub{font-family:'DM Mono',monospace;font-size:8px;color:var(--chalkDm);margin-top:6px}
-
+.kpi-bar{position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-label{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:3px;
+  color:var(--chalkDm);text-transform:uppercase;margin-bottom:8px}
+.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;
+  line-height:.88;letter-spacing:-1px}
+.kpi-unit{font-size:14px;font-weight:300;color:var(--chalkMd);margin-left:3px}
+.kpi-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);margin-top:7px}
+.kpi-prog{height:2px;background:var(--lineMd);margin-top:8px;border-radius:1px;overflow:hidden}
+.kpi-prog-fill{height:100%;border-radius:1px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+ 
+/* ── SECTION HEADER ── */
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.sec-bar{width:3px;height:18px;flex-shrink:0}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--chalk)}
+.sec-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;padding:2px 8px;
+  border:1px solid;letter-spacing:1px}
+.sec-line{flex:1;height:1px;background:var(--line)}
+.card-sub{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);margin-bottom:12px}
+ 
 /* ── CHARTS ── */
 .chart-row{display:grid;gap:12px;margin-bottom:12px}
 .c2{grid-template-columns:1fr 1fr}
 .c3{grid-template-columns:1.6fr 1fr}
 .card{background:var(--card);border:1px solid var(--line);padding:16px 18px}
-.card-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--chalk);margin-bottom:2px}
-.card-sub{font-family:'DM Mono',monospace;font-size:8px;color:var(--chalkDm);margin-bottom:12px}
 .ch-wrap{position:relative;width:100%}
-.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-family:'DM Mono',monospace;font-size:9px;color:var(--chalkMd)}
-.leg-sq{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:3px;flex-shrink:0;vertical-align:middle}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--chalkMd)}
+.leg-sq{width:9px;height:9px;border-radius:2px;display:inline-block;
+  margin-right:3px;flex-shrink:0;vertical-align:middle}
 .center-ch{display:flex;align-items:center;justify-content:center}
 .sep{height:1px;background:var(--line);margin:14px 0}
-.sec-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--sienna);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--g4);
+  letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+ 
+/* ── ALERTS ── */
 .alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.alert{padding:12px 14px;border-left:3px solid}
-.alert-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.alert{padding:12px 14px;border-left:3px solid;border-radius:0}
+.alert-title{font-family:'IBM Plex Mono',monospace;font-size:8px;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
 .alert-body{font-size:11px;color:var(--chalkMd);line-height:1.6}
-
-/* ── STATUS BAR ── */
-.status-bar{display:flex;align-items:center;gap:14px;padding:7px 14px;background:var(--card);border:1px solid var(--lineMd);margin-bottom:16px;font-family:'DM Mono',monospace;font-size:8px;color:var(--chalkDm);flex-wrap:wrap}
-.st-item{display:flex;align-items:center;gap:5px}
-.st-dot{width:5px;height:5px;border-radius:50%;background:var(--chalkDm);flex-shrink:0}
-.st-dot.ok{background:var(--sageLt)}
-.st-dot.err{background:var(--redLt)}
-.st-dot.loading{background:var(--amber);animation:pulse .8s infinite}
+ 
+/* ── DATA TABLE ── */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--lineMd)}
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--chalkDm);padding:8px 10px;
+  text-align:left;border-bottom:1px solid var(--lineMd);
+  background:var(--raise);white-space:nowrap;font-weight:400}
+.tbl th.r{text-align:right}
+.tbl td{padding:7px 10px;border-bottom:1px solid var(--line);
+  white-space:nowrap;color:var(--chalk)}
+.tbl td.r{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:10px}
+.tbl td.mono{font-family:'IBM Plex Mono',monospace;font-size:10px}
+.tbl tr:hover td{background:var(--hover)}
+.tbl tr.total-row td{background:var(--raise);font-weight:700;color:var(--g5)}
+.tbl-info{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);
+  text-align:center;padding:8px}
+ 
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;
+  font-size:8px;letter-spacing:1px;padding:2px 8px;border:1px solid;white-space:nowrap}
+.badge .bd{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+ 
+/* ── SEARCH / FILTER BAR ── */
+.filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.filter-bar input,.filter-bar select{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  padding:5px 10px;background:var(--raise);border:1px solid var(--lineMd);
+  color:var(--chalk);outline:none;transition:border-color .15s}
+.filter-bar input:focus,.filter-bar select:focus{border-color:var(--g4)}
+.filter-bar input{width:200px}
+.filter-label{font-family:'IBM Plex Mono',monospace;font-size:8px;
+  color:var(--chalkDm);letter-spacing:2px;text-transform:uppercase}
+.zbtn{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;
+  padding:4px 10px;background:transparent;border:1px solid var(--lineMd);
+  color:var(--chalkDm);cursor:pointer;transition:all .15s}
+.zbtn:hover,.zbtn.act{background:var(--g3);color:#fff;border-color:var(--g3)}
+ 
+/* ── PAGE TITLE ── */
+.page-title{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.page-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:8px;
+  color:var(--g4);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.page-h{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;
+  color:var(--chalk);text-transform:uppercase;letter-spacing:-1px;line-height:.9}
+.page-h span{color:var(--g4)}
 </style>
 </head>
 <body>
-
-<!-- LOADING SCREEN -->
+ 
+<!-- LOADING -->
 <div id="loading">
-  <div class="load-logo"><span>L</span></div>
-  <div class="load-title">GeoMIP Dashboard</div>
-  <div class="load-bar-wrap"><div class="load-bar" id="load-bar"></div></div>
-  <div class="load-msg" id="load-msg">Conectando a Google Sheets...</div>
-  <div class="load-sheets">
-    <div class="load-sheet" id="ls-muestreo"><div class="dot"></div>Integrado_Captura_Rata</div>
-    <div class="load-sheet" id="ls-control"><div class="dot"></div>Seguimiento_control_rata</div>
-    <div class="load-sheet" id="ls-ejecutados"><div class="dot"></div>Integrado_Control_Rata</div>
-    <div class="load-sheet" id="ls-ronron"><div class="dot"></div>Int_Capt_Ronron</div>
-    <div class="load-sheet" id="ls-dano"><div class="dot"></div>Integrado_Daño_Cosecha</div>
-    <div class="load-sheet" id="ls-lote"><div class="dot"></div>Integrad_lote_cosecha</div>
+  <div class="load-icon"><span>G</span></div>
+  <div class="load-title">GeoMIP</div>
+  <div class="load-sub">Ingenio Madre Tierra · Zafra 2025–26</div>
+  <div class="load-bar-bg"><div class="load-bar" id="lb"></div></div>
+  <div class="load-msg" id="lmsg">Conectando a Google Sheets...</div>
+  <div class="load-items">
+    <div class="load-item" id="li-m"><div class="di"></div>Integrado_Captura_Rata</div>
+    <div class="load-item" id="li-c"><div class="di"></div>Seguimiento_control_rata</div>
+    <div class="load-item" id="li-e"><div class="di"></div>Integrado_Control_Rata</div>
+    <div class="load-item" id="li-r"><div class="di"></div>Int_Capt_Ronron</div>
+    <div class="load-item" id="li-d"><div class="di"></div>Integrado_Daño_Cosecha</div>
+    <div class="load-item" id="li-l"><div class="di"></div>Integrad_lote_cosecha</div>
   </div>
 </div>
-
+ 
 <div class="grid-bg"></div>
 <div class="scan-line"></div>
-
+ 
 <!-- HEADER -->
 <header class="hdr">
   <div class="hdr-stripe"></div>
   <div class="hdr-inner">
-    <div class="brand-wrap">
-      <div class="logo"><span>L</span></div>
+    <div class="logo-wrap">
+      <div class="logo-hex"><span>G</span></div>
       <div>
-        <div class="brand">GeoMIP · Dashboard</div>
-        <div class="brand-sub">Ingenio Madre Tierra · Zafra 2025–26</div>
+        <div class="brand">GeoMIP</div>
+        <div class="brand-sub">Madre Tierra · 2025–26</div>
       </div>
     </div>
     <nav class="nav">
-      <button class="nbtn act" style="color:var(--sienna)"  onclick="showTab('overview',this,'var(--sienna)')">Overview</button>
-      <button class="nbtn"                                   onclick="showTab('rata',this,'var(--amber)')">Rata Cañera</button>
-      <button class="nbtn"                                   onclick="showTab('dano',this,'var(--amber)')">Daño Cosecha</button>
-      <button class="nbtn"                                   onclick="showTab('gallinaCiega',this,'var(--redLt)')">Gallina Ciega</button>
-      <button class="nbtn"                                   onclick="showTab('dinamica',this,'var(--purple)')">Dinámica Pob.</button>
+      <button class="nbtn act" style="color:var(--g5)"      onclick="showTab('overview',this,'var(--g5)')">Overview</button>
+      <button class="nbtn"                                    onclick="showTab('rata',this,'var(--goldLt)')">Rata Cañera</button>
+      <button class="nbtn"                                    onclick="showTab('dano',this,'var(--gold)')">Daño Cosecha</button>
+      <button class="nbtn"                                    onclick="showTab('gallinaCiega',this,'var(--redLt)')">Gallina Ciega</button>
+      <button class="nbtn"                                    onclick="showTab('dinamica',this,'var(--tealLt)')">Dinámica Pob.</button>
+      <button class="nbtn"                                    onclick="showTab('chinche',this,'var(--blueLt)')">Chinche</button>
     </nav>
     <div class="hdr-right">
-      <div class="live-dot" id="live-dot"></div>
+      <div class="live-dot" id="ldot"></div>
       <span id="live-txt">conectando...</span>
       <button class="sync-btn" onclick="syncData()">
-        <span class="spin-sm" id="sync-spin"></span>
-        ↻ SYNC
+        <span class="spin-sm" id="sspin"></span>↻ SYNC
       </button>
     </div>
   </div>
 </header>
-
+ 
 <main class="main">
-
+ 
 <!-- STATUS BAR -->
 <div class="status-bar">
-  <span style="color:var(--amber);letter-spacing:2px">▸ LIVE</span>
-  <span class="st-item"><div class="st-dot loading" id="sd-muestreo"></div>Muestreos</span>
-  <span class="st-item"><div class="st-dot loading" id="sd-control"></div>Control</span>
-  <span class="st-item"><div class="st-dot loading" id="sd-ejecutados"></div>Ejecutados</span>
-  <span class="st-item"><div class="st-dot loading" id="sd-ronron"></div>Ronrón</span>
-  <span class="st-item"><div class="st-dot loading" id="sd-dano"></div>Daño Cosecha</span>
-  <span class="st-item"><div class="st-dot loading" id="sd-lote"></div>Lote Cosecha</span>
-  <span id="st-updated" style="margin-left:auto"></span>
+  <span style="color:var(--g4);letter-spacing:2px">▸ LIVE · Google Sheets</span>
+  <span class="st-item"><div class="st-dot loading" id="sd-m"></div>Muestreos</span>
+  <span class="st-item"><div class="st-dot loading" id="sd-c"></div>Control</span>
+  <span class="st-item"><div class="st-dot loading" id="sd-e"></div>Ejecutados</span>
+  <span class="st-item"><div class="st-dot loading" id="sd-r"></div>Ronrón</span>
+  <span class="st-item"><div class="st-dot loading" id="sd-d"></div>Daño</span>
+  <span class="st-item"><div class="st-dot loading" id="sd-l"></div>Lote Cosecha</span>
+  <span id="st-ts" style="margin-left:auto"></span>
 </div>
-
-<!-- ═══ OVERVIEW ═══ -->
+ 
+<!-- ═══════════════ OVERVIEW ═══════════════ -->
 <div id="tab-overview" class="panel show">
-  <div class="kpi-grid" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kpi"><div class="kpi-accent" style="background:var(--sienna)"></div><div class="kpi-label">Muestreos Rata</div><div class="kpi-val" style="color:var(--sienna)" id="kv-m">—</div><div class="kpi-sub" id="ks-m">cargando...</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--amber)"></div><div class="kpi-label">% Captura Cat.Act.</div><div class="kpi-val" style="color:var(--amber)" id="kv-pct">—</div><div class="kpi-sub" id="ks-pct">cargando...</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--sage)"></div><div class="kpi-label">Kg Ejecutados</div><div class="kpi-val" style="color:var(--sage)" id="kv-kg">—</div><div class="kpi-sub" id="ks-kg">cargando...</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--teal)"></div><div class="kpi-label">Daño Cosecha</div><div class="kpi-val" style="color:var(--teal)" id="kv-d">—</div><div class="kpi-sub" id="ks-d">cargando...</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-label">Gallina Ciega</div><div class="kpi-val" style="color:var(--red)" id="kv-gc">—</div><div class="kpi-sub" id="ks-gc">cargando...</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--purple)"></div><div class="kpi-label">A Tiempo / Pend.</div><div class="kpi-val" style="color:var(--purple)" id="kv-ctrl">—</div><div class="kpi-sub" id="ks-ctrl">cargando...</div></div>
+  <div class="page-title">
+    <div class="page-eyebrow">◆ Dashboard General · Catorcena activa</div>
+    <div class="page-h">Manejo de <span>Plagas</span><br>Ingenio Madre Tierra</div>
   </div>
+ 
+  <div class="kpi-grid" style="grid-template-columns:repeat(6,1fr)">
+    <div class="kpi"><div class="kpi-bar" style="background:var(--g4)"></div>
+      <div class="kpi-label">Muestreos Rata</div>
+      <div class="kpi-val" style="color:var(--g5)" id="kv-m">—</div>
+      <div class="kpi-sub" id="ks-m">cargando...</div>
+      <div class="kpi-prog"><div class="kpi-prog-fill" id="kp-m" style="background:var(--g4);width:0"></div></div>
+    </div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--goldLt)"></div>
+      <div class="kpi-label">% Captura Cat.Act.</div>
+      <div class="kpi-val" style="color:var(--goldLt)" id="kv-pct">—</div>
+      <div class="kpi-sub" id="ks-pct">cargando...</div>
+      <div class="kpi-prog"><div class="kpi-prog-fill" id="kp-pct" style="background:var(--goldLt);width:0"></div></div>
+    </div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--g3)"></div>
+      <div class="kpi-label">Kg Ejecutados</div>
+      <div class="kpi-val" style="color:var(--g4)" id="kv-kg">—</div>
+      <div class="kpi-sub" id="ks-kg">cargando...</div>
+      <div class="kpi-prog"><div class="kpi-prog-fill" id="kp-kg" style="background:var(--g3);width:0"></div></div>
+    </div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--tealLt)"></div>
+      <div class="kpi-label">Daño Cosecha</div>
+      <div class="kpi-val" style="color:var(--tealLt)" id="kv-d">—</div>
+      <div class="kpi-sub" id="ks-d">cargando...</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--redLt)"></div>
+      <div class="kpi-label">Gallina Ciega</div>
+      <div class="kpi-val" style="color:var(--redLt)" id="kv-gc">—</div>
+      <div class="kpi-sub" id="ks-gc">cargando...</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--gold)"></div>
+      <div class="kpi-label">Control A Tiempo</div>
+      <div class="kpi-val" style="color:var(--gold)" id="kv-ctrl">—</div>
+      <div class="kpi-sub" id="ks-ctrl">cargando...</div></div>
+  </div>
+ 
   <div class="chart-row c3">
     <div class="card">
-      <div class="card-title">% Captura Rata por Catorcena</div>
-      <div class="card-sub">Umbral crítico 8%</div>
+      <div class="sec-hdr"><div class="sec-bar" style="background:var(--g4)"></div><div class="sec-title">% Captura por Catorcena</div><div class="sec-tag" style="color:var(--g4);border-color:var(--g3)">Umbral 8%</div><div class="sec-line"></div></div>
       <div class="ch-wrap" style="height:210px"><canvas id="c-cat"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-title">Estado Control</div>
-      <div class="card-sub">Todos los lotes registrados</div>
+      <div class="sec-hdr"><div class="sec-bar" style="background:var(--gold)"></div><div class="sec-title">Estado Control</div><div class="sec-line"></div></div>
       <div class="center-ch" style="height:185px"><canvas id="c-estado" style="max-width:175px;max-height:175px"></canvas></div>
       <div class="legend" style="justify-content:center;margin-top:8px">
-        <span><span class="leg-sq" style="background:var(--sage)"></span>A Tiempo</span>
-        <span><span class="leg-sq" style="background:var(--red)"></span>Pendiente</span>
-        <span><span class="leg-sq" style="background:var(--amber)"></span>Fuera Ventana</span>
+        <span><span class="leg-sq" style="background:var(--g4)"></span>A Tiempo</span>
+        <span><span class="leg-sq" style="background:var(--redLt)"></span>Pendiente</span>
+        <span><span class="leg-sq" style="background:var(--gold)"></span>Fuera Ventana</span>
       </div>
     </div>
   </div>
   <div class="chart-row c2">
     <div class="card">
-      <div class="card-title">Rodenticida Rec. vs Ejecutado</div>
-      <div class="card-sub">Kg por zona · todas las catorcenas</div>
+      <div class="sec-hdr"><div class="sec-bar" style="background:var(--g3)"></div><div class="sec-title">Rodenticida por Zona</div><div class="sec-line"></div></div>
       <div class="legend">
-        <span><span class="leg-sq" style="background:#888"></span>Recomendados</span>
-        <span><span class="leg-sq" style="background:var(--sage)"></span>Ejecutados</span>
+        <span><span class="leg-sq" style="background:#4A6A4A"></span>Recomendados</span>
+        <span><span class="leg-sq" style="background:var(--g4)"></span>Ejecutados</span>
       </div>
       <div class="ch-wrap" style="height:160px"><canvas id="c-rod"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-title">Daño Cosecha por Zona</div>
-      <div class="card-sub">% Intensidad Barrenador vs Rata</div>
+      <div class="sec-hdr"><div class="sec-bar" style="background:var(--gold)"></div><div class="sec-title">Daño Cosecha por Zona</div><div class="sec-line"></div></div>
       <div class="legend">
-        <span><span class="leg-sq" style="background:var(--amber)"></span>Barrenador</span>
-        <span><span class="leg-sq" style="background:var(--sienna)"></span>Rata</span>
+        <span><span class="leg-sq" style="background:var(--gold)"></span>Barrenador %</span>
+        <span><span class="leg-sq" style="background:var(--harvest)"></span>Rata %</span>
       </div>
       <div class="ch-wrap" style="height:160px"><canvas id="c-dano-zona"></canvas></div>
     </div>
   </div>
   <div class="sep"></div>
-  <div class="sec-label">Alertas Activas</div>
-  <div class="alerts" id="alerts-panel">
-    <div class="alert" style="background:rgba(204,80,32,.08);border-color:var(--sienna)">
-      <div class="alert-title" style="color:var(--sienna)">⚠ Rata — Zona 4 El Retiro</div>
-      <div class="alert-body">Captura hasta 24% cat.10. Lotes pendientes de control. Requiere acción inmediata.</div>
+  <div class="sec-label">⚠ Alertas Activas del Sistema</div>
+  <div class="alerts">
+    <div class="alert" style="background:rgba(168,48,48,.08);border-color:var(--redLt)">
+      <div class="alert-title" style="color:var(--redLt)">⚠ Rata — Zona 4 El Retiro</div>
+      <div class="alert-body">Captura hasta 24% cat.10. Lotes pendientes de control. Acción inmediata requerida.</div>
     </div>
-    <div class="alert" style="background:rgba(168,40,40,.08);border-color:var(--red)">
-      <div class="alert-title" style="color:var(--redLt)">⚠ Gallina Ciega — Cat.11</div>
-      <div class="alert-body">Explosión en Z·3 CAÑAVERALES. 13,155 adultos cat.11 vs 17 en cat.10.</div>
+    <div class="alert" style="background:rgba(162,80,0,.08);border-color:var(--harLt)">
+      <div class="alert-title" style="color:var(--harLt)">⚠ Gallina Ciega — Cat.11</div>
+      <div class="alert-body">Explosión Z·3 CAÑAVERALES: 13,155 adultos vs 17 en cat.10. Monitoreo urgente.</div>
     </div>
-    <div class="alert" style="background:rgba(196,138,20,.08);border-color:var(--amber)">
-      <div class="alert-title" style="color:var(--amberLt)">⚠ Barrenador — Z·5</div>
-      <div class="alert-body">26.5% infestación. Cat.10 intensidad sube a 32.3%. Monitorear.</div>
+    <div class="alert" style="background:rgba(200,150,10,.08);border-color:var(--goldLt)">
+      <div class="alert-title" style="color:var(--goldLt)">⚠ Barrenador — Z·5 Intensidad</div>
+      <div class="alert-body">26.5% infestación. Cat.10 sube a 32.3%. Revisar umbral de intervención.</div>
     </div>
   </div>
 </div>
-
-<!-- ═══ RATA CAÑERA ═══ -->
+ 
+<!-- ═══════════════ RATA CAÑERA ═══════════════ -->
 <div id="tab-rata" class="panel">
+  <div class="page-title">
+    <div class="page-eyebrow">Módulo · Sigmodon hispidus · Muestreo & Control</div>
+    <div class="page-h">Rata <span>Cañera</span></div>
+  </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kpi"><div class="kpi-accent" style="background:var(--sienna)"></div><div class="kpi-label">Muestreos</div><div class="kpi-val" style="color:var(--sienna)" id="r-tot">—</div><div class="kpi-sub">zafra completa</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--amber)"></div><div class="kpi-label">Total Capturas</div><div class="kpi-val" style="color:var(--amber)" id="r-cap">—</div><div class="kpi-sub">todos los individuos</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--sage)"></div><div class="kpi-label">Kg Recomendados</div><div class="kpi-val" style="color:var(--sage)" id="r-rec">—</div><div class="kpi-sub">zafra completa</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--teal)"></div><div class="kpi-label">Kg Ejecutados</div><div class="kpi-val" style="color:var(--teal)" id="r-eje">—</div><div class="kpi-sub">aplicaciones</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-label">% Avance</div><div class="kpi-val" style="color:var(--red)" id="r-av">—</div><div class="kpi-sub" id="r-av-sub">cargando...</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--g4)"></div><div class="kpi-label">Muestreos</div><div class="kpi-val" style="color:var(--g5)" id="r-tot">—</div><div class="kpi-sub">zafra completa</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--goldLt)"></div><div class="kpi-label">Total Capturas</div><div class="kpi-val" style="color:var(--goldLt)" id="r-cap">—</div><div class="kpi-sub">todos los individuos</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--g3)"></div><div class="kpi-label">Kg Recomendados</div><div class="kpi-val" style="color:var(--g4)" id="r-rec">—</div><div class="kpi-sub">zafra completa</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--tealLt)"></div><div class="kpi-label">Kg Ejecutados</div><div class="kpi-val" style="color:var(--tealLt)" id="r-eje">—</div><div class="kpi-sub">aplicaciones</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--gold)"></div><div class="kpi-label">% Avance</div><div class="kpi-val" style="color:var(--gold)" id="r-av">—</div><div class="kpi-sub" id="r-avsub">cargando...</div></div>
   </div>
-  <div class="chart-row c3">
-    <div class="card">
-      <div class="card-title">Composición Captura por Catorcena</div>
-      <div class="card-sub">Machos · Hembras · Jóvenes · Adultas</div>
-      <div class="legend">
-        <span><span class="leg-sq" style="background:var(--blue)"></span>Machos</span>
-        <span><span class="leg-sq" style="background:#D4537E"></span>Hembras</span>
-        <span><span class="leg-sq" style="background:#63A032"></span>Jóvenes</span>
-        <span><span class="leg-sq" style="background:var(--amber)"></span>Adultas</span>
+ 
+  <!-- Rata module tabs -->
+  <div class="mod-tabs">
+    <button class="mtab act" onclick="modTab('rata','graficas',this)">📊 Gráficas</button>
+    <button class="mtab" onclick="modTab('rata','muestreos',this)">📋 Tabla Muestreos</button>
+    <button class="mtab" onclick="modTab('rata','control',this)">🎯 Tabla Control</button>
+    <button class="mtab" onclick="modTab('rata','ejecutados',this)">✅ Tabla Ejecutados</button>
+  </div>
+ 
+  <div id="rata-graficas" class="mod-view show" style="padding-top:14px">
+    <div class="chart-row c3">
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--g4)"></div><div class="sec-title">Composición por Catorcena</div><div class="sec-line"></div></div>
+        <div class="legend">
+          <span><span class="leg-sq" style="background:var(--blueLt)"></span>Machos</span>
+          <span><span class="leg-sq" style="background:#D4537E"></span>Hembras</span>
+          <span><span class="leg-sq" style="background:var(--g5)"></span>Jóvenes</span>
+          <span><span class="leg-sq" style="background:var(--goldLt)"></span>Adultas</span>
+        </div>
+        <div class="ch-wrap" style="height:200px"><canvas id="c-comp"></canvas></div>
       </div>
-      <div class="ch-wrap" style="height:200px"><canvas id="c-comp"></canvas></div>
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--goldLt)"></div><div class="sec-title">% Captura por Zona</div><div class="sec-line"></div></div>
+        <div class="ch-wrap" style="height:200px"><canvas id="c-zona"></canvas></div>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-title">% Captura por Zona</div>
-      <div class="card-sub">Catorcena más reciente</div>
-      <div class="ch-wrap" style="height:200px"><canvas id="c-zona"></canvas></div>
+    <div class="chart-row c2">
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--g3)"></div><div class="sec-title">Estado Control por Zona</div><div class="sec-line"></div></div>
+        <div class="legend">
+          <span><span class="leg-sq" style="background:var(--g4)"></span>A tiempo</span>
+          <span><span class="leg-sq" style="background:var(--redLt)"></span>Pendiente</span>
+          <span><span class="leg-sq" style="background:var(--gold)"></span>Fuera ventana</span>
+        </div>
+        <div class="ch-wrap" style="height:160px"><canvas id="c-est-zona"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--redLt)"></div><div class="sec-title">Top Lotes Mayor Captura</div><div class="sec-line"></div></div>
+        <div class="ch-wrap" style="height:160px"><canvas id="c-top"></canvas></div>
+      </div>
     </div>
   </div>
-  <div class="chart-row c2">
-    <div class="card">
-      <div class="card-title">Estado Control por Zona</div>
-      <div class="card-sub">A tiempo vs Pendiente vs Fuera ventana</div>
-      <div class="legend">
-        <span><span class="leg-sq" style="background:var(--sage)"></span>A tiempo</span>
-        <span><span class="leg-sq" style="background:var(--red)"></span>Pendiente</span>
-        <span><span class="leg-sq" style="background:var(--amber)"></span>Fuera ventana</span>
-      </div>
-      <div class="ch-wrap" style="height:160px"><canvas id="c-est-zona"></canvas></div>
+ 
+  <div id="rata-muestreos" class="mod-view" style="padding-top:14px">
+    <div class="filter-bar">
+      <span class="filter-label">Zona</span>
+      <div id="zbtn-m" style="display:flex;gap:4px"></div>
+      <span class="filter-label">Buscar</span>
+      <input type="text" id="search-m" placeholder="finca, lote..." oninput="renderMuestreosTable()">
+      <span id="count-m" style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);margin-left:auto"></span>
     </div>
-    <div class="card">
-      <div class="card-title">Top Lotes Mayor % Captura</div>
-      <div class="card-sub">Catorcena más reciente</div>
-      <div class="ch-wrap" style="height:160px"><canvas id="c-top"></canvas></div>
+    <div class="tbl-wrap"><table class="tbl" id="tbl-muestreos">
+      <thead><tr>
+        <th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Estado</th>
+        <th class="r">Cat.</th><th class="r">Área ha</th><th class="r">% Cap.</th>
+        <th class="r">% Adj.</th><th class="r">Kg a aplicar</th>
+      </tr></thead>
+      <tbody id="tbody-m"></tbody>
+    </table></div>
+    <div class="tbl-info" id="info-m"></div>
+  </div>
+ 
+  <div id="rata-control" class="mod-view" style="padding-top:14px">
+    <div class="filter-bar">
+      <span class="filter-label">Zona</span>
+      <div id="zbtn-c" style="display:flex;gap:4px"></div>
+      <span class="filter-label">Estado</span>
+      <select id="sel-estado" onchange="renderControlTable()" style="min-width:160px">
+        <option value="">Todos</option>
+        <option>CONTROL A TIEMPO</option>
+        <option>PENDIENTE DE CONTROL</option>
+        <option>CONTROL FUERA DE VENTANA</option>
+      </select>
+      <span id="count-c" style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);margin-left:auto"></span>
     </div>
+    <div class="tbl-wrap"><table class="tbl" id="tbl-control">
+      <thead><tr>
+        <th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th>
+        <th class="r">% Cap.</th><th class="r">Kg Rec.</th><th class="r">Kg Eje.</th>
+        <th class="r">Cat.Ctrl</th><th class="r">Retraso</th><th>Estado</th><th class="r">Índice</th>
+      </tr></thead>
+      <tbody id="tbody-c"></tbody>
+    </table></div>
+    <div class="tbl-info" id="info-c"></div>
+  </div>
+ 
+  <div id="rata-ejecutados" class="mod-view" style="padding-top:14px">
+    <div class="filter-bar">
+      <span class="filter-label">Zona</span>
+      <div id="zbtn-e" style="display:flex;gap:4px"></div>
+      <span id="count-e" style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);margin-left:auto"></span>
+    </div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr>
+        <th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th>
+        <th class="r">Cat.</th><th class="r">% Cap. Ref.</th><th class="r">Kg Aplicados</th>
+        <th>Producto</th><th>Condición</th>
+      </tr></thead>
+      <tbody id="tbody-e"></tbody>
+    </table></div>
+    <div class="tbl-info" id="info-e"></div>
   </div>
 </div>
-
-<!-- ═══ DAÑO COSECHA ═══ -->
+ 
+<!-- ═══════════════ DAÑO COSECHA ═══════════════ -->
 <div id="tab-dano" class="panel">
+  <div class="page-title">
+    <div class="page-eyebrow">Módulo · Barrenador & Rata · Intensidad de daño</div>
+    <div class="page-h">Daño en <span>Cosecha</span></div>
+  </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi"><div class="kpi-accent" style="background:var(--amber)"></div><div class="kpi-label">Muestras Total</div><div class="kpi-val" style="color:var(--amber)" id="d-tot">—</div><div class="kpi-sub">registros cosecha</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--sienna)"></div><div class="kpi-label">% Infest. Barrenador</div><div class="kpi-val" style="color:var(--sienna)" id="d-barr">—</div><div class="kpi-sub">intensidad promedio</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--teal)"></div><div class="kpi-label">% Infest. Rata</div><div class="kpi-val" style="color:var(--teal)" id="d-rata">—</div><div class="kpi-sub">intensidad promedio</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-label">Lotes Evaluados</div><div class="kpi-val" style="color:var(--red)" id="d-lotes">—</div><div class="kpi-sub">lote cosecha</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--gold)"></div><div class="kpi-label">Muestras</div><div class="kpi-val" style="color:var(--gold)" id="d-tot">—</div><div class="kpi-sub">registros totales</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--harvest)"></div><div class="kpi-label">% Int. Barrenador</div><div class="kpi-val" style="color:var(--harLt)" id="d-barr">—</div><div class="kpi-sub">promedio</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--tealLt)"></div><div class="kpi-label">% Int. Rata</div><div class="kpi-val" style="color:var(--tealLt)" id="d-rata">—</div><div class="kpi-sub">promedio</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--redLt)"></div><div class="kpi-label">Lotes Evaluados</div><div class="kpi-val" style="color:var(--redLt)" id="d-lotes">—</div><div class="kpi-sub">lote cosecha</div></div>
   </div>
-  <div class="chart-row c2">
-    <div class="card">
-      <div class="card-title">Tendencia Daño por Catorcena</div>
-      <div class="card-sub">% Infestación Barrenador vs Rata</div>
-      <div class="legend">
-        <span><span class="leg-sq" style="background:var(--amber)"></span>Barrenador %</span>
-        <span><span class="leg-sq" style="background:var(--sienna)"></span>Rata %</span>
+  <div class="mod-tabs">
+    <button class="mtab act" onclick="modTab('dano','graficas',this)">📊 Gráficas</button>
+    <button class="mtab" onclick="modTab('dano','tabla',this)">📋 Tabla Detalle</button>
+  </div>
+  <div id="dano-graficas" class="mod-view show" style="padding-top:14px">
+    <div class="chart-row c2">
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--gold)"></div><div class="sec-title">Tendencia por Catorcena</div><div class="sec-line"></div></div>
+        <div class="legend">
+          <span><span class="leg-sq" style="background:var(--gold)"></span>Barrenador %</span>
+          <span><span class="leg-sq" style="background:var(--harvest)"></span>Rata %</span>
+        </div>
+        <div class="ch-wrap" style="height:190px"><canvas id="c-dano-trend"></canvas></div>
       </div>
-      <div class="ch-wrap" style="height:190px"><canvas id="c-dano-trend"></canvas></div>
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--harvest)"></div><div class="sec-title">Severidad Barrenador</div><div class="sec-line"></div></div>
+        <div class="center-ch" style="height:190px"><canvas id="c-sev-barr" style="max-width:175px;max-height:175px"></canvas></div>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-title">Severidad Barrenador</div>
-      <div class="card-sub">por lote evaluado</div>
-      <div class="center-ch" style="height:190px"><canvas id="c-sev-barr" style="max-width:175px;max-height:175px"></canvas></div>
+    <div class="chart-row c2">
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--tealLt)"></div><div class="sec-title">Intensidad Barrenador por Zona</div><div class="sec-line"></div></div>
+        <div class="ch-wrap" style="height:150px"><canvas id="c-int-barr"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--g4)"></div><div class="sec-title">Severidad Rata</div><div class="sec-line"></div></div>
+        <div class="center-ch" style="height:150px"><canvas id="c-sev-rata" style="max-width:140px;max-height:140px"></canvas></div>
+      </div>
     </div>
   </div>
-  <div class="chart-row c2">
-    <div class="card">
-      <div class="card-title">Intensidad Barrenador por Zona</div>
-      <div class="card-sub">% promedio de intensidad</div>
-      <div class="ch-wrap" style="height:150px"><canvas id="c-int-barr"></canvas></div>
+  <div id="dano-tabla" class="mod-view" style="padding-top:14px">
+    <div class="filter-bar">
+      <span class="filter-label">Zona</span>
+      <div id="zbtn-d" style="display:flex;gap:4px"></div>
+      <span id="count-d" style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);margin-left:auto"></span>
     </div>
-    <div class="card">
-      <div class="card-title">Severidad Rata</div>
-      <div class="card-sub">por lote evaluado</div>
-      <div class="center-ch" style="height:150px"><canvas id="c-sev-rata" style="max-width:140px;max-height:140px"></canvas></div>
-    </div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr>
+        <th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Fecha</th>
+        <th class="r">Cat.</th><th class="r">% Infest.Barr.</th><th class="r">% Infest.Rata</th>
+        <th class="r">% Int.Barr.</th><th class="r">% Int.Rata</th>
+      </tr></thead>
+      <tbody id="tbody-d"></tbody>
+    </table></div>
+    <div class="tbl-info" id="info-d"></div>
   </div>
 </div>
-
-<!-- ═══ GALLINA CIEGA ═══ -->
+ 
+<!-- ═══════════════ GALLINA CIEGA ═══════════════ -->
 <div id="tab-gallinaCiega" class="panel">
+  <div class="page-title">
+    <div class="page-eyebrow">Módulo · Phyllophaga · Diplotaxis · Anomala · Trampa de Luz</div>
+    <div class="page-h">Captura Adultos <span>Gallina Ciega</span></div>
+  </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kpi"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-label">Muestreos</div><div class="kpi-val" style="color:var(--red)" id="g-tot">—</div><div class="kpi-sub">trampa de luz</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--sienna)"></div><div class="kpi-label">Total Adultos</div><div class="kpi-val" style="color:var(--sienna)" id="g-adu">—</div><div class="kpi-sub">todas las especies</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--amber)"></div><div class="kpi-label">Phyllophaga</div><div class="kpi-val" style="color:var(--amber)" id="g-ph">—</div><div class="kpi-sub">especie dominante</div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--teal)"></div><div class="kpi-label">Anomala</div><div class="kpi-val" style="color:var(--teal)" id="g-an">—</div><div class="kpi-sub"></div></div>
-    <div class="kpi"><div class="kpi-accent" style="background:var(--sage)"></div><div class="kpi-label">Diplotaxis</div><div class="kpi-val" style="color:var(--sage)" id="g-di">—</div><div class="kpi-sub"></div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--redLt)"></div><div class="kpi-label">Muestreos</div><div class="kpi-val" style="color:var(--redLt)" id="g-tot">—</div><div class="kpi-sub">trampa de luz</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--harvest)"></div><div class="kpi-label">Total Adultos</div><div class="kpi-val" style="color:var(--harLt)" id="g-adu">—</div><div class="kpi-sub">todas las especies</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--gold)"></div><div class="kpi-label">Phyllophaga</div><div class="kpi-val" style="color:var(--goldLt)" id="g-ph">—</div><div class="kpi-sub">especie dominante</div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--tealLt)"></div><div class="kpi-label">Anomala</div><div class="kpi-val" style="color:var(--tealLt)" id="g-an">—</div><div class="kpi-sub"></div></div>
+    <div class="kpi"><div class="kpi-bar" style="background:var(--g4)"></div><div class="kpi-label">Diplotaxis</div><div class="kpi-val" style="color:var(--g5)" id="g-di">—</div><div class="kpi-sub"></div></div>
   </div>
-  <div class="chart-row c3">
-    <div class="card">
-      <div class="card-title">Captura por Catorcena y Especie</div>
-      <div class="card-sub">Phyllophaga · Anomala · Diplotaxis</div>
-      <div class="legend">
-        <span><span class="leg-sq" style="background:var(--amber)"></span>Phyllophaga</span>
-        <span><span class="leg-sq" style="background:var(--teal)"></span>Anomala</span>
-        <span><span class="leg-sq" style="background:var(--sage)"></span>Diplotaxis</span>
+  <div class="mod-tabs">
+    <button class="mtab act" onclick="modTab('gc','graficas',this)">📊 Gráficas</button>
+    <button class="mtab" onclick="modTab('gc','tabla',this)">📋 Tabla Detalle</button>
+  </div>
+  <div id="gc-graficas" class="mod-view show" style="padding-top:14px">
+    <div class="chart-row c3">
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--redLt)"></div><div class="sec-title">Captura por Catorcena</div><div class="sec-line"></div></div>
+        <div class="legend">
+          <span><span class="leg-sq" style="background:var(--goldLt)"></span>Phyllophaga</span>
+          <span><span class="leg-sq" style="background:var(--tealLt)"></span>Anomala</span>
+          <span><span class="leg-sq" style="background:var(--g5)"></span>Diplotaxis</span>
+        </div>
+        <div class="ch-wrap" style="height:200px"><canvas id="c-gc-cat"></canvas></div>
       </div>
-      <div class="ch-wrap" style="height:200px"><canvas id="c-gc-cat"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Distribución por Zona</div>
-      <div class="card-sub">Total adultos capturados</div>
-      <div class="center-ch" style="height:200px"><canvas id="c-gc-zona" style="max-width:180px;max-height:180px"></canvas></div>
-      <div class="legend" style="justify-content:center;margin-top:8px">
-        <span><span class="leg-sq" style="background:var(--red)"></span>Z·3</span>
-        <span><span class="leg-sq" style="background:var(--amber)"></span>Z·4</span>
-        <span><span class="leg-sq" style="background:var(--teal)"></span>Z·1</span>
+      <div class="card">
+        <div class="sec-hdr"><div class="sec-bar" style="background:var(--harvest)"></div><div class="sec-title">Distribución por Zona</div><div class="sec-line"></div></div>
+        <div class="center-ch" style="height:200px"><canvas id="c-gc-zona" style="max-width:180px;max-height:180px"></canvas></div>
+        <div class="legend" style="justify-content:center;margin-top:6px">
+          <span><span class="leg-sq" style="background:var(--redLt)"></span>Z·3</span>
+          <span><span class="leg-sq" style="background:var(--gold)"></span>Z·4</span>
+          <span><span class="leg-sq" style="background:var(--tealLt)"></span>Z·1</span>
+        </div>
       </div>
     </div>
+  </div>
+  <div id="gc-tabla" class="mod-view" style="padding-top:14px">
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr>
+        <th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th>
+        <th>Trampa</th><th class="r">N° Trampas</th>
+        <th class="r">Phyllophaga</th><th class="r">Diplotaxis</th><th class="r">Anomala</th>
+        <th class="r">Total</th><th class="r">Área ha</th>
+      </tr></thead>
+      <tbody id="tbody-gc"></tbody>
+    </table></div>
   </div>
 </div>
-
-<!-- ═══ DINÁMICA ═══ -->
+ 
+<!-- ═══════════════ DINÁMICA POB. ═══════════════ -->
 <div id="tab-dinamica" class="panel">
-  <div style="padding:36px;text-align:center;background:var(--card);border:1px solid var(--lineMd);border-left:3px solid var(--purple)">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--purple);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Dinámica Poblacional</div>
-    <div style="font-size:12px;color:var(--chalkMd);margin-bottom:16px;line-height:1.7">
+  <div class="page-title">
+    <div class="page-eyebrow">Módulo · Sigmodon hispidus · IPR · Estructura reproductiva</div>
+    <div class="page-h">Dinámica <span>Poblacional</span></div>
+  </div>
+  <div style="padding:40px;text-align:center;background:var(--card);border:1px solid var(--lineMd);border-left:3px solid var(--tealLt)">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--tealLt);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Módulo Pendiente de Configuración</div>
+    <div style="font-size:12px;color:var(--chalkMd);line-height:1.8;margin-bottom:16px">
       Para activar este módulo agrega la hoja <b style="color:var(--chalk)">Muestreo_Dinamica_Poblacion</b> al Apps Script.<br>
-      Abre el script en Google Sheets → agrega el nombre de la hoja en el objeto <code style="background:var(--raise);padding:2px 6px;font-family:'DM Mono',monospace">SHEETS</code> → vuelve a implementar.
+      Abre el script → agrega el nombre en el objeto <code style="background:var(--raise);padding:2px 8px;font-family:'IBM Plex Mono',monospace">SHEETS</code> → reimplementa.
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--chalkDm);background:var(--raise);padding:10px 16px;display:inline-block;text-align:left">
+      dinamica: "Muestreo_Dinamica_Poblacion",
     </div>
   </div>
 </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer style="border-top:1px solid var(--lineMd);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;background:rgba(16,15,9,.85)">
-  <div style="display:flex;align-items:center;gap:8px">
-    <div style="width:8px;height:8px;background:var(--sienna);clip-path:polygon(0 0,100% 0,100% 70%,70% 100%,0 100%)"></div>
-    <span style="font-family:'DM Mono',monospace;font-size:8px;color:var(--chalkDm);letter-spacing:2px;text-transform:uppercase">Loker Estudio · GeoMIP · Ingenio Madre Tierra · Zafra 2025–26</span>
+ 
+<!-- ═══════════════ CHINCHE ═══════════════ -->
+<div id="tab-chinche" class="panel">
+  <div class="page-title">
+    <div class="page-eyebrow">Módulo · Maconellicoccus · Ninfas por tallo</div>
+    <div class="page-h">Chinche <span>Salivosa</span></div>
   </div>
-  <span id="footer-ts" style="font-family:'DM Mono',monospace;font-size:8px;color:var(--chalkDm)">Live · Google Apps Script</span>
+  <div style="padding:40px;text-align:center;background:var(--card);border:1px solid var(--lineMd);border-left:3px solid var(--blueLt)">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--blueLt);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Módulo Pendiente de Configuración</div>
+    <div style="font-size:12px;color:var(--chalkMd);line-height:1.8;margin-bottom:16px">
+      Agrega la hoja <b style="color:var(--chalk)">Muestreo_ChincheSalivosa</b> al Apps Script para activar este módulo.
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--chalkDm);background:var(--raise);padding:10px 16px;display:inline-block;text-align:left">
+      chinche: "Muestreo_ChincheSalivosa",
+    </div>
+  </div>
+</div>
+ 
+</main>
+ 
+<footer style="border-top:1px solid var(--lineMd);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;background:rgba(13,20,13,.9)">
+  <div style="display:flex;align-items:center;gap:8px">
+    <div style="width:8px;height:8px;background:var(--g3);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)"></div>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm);letter-spacing:2px;text-transform:uppercase">GeoMIP · Loker Estudio · Ingenio Madre Tierra · Zafra 2025–26</span>
+  </div>
+  <span id="footer-ts" style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--chalkDm)">Live · Google Apps Script</span>
 </footer>
-
+ 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-/* ══════════════════════════════════════════
-   API URL — Google Apps Script
-   Actualiza esta URL si reimplementas el script
-══════════════════════════════════════════ */
-const API = "https://script.google.com/macros/s/AKfycbzFq8_-ab1Tedl-FZTP4QrRLlYm-z6RM-DI4tSMKBzQNgdplfFe8LJGomCx99OIgdR_/exec";
-
+/* ══ API ══════════════════════════════════════ */
+const API = "https://script.google.com/macros/s/AKfycbwLU1w40rUpRSjhsAXV2bZ3GPNbP5dppd8KHSWcHW54FUpFAr1K9cO97FZLXxTQ-Zga/exec";
+ 
 /* ══ Helpers ══ */
 const nv  = v => { const x=parseFloat(String(v||0).replace(/,/g,"")); return isNaN(x)?0:x; };
-const fmt = v => v>=1000?Math.round(v).toLocaleString("es-GT"):v;
-const avg = (arr,key) => arr.length ? (arr.reduce((a,x)=>a+nv(x[key]),0)/arr.length).toFixed(1) : 0;
-
-/* ══ Chart setup ══ */
-const G="rgba(255,255,255,0.07)", T="#9c9a92";
-Chart.defaults.font.family="'DM Mono',monospace";
+const fmt = v => Math.round(v)>=1000?Math.round(v).toLocaleString("es-GT"):Math.round(v);
+const avg = (arr,k) => arr.length?(arr.reduce((a,x)=>a+nv(x[k]),0)/arr.length).toFixed(1):0;
+const pct = (a,b) => b>0?Math.round(a/b*100):0;
+const dateStr = v => { try{return new Date(v).toLocaleDateString("es-GT",{day:'2-digit',month:'short',year:'numeric'});}catch{return v||"";} };
+ 
+/* ══ Chart defaults ══ */
+Chart.defaults.font.family="'IBM Plex Mono',monospace";
 Chart.defaults.font.size=10;
-Chart.defaults.color=T;
-const baseOpts = {
-  responsive:true, maintainAspectRatio:false,
-  plugins:{legend:{display:false}},
-  scales:{
-    x:{grid:{color:G,lineWidth:.5},ticks:{color:T}},
-    y:{grid:{color:G,lineWidth:.5},ticks:{color:T}}
-  }
-};
-
+Chart.defaults.color=getComputedStyle(document.documentElement).getPropertyValue('--T')||'#7A9A7A';
+const G="rgba(100,220,100,0.07)", T="#7A9A7A";
+const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+  scales:{x:{grid:{color:G,lineWidth:.5},ticks:{color:T}},y:{grid:{color:G,lineWidth:.5},ticks:{color:T}}}};
+ 
 const charts={};
-function mk(id, cfg) {
-  const el=document.getElementById(id);
-  if(!el) return;
-  if(charts[id]) { charts[id].destroy(); }
+function mk(id,cfg){
+  const el=document.getElementById(id); if(!el)return;
+  if(charts[id]){charts[id].destroy();}
   charts[id]=new Chart(el,cfg);
 }
-
+ 
 /* ══ DB ══ */
-let DB = {};
-
-/* ══ Loading screen ══ */
-function setLoadSheet(key, ok) {
-  const el=document.getElementById('ls-'+key);
-  if(el) el.classList.add(ok?'ok':'err');
-}
-function setLoadBar(pct, msg) {
-  document.getElementById('load-bar').style.width=pct+'%';
-  document.getElementById('load-msg').textContent=msg;
-}
-function hideLoader() {
-  setTimeout(()=>{
-    const l=document.getElementById('loading');
-    l.classList.add('hidden');
-    setTimeout(()=>l.remove(),600);
-  },400);
-}
-
-/* ══ Status dots ══ */
-function setDot(key, state) {
-  const el=document.getElementById('sd-'+key);
-  if(!el) return;
-  el.className='st-dot '+(state==='ok'?'ok':state==='err'?'err':'loading');
-}
-
-/* ══ Live indicator ══ */
-function setLive(ok) {
-  const dot=document.getElementById('live-dot');
-  const txt=document.getElementById('live-txt');
+let DB={}, filterZona={m:'',c:'',e:'',d:''};
+const ZONAS=[1,3,4,5,8];
+ 
+/* ══ Loading ══ */
+function lb(p,msg){document.getElementById('lb').style.width=p+'%';document.getElementById('lmsg').textContent=msg;}
+function liOk(k){const el=document.getElementById('li-'+k);if(el)el.classList.add('ok');}
+function liErr(k){const el=document.getElementById('li-'+k);if(el)el.classList.add('err');}
+function sdot(k,s){const el=document.getElementById('sd-'+k);if(!el)return;el.className='st-dot '+(s==='ok'?'ok':s==='err'?'err':'loading');}
+function setLive(ok){
+  const dot=document.getElementById('ldot'),txt=document.getElementById('live-txt');
   dot.className='live-dot '+(ok?'on':'err');
-  txt.style.color=ok?'var(--sageLt)':'var(--redLt)';
+  txt.style.color=ok?'var(--g5)':'var(--redLt)';
   const ts=new Date().toLocaleTimeString('es-GT');
   txt.textContent=ok?ts:'error · reintenta';
-  document.getElementById('footer-ts').textContent=ok?`Actualizado: ${ts}`:'Error de conexión';
-  document.getElementById('st-updated').textContent=ok?`↻ ${ts}`:'';
+  document.getElementById('footer-ts').textContent=ok?'Actualizado: '+ts:'Error de conexión';
+  document.getElementById('st-ts').textContent=ok?'↻ '+ts:'';
 }
-
-/* ══ Fetch data ══ */
-async function fetchData() {
-  setLoadBar(10,'Conectando a Google Apps Script...');
-  document.getElementById('sync-spin').style.display='block';
-
-  try {
-    setLoadBar(30,'Cargando datos de Sheets...');
-    const res = await fetch(API);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-
-    setLoadBar(60,'Procesando hojas...');
-    DB = json;
-
-    // Mark sheets ok/err
-    const keys=['muestreo','control','ejecutados','ronron','dano','lote'];
-    keys.forEach(k=>{
-      const ok = Array.isArray(DB[k]) && DB[k].length>0;
-      setDot(k, ok?'ok':'err');
-      setLoadSheet(k, ok);
+ 
+/* ══ Fetch ══ */
+async function fetchData(){
+  document.getElementById('sspin').style.display='block';
+  lb(10,'Conectando a Google Apps Script...');
+  try{
+    lb(30,'Descargando datos...');
+    const res=await fetch(API);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const json=await res.json();
+    lb(65,'Procesando hojas...');
+    DB=json;
+    ['m','c','e','r','d','l'].forEach((k,i)=>{
+      const keys=['muestreo','control','ejecutados','ronron','dano','lote'];
+      const ok=Array.isArray(DB[keys[i]])&&DB[keys[i]].length>0;
+      sdot(k,ok?'ok':'err');
+      if(ok)liOk(k); else liErr(k);
     });
-
-    setLoadBar(90,'Construyendo gráficas...');
+    lb(90,'Construyendo dashboard...');
     updateKPIs();
     buildCharts();
-    setLoadBar(100,'Listo');
+    buildZoneFilters();
+    renderAllTables();
+    lb(100,'Listo');
     setLive(true);
-    hideLoader();
-
-  } catch(e) {
-    setLoadBar(100,'Error de conexión');
+    setTimeout(()=>{const l=document.getElementById('loading');l.classList.add('hidden');setTimeout(()=>l.remove(),600);},500);
+  }catch(e){
+    lb(100,'Error: '+e.message);
     setLive(false);
-    hideLoader();
-    console.error('API Error:', e);
-  } finally {
-    document.getElementById('sync-spin').style.display='none';
-  }
+    setTimeout(()=>{const l=document.getElementById('loading');l.classList.add('hidden');setTimeout(()=>l.remove(),600);},1500);
+    console.error(e);
+  }finally{document.getElementById('sspin').style.display='none';}
 }
-
-/* ══ Sync button ══ */
-async function syncData() {
-  document.getElementById('sync-spin').style.display='block';
-  document.getElementById('live-txt').textContent='sincronizando...';
-  await fetchData();
-}
-
+ 
+async function syncData(){document.getElementById('sspin').style.display='block';document.getElementById('live-txt').textContent='sincronizando...';await fetchData();}
+ 
 /* ══ KPIs ══ */
-function updateKPIs() {
-  const m = DB.muestreo  || [];
-  const c = DB.control   || [];
-  const r = DB.ronron    || [];
-  const d = DB.dano      || [];
-  const l = DB.lote      || [];
-  const e = DB.ejecutados|| [];
-
+function updateKPIs(){
+  const m=DB.muestreo||[], c=DB.control||[], r=DB.ronron||[], d=DB.dano||[], l=DB.lote||[], e=DB.ejecutados||[];
+  const maxCat=Math.max(...m.map(x=>nv(x.ID_Catorcena)).filter(Boolean));
+  const catRows=m.filter(x=>nv(x.ID_Catorcena)===maxCat);
+  const pctProm=catRows.length?(catRows.reduce((a,x)=>a+nv(x.Porcentaje_Captura),0)/catRows.length).toFixed(1):0;
+  const kgEje=e.length?e.reduce((a,x)=>a+nv(x.Kg_Aplicados),0):c.reduce((a,x)=>a+nv(x.Kg_Ejecutados),0);
+  const kgRec=c.reduce((a,x)=>a+nv(x.Kg_Recomendados),0);
+  const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length;
+  const gcTot=r.reduce((a,x)=>a+nv(x.TotalCaptura),0);
+ 
   // Overview
-  document.getElementById('kv-m').textContent   = fmt(m.length);
-  document.getElementById('ks-m').textContent   = `${[...new Set(m.map(x=>x.ID_Zona))].filter(Boolean).length} zonas · ${[...new Set(m.map(x=>x.Nombre_finca))].filter(Boolean).length} fincas`;
-
-  const maxCat = Math.max(...m.map(x=>nv(x.ID_Catorcena)).filter(Boolean));
-  const catRows= m.filter(x=>nv(x.ID_Catorcena)===maxCat);
-  const pct    = catRows.length ? (catRows.reduce((a,x)=>a+nv(x.Porcentaje_Captura),0)/catRows.length).toFixed(1) : 0;
-  document.getElementById('kv-pct').innerHTML  = pct+'<span class="kpi-unit">%</span>';
-  document.getElementById('ks-pct').textContent= `Cat.${maxCat} · ${nv(pct)>=8?'⚠ sobre umbral':'✓ bajo umbral'}`;
-
-  const kgEje = e.length ? e.reduce((a,x)=>a+nv(x.Kg_Aplicados),0) : c.reduce((a,x)=>a+nv(x.Kg_Ejecutados),0);
-  document.getElementById('kv-kg').textContent  = fmt(kgEje);
-  document.getElementById('ks-kg').textContent  = `${e.length||c.length} aplicaciones`;
-
-  document.getElementById('kv-d').textContent   = fmt(d.length);
-  document.getElementById('ks-d').textContent   = `${l.length} lotes evaluados`;
-
-  const gcTot = r.reduce((a,x)=>a+nv(x.TotalCaptura),0);
-  document.getElementById('kv-gc').textContent  = fmt(gcTot);
-  document.getElementById('ks-gc').textContent  = `${r.length} muestreos`;
-
-  const at  = c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length;
-  const pnd = c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length;
-  document.getElementById('kv-ctrl').textContent = `${at}/${pnd}`;
-  document.getElementById('ks-ctrl').textContent  = 'a tiempo / pendiente';
-
-  // Rata tab
-  document.getElementById('r-tot').textContent = fmt(m.length);
-  document.getElementById('r-cap').textContent = fmt(m.reduce((a,x)=>a+nv(x.Total_Captura),0));
-  const kgRec = c.reduce((a,x)=>a+nv(x.Kg_Recomendados),0);
-  document.getElementById('r-rec').textContent = fmt(kgRec);
-  document.getElementById('r-eje').textContent = fmt(kgEje);
-  const av = kgRec>0?Math.round(kgEje/kgRec*100):0;
-  document.getElementById('r-av').innerHTML    = av+'<span class="kpi-unit">%</span>';
-  document.getElementById('r-av-sub').textContent = `${at} a tiempo / ${pnd} pendiente`;
-
-  // Daño tab
-  document.getElementById('d-tot').textContent  = fmt(d.length);
-  document.getElementById('d-barr').innerHTML   = avg(d,'Porc_Inten_Infest_Barrenador')+'<span class="kpi-unit">%</span>';
-  document.getElementById('d-rata').innerHTML   = avg(d,'Porc_Inten_Infest_Rata')+'<span class="kpi-unit">%</span>';
-  document.getElementById('d-lotes').textContent= fmt(l.length);
-
-  // Gallina ciega tab
-  document.getElementById('g-tot').textContent  = r.length;
-  document.getElementById('g-adu').textContent  = fmt(r.reduce((a,x)=>a+nv(x.TotalCaptura),0));
-  document.getElementById('g-ph').textContent   = fmt(r.reduce((a,x)=>a+nv(x.Phyllophaga),0));
-  document.getElementById('g-an').textContent   = fmt(r.reduce((a,x)=>a+nv(x.Anomala),0));
-  document.getElementById('g-di').textContent   = fmt(r.reduce((a,x)=>a+nv(x.Diplotaxis),0));
+  document.getElementById('kv-m').textContent=fmt(m.length);
+  document.getElementById('ks-m').textContent=[...new Set(m.map(x=>x.ID_Zona).filter(Boolean))].length+' zonas';
+  document.getElementById('kp-m').style.width=Math.min(m.length/600*100,100)+'%';
+ 
+  document.getElementById('kv-pct').innerHTML=pctProm+'<span class="kpi-unit">%</span>';
+  document.getElementById('ks-pct').textContent='Cat.'+maxCat+' · '+(nv(pctProm)>=8?'⚠ sobre umbral':'✓ bajo umbral');
+  document.getElementById('kp-pct').style.width=Math.min(nv(pctProm)/15*100,100)+'%';
+ 
+  document.getElementById('kv-kg').textContent=fmt(kgEje);
+  document.getElementById('ks-kg').textContent=pct(kgEje,kgRec)+'% de avance';
+  document.getElementById('kp-kg').style.width=Math.min(pct(kgEje,kgRec),100)+'%';
+ 
+  document.getElementById('kv-d').textContent=fmt(d.length);
+  document.getElementById('ks-d').textContent=l.length+' lotes evaluados';
+  document.getElementById('kv-gc').textContent=fmt(gcTot);
+  document.getElementById('ks-gc').textContent=r.length+' muestreos';
+  document.getElementById('kv-ctrl').textContent=at+'/'+c.length;
+  document.getElementById('ks-ctrl').textContent='a tiempo del total';
+ 
+  // Rata
+  document.getElementById('r-tot').textContent=fmt(m.length);
+  document.getElementById('r-cap').textContent=fmt(m.reduce((a,x)=>a+nv(x.Total_Captura),0));
+  document.getElementById('r-rec').textContent=fmt(kgRec);
+  document.getElementById('r-eje').textContent=fmt(kgEje);
+  document.getElementById('r-av').innerHTML=pct(kgEje,kgRec)+'<span class="kpi-unit">%</span>';
+  document.getElementById('r-avsub').textContent=at+' a tiempo / '+(c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length)+' pendiente';
+ 
+  // Daño
+  document.getElementById('d-tot').textContent=fmt(d.length);
+  document.getElementById('d-barr').innerHTML=avg(d,'Porc_Inten_Infest_Barrenador')+'<span class="kpi-unit">%</span>';
+  document.getElementById('d-rata').innerHTML=avg(d,'Porc_Inten_Infest_Rata')+'<span class="kpi-unit">%</span>';
+  document.getElementById('d-lotes').textContent=fmt(l.length);
+ 
+  // Gallina ciega
+  document.getElementById('g-tot').textContent=r.length;
+  document.getElementById('g-adu').textContent=fmt(gcTot);
+  document.getElementById('g-ph').textContent=fmt(r.reduce((a,x)=>a+nv(x.Phyllophaga),0));
+  document.getElementById('g-an').textContent=fmt(r.reduce((a,x)=>a+nv(x.Anomala),0));
+  document.getElementById('g-di').textContent=fmt(r.reduce((a,x)=>a+nv(x.Diplotaxis),0));
 }
-
+ 
+/* ══ Zone filter buttons ══ */
+function buildZoneFilters(){
+  const zones=[...new Set((DB.muestreo||[]).map(x=>x.ID_Zona).filter(Boolean))].sort();
+  ['m','c','e','d'].forEach(key=>{
+    const wrap=document.getElementById('zbtn-'+key); if(!wrap)return;
+    wrap.innerHTML='<button class="zbtn act" onclick="setZona(\''+key+'\',\'\',this)">TODAS</button>'+
+      zones.map(z=>'<button class="zbtn" onclick="setZona(\''+key+'\',\''+z+'\',this)">Z·'+z+'</button>').join('');
+  });
+}
+ 
+function setZona(key,z,btn){
+  filterZona[key]=z;
+  const wrap=btn.parentElement;
+  wrap.querySelectorAll('.zbtn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  if(key==='m') renderMuestreosTable();
+  if(key==='c') renderControlTable();
+  if(key==='e') renderEjecutadosTable();
+  if(key==='d') renderDanoTable();
+}
+ 
+/* ══ Badge helper ══ */
+function badgeHtml(text){
+  const t=(text||"").toUpperCase();
+  const col=t.includes("TIEMPO")||t.includes("REPRESENTATIVO")?'var(--g4)':t.includes("ACEPTABLE")||t.includes("VENTANA")?'var(--gold)':'var(--redLt)';
+  return `<span class="badge" style="color:${col};border-color:${col}30;background:${col}12"><span class="bd" style="background:${col}"></span>${text||""}</span>`;
+}
+ 
+/* ══ Tables ══ */
+function renderMuestreosTable(){
+  const m=DB.muestreo||[]; const z=filterZona.m; const q=(document.getElementById('search-m')||{}).value||"";
+  let rows=m.filter(r=>(z?String(r.ID_Zona)===String(z):true)&&(q?JSON.stringify(r).toLowerCase().includes(q.toLowerCase()):true));
+  const show=rows.slice(0,300);
+  document.getElementById('tbody-m').innerHTML=show.map((r,i)=>{
+    const pc=nv(r.Porcentaje_Captura);
+    return `<tr><td class="mono">${r.ID_Zona||''}</td><td class="mono">${r.ID_Lote||''}</td>
+    <td>${r.Nombre_finca||''}</td><td>${dateStr(r.Fecha)}</td>
+    <td>${badgeHtml(r.Estado_Muestreo)}</td>
+    <td class="r">${r.ID_Catorcena||''}</td><td class="r">${nv(r.Area).toFixed(1)}</td>
+    <td class="r" style="${pc>=8?'color:var(--harLt);font-weight:700':'color:var(--chalkMd)'}">${pc}</td>
+    <td class="r">${r.Porcentaje_Captura_Ajustado||''}</td>
+    <td class="r" style="${nv(r.Kg_a_aplicar)>0?'color:var(--goldLt);font-weight:700':''}">${nv(r.Kg_a_aplicar).toFixed(1)}</td></tr>`;
+  }).join('');
+  document.getElementById('count-m').textContent=rows.length+' registros';
+  document.getElementById('info-m').textContent=rows.length>300?`Mostrando 300 de ${rows.length} registros`:'';
+}
+ 
+function renderControlTable(){
+  const c=DB.control||[]; const z=filterZona.c; const est=(document.getElementById('sel-estado')||{}).value||"";
+  let rows=c.filter(r=>(z?String(r.ID_Zona)===String(z):true)&&(est?(r.Estado_Control||"").toUpperCase().includes(est.toUpperCase().split(" ")[0]):true));
+  const show=rows.slice(0,300);
+  document.getElementById('tbody-c').innerHTML=show.map(r=>{
+    const pc=nv(r.Porcentaje_Captura), idx=nv(r.Indice_Cumplimiento);
+    return `<tr><td class="mono">${r.ID_Zona||''}</td><td class="mono">${r.ID_Lote||''}</td>
+    <td>${r.Nombre_finca||''}</td><td>${r.Variedad||''}</td>
+    <td class="r" style="${pc>=8?'color:var(--harLt);font-weight:700':'color:var(--chalkMd)'}">${pc}</td>
+    <td class="r" style="color:var(--goldLt)">${nv(r.Kg_Recomendados).toFixed(1)}</td>
+    <td class="r" style="${nv(r.Kg_Ejecutados)>0?'color:var(--g5);font-weight:700':'color:var(--chalkDm)'}">${nv(r.Kg_Ejecutados).toFixed(1)}</td>
+    <td class="r">${r.Catorcena_Control||'-'}</td>
+    <td class="r" style="${nv(r.Retraso_Catorcenas)>0?'color:var(--gold)':''}">${r.Retraso_Catorcenas||'-'}</td>
+    <td>${badgeHtml((r.Estado_Control||'').replace(/🟢|🔴|🟠/g,'').trim())}</td>
+    <td class="r" style="${idx>=1?'color:var(--g5)':idx>0?'color:var(--goldLt)':'color:var(--chalkDm)'}">${idx>0?idx.toFixed(2):'-'}</td></tr>`;
+  }).join('');
+  document.getElementById('count-c').textContent=rows.length+' lotes';
+  document.getElementById('info-c').textContent=rows.length>300?`Mostrando 300 de ${rows.length}`:'';
+}
+ 
+function renderEjecutadosTable(){
+  const e=DB.ejecutados||[]; const z=filterZona.e;
+  let rows=e.filter(r=>(z?String(r.ID_Zona)===String(z):true));
+  document.getElementById('tbody-e').innerHTML=rows.slice(0,300).map(r=>`<tr>
+    <td class="mono">${r.ID_Zona||''}</td><td class="mono">${r.ID_Lote||''}</td>
+    <td>${r.Nombre_finca||''}</td><td>${dateStr(r.Fecha)}</td>
+    <td class="r">${r.ID_Catorcena||''}</td>
+    <td class="r">${r.Porcentaje_Captura_referencia||'-'}</td>
+    <td class="r" style="color:var(--g5);font-weight:700">${nv(r.Kg_Aplicados).toFixed(1)}</td>
+    <td>${r.Producto||''}</td><td>${r.Condicion_Cañal||''}</td></tr>`).join('');
+  document.getElementById('count-e').textContent=rows.length+' aplicaciones';
+  document.getElementById('info-e').textContent=rows.length>300?`Mostrando 300 de ${rows.length}`:'';
+}
+ 
+function renderDanoTable(){
+  const d=DB.dano||[]; const z=filterZona.d;
+  let rows=d.filter(r=>(z?String(r.ID_Zona)===String(z):true));
+  document.getElementById('tbody-d').innerHTML=rows.slice(0,300).map(r=>`<tr>
+    <td class="mono">${r.ID_Zona||''}</td><td class="mono">${r.ID_Lote||''}</td>
+    <td>${r.Nombre_finca||''}</td><td>${r.Variedad||''}</td>
+    <td>${dateStr(r.Fecha)}</td><td class="r">${r.ID_Catorcena||''}</td>
+    <td class="r" style="${nv(r.Porc_Infest_Barrenador)>20?'color:var(--harLt)':''}">${nv(r.Porc_Infest_Barrenador).toFixed(1)}</td>
+    <td class="r" style="${nv(r.Porc_Infest_Rata)>5?'color:var(--gold)':''}">${nv(r.Porc_Infest_Rata).toFixed(1)}</td>
+    <td class="r" style="${nv(r.Porc_Inten_Infest_Barrenador)>3?'color:var(--harLt)':''}">${nv(r.Porc_Inten_Infest_Barrenador).toFixed(2)}</td>
+    <td class="r" style="${nv(r.Porc_Inten_Infest_Rata)>1?'color:var(--tealLt)':''}">${nv(r.Porc_Inten_Infest_Rata).toFixed(2)}</td></tr>`).join('');
+  document.getElementById('count-d').textContent=rows.length+' registros';
+  document.getElementById('info-d').textContent=rows.length>300?`Mostrando 300 de ${rows.length}`:'';
+}
+ 
+function renderGcTable(){
+  const r=DB.ronron||[];
+  document.getElementById('tbody-gc').innerHTML=r.map(x=>`<tr>
+    <td class="mono">${x.ID_Zona||''}</td><td class="mono">${x.ID_Lote||''}</td>
+    <td>${x.Nombre_finca||''}</td><td>${dateStr(x.Fecha)}</td>
+    <td class="r">${x.ID_Catorcena||''}</td><td>${x.Tipo_trampa||''}</td>
+    <td class="r">${x.No_Trampas||''}</td>
+    <td class="r" style="${nv(x.Phyllophaga)>100?'color:var(--harLt);font-weight:700':''}">${fmt(nv(x.Phyllophaga))}</td>
+    <td class="r">${fmt(nv(x.Diplotaxis))}</td>
+    <td class="r">${fmt(nv(x.Anomala))}</td>
+    <td class="r" style="${nv(x.TotalCaptura)>500?'color:var(--redLt);font-weight:700':'color:var(--g5)'}">${fmt(nv(x.TotalCaptura))}</td>
+    <td class="r">${nv(x.Area_lote_ha).toFixed(2)}</td></tr>`).join('');
+}
+ 
+function renderAllTables(){ renderMuestreosTable(); renderControlTable(); renderEjecutadosTable(); renderDanoTable(); renderGcTable(); }
+ 
 /* ══ Charts ══ */
-function buildCharts() {
-  const m = DB.muestreo  || [];
-  const c = DB.control   || [];
-  const r = DB.ronron    || [];
-  const d = DB.dano      || [];
-  const l = DB.lote      || [];
-  const ZONAS = [1,3,4,5,8];
-
-  // Catorcenas
+function buildCharts(){
+  const m=DB.muestreo||[], c=DB.control||[], r=DB.ronron||[], d=DB.dano||[], l=DB.lote||[];
+ 
+  // Catorcena map
   const catMap={};
-  m.forEach(x=>{ const cat=nv(x.ID_Catorcena); if(!catMap[cat])catMap[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0}; catMap[cat].s+=nv(x.Porcentaje_Captura); catMap[cat].n++; catMap[cat].mac+=nv(x.Machos); catMap[cat].hem+=nv(x.Hembras); catMap[cat].jov+=nv(x.Jovenes); catMap[cat].adu+=nv(x.Adultas); });
+  m.forEach(x=>{const cat=nv(x.ID_Catorcena);if(!catMap[cat])catMap[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0};
+    catMap[cat].s+=nv(x.Porcentaje_Captura);catMap[cat].n++;
+    catMap[cat].mac+=nv(x.Machos);catMap[cat].hem+=nv(x.Hembras);
+    catMap[cat].jov+=nv(x.Jovenes);catMap[cat].adu+=nv(x.Adultas);});
   const cats=Object.keys(catMap).map(Number).sort((a,b)=>a-b);
-
+  const maxCat=Math.max(...cats);
+  const catRows=m.filter(x=>nv(x.ID_Catorcena)===maxCat);
+ 
   // % captura catorcena
   mk('c-cat',{type:'line',data:{labels:cats.map(String),
-    datasets:[{label:'% Captura',data:cats.map(cat=>+(catMap[cat].s/catMap[cat].n).toFixed(1)),
-      borderColor:'#CC5020',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#CC5020',
-      fill:true,backgroundColor:'rgba(204,80,32,0.12)',tension:.35}]},
-    options:{...baseOpts,scales:{x:{...baseOpts.scales.x},y:{...baseOpts.scales.y,min:0,ticks:{callback:v=>v+'%'}}},
-      plugins:{legend:{display:false},annotation:{annotations:{umbral:{type:'line',yMin:8,yMax:8,borderColor:'#CC502080',borderWidth:1.5,borderDash:[5,4]}}}}}});
-
-  // Estado control donut
+    datasets:[{label:'% Captura',data:cats.map(c=>+(catMap[c].s/catMap[c].n).toFixed(1)),
+      borderColor:'#4DBF4D',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#3A9A3A',
+      fill:true,backgroundColor:'rgba(58,154,58,0.12)',tension:.35}]},
+    options:{...base,scales:{x:{...base.scales.x},y:{...base.scales.y,min:0,ticks:{callback:v=>v+'%'}}},
+      plugins:{legend:{display:false}}}});
+ 
+  // Estado control
   const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length;
   const pnd=c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length;
   const fv=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length;
   mk('c-estado',{type:'doughnut',data:{labels:['A Tiempo','Pendiente','Fuera Ventana'],
-    datasets:[{data:[at,pnd,fv],backgroundColor:['#387830','#A82828','#C48A14'],borderWidth:0,hoverOffset:6}]},
+    datasets:[{data:[at,pnd,fv],backgroundColor:['#3A9A3A','#A83030','#C8960A'],borderWidth:0,hoverOffset:6}]},
     options:{plugins:{legend:{display:false}},cutout:'65%',layout:{padding:8}}});
-
+ 
   // Rodenticida
   mk('c-rod',{type:'bar',data:{labels:ZONAS.map(z=>`Z·${z}`),
     datasets:[
-      {label:'Recomendados',data:ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((a,x)=>a+nv(x.Kg_Recomendados),0))),backgroundColor:'rgba(180,178,169,.35)',borderRadius:2},
-      {label:'Ejecutados',  data:ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((a,x)=>a+nv(x.Kg_Ejecutados),0))),  backgroundColor:'rgba(56,120,48,.85)',  borderRadius:2}
-    ]},options:{...baseOpts,plugins:{legend:{display:false}}}});
-
+      {label:'Recomendados',data:ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((a,x)=>a+nv(x.Kg_Recomendados),0))),backgroundColor:'rgba(46,122,46,.35)',borderRadius:2},
+      {label:'Ejecutados',  data:ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((a,x)=>a+nv(x.Kg_Ejecutados),0))),  backgroundColor:'rgba(58,154,58,.85)',  borderRadius:2}
+    ]},options:{...base,plugins:{legend:{display:false}}}});
+ 
   // Daño zona
   mk('c-dano-zona',{type:'bar',data:{labels:ZONAS.map(z=>`Z·${z}`),
     datasets:[
-      {label:'Barrenador %',data:ZONAS.map(z=>{const rows=d.filter(x=>nv(x.ID_Zona)===z);return rows.length?+(rows.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Barrenador),0)/rows.length).toFixed(2):0;}),backgroundColor:'rgba(196,138,20,.8)',borderRadius:2},
-      {label:'Rata %',      data:ZONAS.map(z=>{const rows=d.filter(x=>nv(x.ID_Zona)===z);return rows.length?+(rows.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Rata),0)/rows.length).toFixed(2):0;}),      backgroundColor:'rgba(204,80,32,.8)', borderRadius:2}
-    ]},options:{...baseOpts,plugins:{legend:{display:false}}}});
-
+      {label:'Barrenador',data:ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(2):0;}),backgroundColor:'rgba(200,150,10,.8)',borderRadius:2},
+      {label:'Rata',      data:ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(2):0;}),       backgroundColor:'rgba(224,112,32,.8)',borderRadius:2}
+    ]},options:{...base,plugins:{legend:{display:false}}}});
+ 
   // Composición captura
   mk('c-comp',{type:'bar',data:{labels:cats.map(String),
     datasets:[
-      {label:'Machos', data:cats.map(cat=>catMap[cat].mac),backgroundColor:'rgba(59,139,212,.8)', borderRadius:2,stack:'s'},
-      {label:'Hembras',data:cats.map(cat=>catMap[cat].hem),backgroundColor:'rgba(212,83,126,.8)', borderRadius:2,stack:'s'},
-      {label:'Jóvenes',data:cats.map(cat=>catMap[cat].jov),backgroundColor:'rgba(99,160,50,.8)',  borderRadius:2,stack:'s'},
-      {label:'Adultas',data:cats.map(cat=>catMap[cat].adu),backgroundColor:'rgba(196,138,20,.8)', borderRadius:2,stack:'s'},
-    ]},options:{...baseOpts,plugins:{legend:{display:false}},scales:{x:{...baseOpts.scales.x,stacked:true},y:{...baseOpts.scales.y,stacked:true}}}});
-
-  // % captura por zona (catorcena más reciente)
-  const maxCat=Math.max(...cats);
-  const catRows=m.filter(x=>nv(x.ID_Catorcena)===maxCat);
-  const zonaPct=ZONAS.map(z=>{const rows=catRows.filter(x=>nv(x.ID_Zona)===z);return rows.length?+(rows.reduce((a,x)=>a+nv(x.Porcentaje_Captura),0)/rows.length).toFixed(1):0;});
+      {label:'Machos', data:cats.map(cat=>catMap[cat].mac),backgroundColor:'rgba(56,152,216,.8)',borderRadius:2,stack:'s'},
+      {label:'Hembras',data:cats.map(cat=>catMap[cat].hem),backgroundColor:'rgba(212,83,126,.8)',borderRadius:2,stack:'s'},
+      {label:'Jóvenes',data:cats.map(cat=>catMap[cat].jov),backgroundColor:'rgba(77,191,77,.8)',  borderRadius:2,stack:'s'},
+      {label:'Adultas',data:cats.map(cat=>catMap[cat].adu),backgroundColor:'rgba(232,176,32,.8)', borderRadius:2,stack:'s'},
+    ]},options:{...base,plugins:{legend:{display:false}},scales:{x:{...base.scales.x,stacked:true},y:{...base.scales.y,stacked:true}}}});
+ 
+  // % captura por zona
+  const zonaPct=ZONAS.map(z=>{const rw=catRows.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((a,x)=>a+nv(x.Porcentaje_Captura),0)/rw.length).toFixed(1):0;});
   mk('c-zona',{type:'bar',data:{labels:ZONAS.map(z=>`Z·${z}`),
-    datasets:[{label:'% Captura',data:zonaPct,backgroundColor:zonaPct.map(p=>p>=8?'rgba(204,80,32,.85)':'rgba(196,138,20,.75)'),borderRadius:3}]},
-    options:{...baseOpts,scales:{x:{...baseOpts.scales.x},y:{...baseOpts.scales.y,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false}}}});
-
+    datasets:[{label:'% Captura',data:zonaPct,backgroundColor:zonaPct.map(p=>p>=8?'rgba(224,112,32,.85)':'rgba(58,154,58,.75)'),borderRadius:3,
+      datalabels:{display:false}}]},
+    options:{...base,scales:{x:{...base.scales.x},y:{...base.scales.y,ticks:{callback:v=>v+'%'}}},plugins:{legend:{display:false}}}});
+ 
   // Estado por zona
   mk('c-est-zona',{type:'bar',data:{labels:ZONAS.map(z=>`Z·${z}`),
     datasets:[
-      {label:'A Tiempo', data:ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("TIEMPO")).length),    backgroundColor:'rgba(56,120,48,.85)', borderRadius:2,stack:'s'},
-      {label:'Pendiente',data:ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("PENDIENTE")).length),  backgroundColor:'rgba(168,40,40,.85)', borderRadius:2,stack:'s'},
-      {label:'Fuera',    data:ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("VENTANA")).length),    backgroundColor:'rgba(196,138,20,.7)', borderRadius:2,stack:'s'},
-    ]},options:{...baseOpts,plugins:{legend:{display:false}},scales:{x:{...baseOpts.scales.x,stacked:true},y:{...baseOpts.scales.y,stacked:true}}}});
-
+      {label:'A Tiempo', data:ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("TIEMPO")).length),    backgroundColor:'rgba(58,154,58,.85)', borderRadius:2,stack:'s'},
+      {label:'Pendiente',data:ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("PENDIENTE")).length),  backgroundColor:'rgba(168,48,48,.85)', borderRadius:2,stack:'s'},
+      {label:'Fuera',    data:ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("VENTANA")).length),    backgroundColor:'rgba(200,150,10,.7)', borderRadius:2,stack:'s'},
+    ]},options:{...base,plugins:{legend:{display:false}},scales:{x:{...base.scales.x,stacked:true},y:{...base.scales.y,stacked:true}}}});
+ 
   // Top lotes
   const top=[...catRows].sort((a,b)=>nv(b.Porcentaje_Captura)-nv(a.Porcentaje_Captura)).slice(0,8);
   mk('c-top',{type:'bar',data:{labels:top.map(x=>`${(x.Nombre_finca||"").slice(0,9)} ${String(x.ID_Lote||"").slice(-4)}`),
-    datasets:[{label:'% Cap.',data:top.map(x=>nv(x.Porcentaje_Captura)),backgroundColor:top.map(x=>nv(x.Porcentaje_Captura)>=8?'rgba(204,80,32,.85)':'rgba(196,138,20,.75)'),borderRadius:2}]},
-    options:{...baseOpts,indexAxis:'y',scales:{x:{...baseOpts.scales.x,ticks:{callback:v=>v+'%'}},y:{...baseOpts.scales.y,ticks:{font:{size:8}}}},plugins:{legend:{display:false}}}});
-
+    datasets:[{label:'% Cap.',data:top.map(x=>nv(x.Porcentaje_Captura)),
+      backgroundColor:top.map(x=>nv(x.Porcentaje_Captura)>=8?'rgba(224,112,32,.85)':'rgba(58,154,58,.75)'),borderRadius:2}]},
+    options:{...base,indexAxis:'y',scales:{x:{...base.scales.x,ticks:{callback:v=>v+'%'}},y:{...base.scales.y,ticks:{font:{size:8}}}},plugins:{legend:{display:false}}}});
+ 
   // Daño tendencia
   const catsDano=[...new Set(d.map(x=>nv(x.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
   mk('c-dano-trend',{type:'line',data:{labels:catsDano.map(String),
     datasets:[
-      {label:'Barrenador %',data:catsDano.map(cat=>{const rows=d.filter(x=>nv(x.ID_Catorcena)===cat);return rows.length?+(rows.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Barrenador),0)/rows.length).toFixed(1):0;}),borderColor:'#C48A14',borderWidth:2,pointRadius:3,fill:true,backgroundColor:'rgba(196,138,20,.1)',tension:.3},
-      {label:'Rata %',      data:catsDano.map(cat=>{const rows=d.filter(x=>nv(x.ID_Catorcena)===cat);return rows.length?+(rows.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Rata),0)/rows.length).toFixed(1):0;}),       borderColor:'#CC5020',borderWidth:2,pointRadius:3,fill:true,backgroundColor:'rgba(204,80,32,.1)',  tension:.3},
-    ]},options:{...baseOpts,plugins:{legend:{display:false}}}});
-
+      {label:'Barrenador',data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(1):0;}),borderColor:'#C8960A',borderWidth:2,pointRadius:3,fill:true,backgroundColor:'rgba(200,150,10,.1)',tension:.3},
+      {label:'Rata',      data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(1):0;}),      borderColor:'#E07020',borderWidth:2,pointRadius:3,fill:true,backgroundColor:'rgba(224,112,32,.1)',  tension:.3},
+    ]},options:{...base,plugins:{legend:{display:false}}}});
+ 
   // Severidad barrenador
-  const sevB={};
-  l.forEach(x=>{ const s=(x['MUY SEVERO']||'S/D').toString().trim(); sevB[s]=(sevB[s]||0)+1; });
-  mk('c-sev-barr',{type:'doughnut',data:{labels:Object.keys(sevB),datasets:[{data:Object.values(sevB),backgroundColor:['#A82828','#387830','#C48A14','#52A044','#CC5020','#267070','#6A4FB0'],borderWidth:0,hoverOffset:4}]},options:{plugins:{legend:{display:false}},cutout:'60%',layout:{padding:8}}});
-
-  // Intensidad barrenador
-  const barrZona=ZONAS.map(z=>{const rows=d.filter(x=>nv(x.ID_Zona)===z);return rows.length?+(rows.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Barrenador),0)/rows.length).toFixed(2):0;});
-  mk('c-int-barr',{type:'bar',data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:'% Int.',data:barrZona,backgroundColor:barrZona.map(v=>v>3?'rgba(204,80,32,.85)':v>2?'rgba(196,138,20,.8)':'rgba(38,112,112,.8)'),borderRadius:3}]},options:{...baseOpts,plugins:{legend:{display:false}}}});
-
+  const sevB={};l.forEach(x=>{const s=(x['MUY SEVERO']||'S/D').toString().trim();sevB[s]=(sevB[s]||0)+1;});
+  mk('c-sev-barr',{type:'doughnut',data:{labels:Object.keys(sevB),datasets:[{data:Object.values(sevB),backgroundColor:['#A83030','#3A9A3A','#C8960A','#52C452','#E07020','#208060'],borderWidth:0,hoverOffset:4}]},options:{plugins:{legend:{display:false}},cutout:'60%',layout:{padding:8}}});
+ 
+  // Intensidad barrenador zona
+  const barrZ=ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((a,x)=>a+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(2):0;});
+  mk('c-int-barr',{type:'bar',data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:'% Int.',data:barrZ,backgroundColor:barrZ.map(v=>v>3?'rgba(224,112,32,.85)':v>2?'rgba(200,150,10,.8)':'rgba(32,128,96,.8)'),borderRadius:3}]},options:{...base,plugins:{legend:{display:false}}}});
+ 
   // Severidad rata
-  const sevR={};
-  l.forEach(x=>{ const s=(x['MUY SEVERO.1']||'S/D').toString().trim(); sevR[s]=(sevR[s]||0)+1; });
-  mk('c-sev-rata',{type:'doughnut',data:{labels:Object.keys(sevR),datasets:[{data:Object.values(sevR),backgroundColor:['#52A044','#C48A14','#CC5020','#A82828','#387830','#913030'],borderWidth:0,hoverOffset:4}]},options:{plugins:{legend:{display:false}},cutout:'60%',layout:{padding:6}}});
-
+  const sevR={};l.forEach(x=>{const s=(x['MUY SEVERO.1']||'S/D').toString().trim();sevR[s]=(sevR[s]||0)+1;});
+  mk('c-sev-rata',{type:'doughnut',data:{labels:Object.keys(sevR),datasets:[{data:Object.values(sevR),backgroundColor:['#52C452','#C8960A','#E07020','#A83030','#3A9A3A','#145A3C'],borderWidth:0,hoverOffset:4}]},options:{plugins:{legend:{display:false}},cutout:'60%',layout:{padding:6}}});
+ 
   // Gallina ciega catorcena
   const gcCats=[...new Set(r.map(x=>nv(x.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
   mk('c-gc-cat',{type:'bar',data:{labels:gcCats.map(c=>`Cat.${c}`),
     datasets:[
-      {label:'Phyllophaga',data:gcCats.map(cat=>r.filter(x=>nv(x.ID_Catorcena)===cat).reduce((a,x)=>a+nv(x.Phyllophaga),0)),backgroundColor:'rgba(196,138,20,.85)',borderRadius:2,stack:'s'},
-      {label:'Anomala',    data:gcCats.map(cat=>r.filter(x=>nv(x.ID_Catorcena)===cat).reduce((a,x)=>a+nv(x.Anomala),0)),    backgroundColor:'rgba(38,112,112,.85)', borderRadius:2,stack:'s'},
-      {label:'Diplotaxis', data:gcCats.map(cat=>r.filter(x=>nv(x.ID_Catorcena)===cat).reduce((a,x)=>a+nv(x.Diplotaxis),0)), backgroundColor:'rgba(56,120,48,.85)',  borderRadius:2,stack:'s'},
-    ]},options:{...baseOpts,plugins:{legend:{display:false}},scales:{x:{...baseOpts.scales.x,stacked:true},y:{...baseOpts.scales.y,stacked:true}}}});
-
+      {label:'Phyllophaga',data:gcCats.map(cat=>r.filter(x=>nv(x.ID_Catorcena)===cat).reduce((a,x)=>a+nv(x.Phyllophaga),0)),backgroundColor:'rgba(200,150,10,.85)',borderRadius:2,stack:'s'},
+      {label:'Anomala',    data:gcCats.map(cat=>r.filter(x=>nv(x.ID_Catorcena)===cat).reduce((a,x)=>a+nv(x.Anomala),0)),    backgroundColor:'rgba(32,128,96,.85)', borderRadius:2,stack:'s'},
+      {label:'Diplotaxis', data:gcCats.map(cat=>r.filter(x=>nv(x.ID_Catorcena)===cat).reduce((a,x)=>a+nv(x.Diplotaxis),0)), backgroundColor:'rgba(77,191,77,.85)',  borderRadius:2,stack:'s'},
+    ]},options:{...base,plugins:{legend:{display:false}},scales:{x:{...base.scales.x,stacked:true},y:{...base.scales.y,stacked:true}}}});
+ 
   // Gallina ciega zona
-  mk('c-gc-zona',{type:'doughnut',data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{data:ZONAS.map(z=>r.filter(x=>nv(x.ID_Zona)===z).reduce((a,x)=>a+nv(x.TotalCaptura),0)),backgroundColor:['#A82828','#C48A14','#267070','#CC5020','#387830'],borderWidth:0,hoverOffset:6}]},options:{plugins:{legend:{display:false}},cutout:'58%',layout:{padding:8}}});
+  mk('c-gc-zona',{type:'doughnut',data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{data:ZONAS.map(z=>r.filter(x=>nv(x.ID_Zona)===z).reduce((a,x)=>a+nv(x.TotalCaptura),0)),backgroundColor:['#A83030','#C8960A','#208060','#E07020','#3A9A3A'],borderWidth:0,hoverOffset:6}]},options:{plugins:{legend:{display:false}},cutout:'58%',layout:{padding:8}}});
 }
-
+ 
 /* ══ Navigation ══ */
-function showTab(id, btn, color) {
+function showTab(id,btn,color){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
-  document.querySelectorAll('.nbtn').forEach(b=>{ b.classList.remove('act'); b.style.color=''; });
+  document.querySelectorAll('.nbtn').forEach(b=>{b.classList.remove('act');b.style.color='';});
   document.getElementById('tab-'+id).classList.add('show');
-  btn.classList.add('act');
-  btn.style.color=color;
+  btn.classList.add('act');btn.style.color=color;
 }
-
+ 
+function modTab(module,view,btn){
+  const prefix=module==='gallinaCiega'?'gc':module;
+  document.querySelectorAll('[id^="'+prefix+'-"]').forEach(el=>el.classList.remove('show'));
+  document.getElementById(prefix+'-'+view).classList.add('show');
+  btn.closest('.mod-tabs').querySelectorAll('.mtab').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+}
+ 
 /* ══ Init ══ */
 fetchData();
 </script>
 </body>
 </html>
+ 
