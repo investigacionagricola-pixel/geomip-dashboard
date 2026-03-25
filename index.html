@@ -3,564 +3,584 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GeoMIP · Ingenio Madre Tierra · Sistema de Monitoreo de Plagas</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<title>GeoMIP · Ingenio Madre Tierra</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@400;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════
-   DESIGN TOKENS
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════ */
 :root{
-  /* Backgrounds */
-  --b0:#060A06; --b1:#0A100A; --b2:#0F170F; --b3:#141E14; --b4:#1A271A;
-  /* Greens - primary */
-  --g1:#163816; --g2:#1E4F1E; --g3:#266526; --g4:#2F7C2F; --g5:#3D9B3D;
-  --g6:#52B852; --g7:#70CC70; --g8:#94DC94; --g9:#C0ECC0;
-  /* Amber/Gold - harvest */
-  --a1:#4A2E00; --a2:#7A4D00; --a3:#AA6C00; --a4:#D48B00; --a5:#F0A800;
-  --a6:#F5BC30; --a7:#F8CE60;
-  /* Red - alert */
-  --r1:#3A0A0A; --r2:#6B1414; --r3:#991E1E; --r4:#C42828; --r5:#E03C3C;
-  /* Teal - info */
-  --t1:#003A2E; --t2:#005A46; --t3:#007B60; --t4:#009B78; --t5:#20C09A;
-  /* Neutral */
-  --n1:#B8D0B8; --n2:#8AAA8A; --n3:#5C7A5C; --n4:#3A543A; --n5:#243024;
-  /* Borders */
-  --border-faint:rgba(82,184,82,.06);
-  --border-soft:rgba(82,184,82,.12);
-  --border-mid:rgba(82,184,82,.20);
-  --border-strong:rgba(82,184,82,.35);
-  /* Text */
-  --tx1:#E8F5E8; --tx2:#A8C8A8; --tx3:#6A8A6A; --tx4:#3E5C3E;
-  /* Chart grid */
-  --cg:rgba(82,184,82,.06); --ct:#5A7A5A;
-  /* Semantic */
-  --ok:var(--g5); --warn:var(--a4); --danger:var(--r4); --info:var(--t4);
+  --bg:   #0C1410;
+  --s1:   #111A15;
+  --s2:   #162019;
+  --s3:   #1C2920;
+  --s4:   #233227;
+  --s5:   #2B3D2F;
+
+  --g4:#2D7A30; --g5:#3A9B3D; --g6:#4EBD52; --g7:#70CC73; --g8:#9ADEA0;
+  --a3:#A86800; --a4:#D48A00; --a5:#F0A800; --a6:#F5BC2E; --a7:#F9CE60;
+  --r3:#991A1A; --r4:#C42424; --r5:#E03838; --r6:#F06060;
+  --t3:#007860; --t4:#009B78; --t5:#1EC09A; --t6:#4DCEA8;
+  --n1:#D4E8D6; --n2:#A8C8AC; --n3:#7AA080; --n4:#4E6C52;
+
+  --bdr-xs:rgba(255,255,255,.04);
+  --bdr-sm:rgba(255,255,255,.07);
+  --bdr-md:rgba(255,255,255,.11);
+  --bdr-lg:rgba(255,255,255,.18);
+
+  --tx1:#ECF5EE; --tx2:#B8D0BC; --tx3:#7D9E82; --tx4:#4D6650;
+
+  --font-ui:'Inter',sans-serif;
+  --font-data:'JetBrains Mono',monospace;
+  --font-display:'Barlow Condensed',sans-serif;
+
+  --radius:4px;
+  --shadow:0 4px 24px rgba(0,0,0,.4);
 }
+
+/* ══════════════════════════════════════════════
+   BASE
+══════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px;scroll-behavior:smooth}
-body{background:var(--b0);color:var(--tx1);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
-::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-track{background:var(--b1)}
-::-webkit-scrollbar-thumb{background:var(--g3);border-radius:2px}
+html{font-size:14px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx1);font-family:var(--font-ui);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--s1)}
+::-webkit-scrollbar-thumb{background:var(--g5);border-radius:2px}
+a{color:var(--g6);text-decoration:none}
 
-/* ═══ ANIMATIONS ═══ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes scanline{from{top:-2px;opacity:.3}to{top:100vh;opacity:0}}
+/* ══════════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 currentColor}50%{opacity:.4;box-shadow:0 0 0 4px transparent}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes countUp{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes kpiIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes barGrow{from{transform:scaleY(0);transform-origin:bottom}to{transform:scaleY(1)}}
 
-/* ═══ AMBIENT ═══ */
-.ambient-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(var(--border-faint) 1px,transparent 1px),
-    linear-gradient(90deg,var(--border-faint) 1px,transparent 1px);
-  background-size:52px 52px;opacity:.7}
-.scanline{position:fixed;left:0;right:0;height:2px;pointer-events:none;z-index:0;
-  background:linear-gradient(90deg,transparent 0%,rgba(61,155,61,.15) 50%,transparent 100%);
-  animation:scanline 16s linear infinite}
+/* ══════════════════════════════════════════════
+   LOADING
+══════════════════════════════════════════════ */
+#loading{
+  position:fixed;inset:0;background:var(--bg);z-index:2000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  transition:opacity .7s ease
+}
+#loading.out{opacity:0;pointer-events:none}
+.l-icon{width:60px;height:60px}
+.l-title{font-family:var(--font-display);font-size:34px;font-weight:900;letter-spacing:5px;color:var(--tx1)}
+.l-sub{font-family:var(--font-data);font-size:10px;color:var(--g6);letter-spacing:3px;text-align:center;line-height:1.8}
+.l-bar{width:300px;height:2px;background:var(--bdr-sm);overflow:hidden;border-radius:1px}
+.l-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--g4),var(--g7));transition:width .35s}
+.l-msg{font-family:var(--font-data);font-size:9px;color:var(--tx4);letter-spacing:2px}
+.l-dots{display:flex;gap:10px}
+.l-dot{width:8px;height:8px;border-radius:50%;background:var(--s4);transition:background .3s}
+.l-dot.ok{background:var(--g6)}
+.l-dot.er{background:var(--r5)}
 
-/* ═══ LOADING ═══ */
-#loading{position:fixed;inset:0;background:var(--b0);z-index:1000;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
-  transition:opacity .6s ease}
-#loading.fade{opacity:0;pointer-events:none}
-.load-logo{display:flex;align-items:center;gap:14px}
-.load-hex{width:52px;height:52px;position:relative}
-.load-hex svg{width:100%;height:100%}
-.load-brand{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:32px;
-  color:var(--tx1);letter-spacing:4px;text-transform:uppercase}
-.load-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--g6);
-  letter-spacing:4px;text-align:center}
-.load-track{width:280px;height:2px;background:var(--border-soft);overflow:hidden}
-.load-prog{height:100%;width:0%;background:linear-gradient(90deg,var(--g3),var(--g6));
-  transition:width .4s ease}
-.load-status{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--tx3);
-  letter-spacing:2px;text-align:center}
-.load-dots{display:flex;gap:8px;margin-top:4px}
-.load-dot{width:6px;height:6px;border-radius:50%;background:var(--b4)}
-.load-dot.ok{background:var(--g5)}
-.load-dot.err{background:var(--r4)}
+/* ══════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════ */
+.hdr{
+  position:sticky;top:0;z-index:200;
+  background:rgba(12,20,16,.97);
+  border-bottom:1px solid var(--bdr-sm);
+  backdrop-filter:blur(24px)
+}
+.hdr-stripe{
+  height:3px;
+  background:linear-gradient(90deg,var(--g4) 0%,var(--g6) 38%,var(--g7) 58%,var(--a5) 82%,var(--a4) 100%)
+}
+.hdr-row{
+  max-width:1540px;margin:0 auto;padding:0 22px;
+  display:flex;align-items:stretch;height:56px
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+  padding-right:22px;border-right:1px solid var(--bdr-xs);
+  margin-right:6px;flex-shrink:0;cursor:default
+}
+.brand-icon{width:34px;height:34px;flex-shrink:0}
+.brand-name{font-family:var(--font-display);font-weight:800;font-size:16px;letter-spacing:3px;color:var(--tx1);text-transform:uppercase;line-height:1}
+.brand-tagline{font-family:var(--font-data);font-size:8px;color:var(--g6);letter-spacing:2.5px;margin-top:2px}
 
-/* ═══ HEADER ═══ */
-.hdr{background:rgba(10,16,10,.95);border-bottom:1px solid var(--border-soft);
-  position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
-.hdr-accent{height:2px;background:linear-gradient(90deg,var(--g3) 0%,var(--g5) 30%,var(--g7) 55%,var(--a5) 78%,var(--a4) 100%)}
-.hdr-body{max-width:1520px;margin:0 auto;padding:0 20px;display:flex;align-items:stretch;height:50px;gap:0}
-.hdr-brand{display:flex;align-items:center;gap:10px;padding-right:18px;
-  border-right:1px solid var(--border-faint);flex-shrink:0;margin-right:6px}
-.brand-hex{width:28px;height:28px;flex-shrink:0}
-.brand-text{line-height:1}
-.brand-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;
-  color:var(--tx1);letter-spacing:3px;text-transform:uppercase}
-.brand-desc{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--g6);
-  letter-spacing:3px;text-transform:uppercase}
-.hdr-nav{display:flex;align-items:stretch;overflow-x:auto;gap:0;flex:1}
-.hdr-nav::-webkit-scrollbar{display:none}
-.nav-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;
-  letter-spacing:2px;text-transform:uppercase;padding:0 13px;background:transparent;
-  border:none;color:var(--tx4);cursor:pointer;border-bottom:2px solid transparent;
-  margin-bottom:-1px;transition:color .15s,border-color .15s;white-space:nowrap;
-  position:relative;display:flex;align-items:center;gap:5px}
-.nav-btn:hover{color:var(--tx2)}
-.nav-btn.active{color:var(--tx1);border-bottom-color:currentColor}
-.nav-btn .nav-badge{font-family:'JetBrains Mono',monospace;font-size:8px;padding:1px 5px;
-  background:rgba(61,155,61,.2);border:1px solid rgba(61,155,61,.3);color:var(--g6);
-  border-radius:2px}
-.hdr-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;padding-left:12px}
-.live-indicator{display:flex;align-items:center;gap:6px}
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--tx4)}
-.live-dot.on{background:var(--g6);box-shadow:0 0 0 3px rgba(82,184,82,.2);animation:pulse 2.5s infinite}
-.live-dot.err{background:var(--r5)}
-.live-text{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx3);letter-spacing:1px}
-.action-btn{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;
-  padding:5px 12px;background:transparent;border:1px solid var(--border-soft);
-  color:var(--tx3);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px}
-.action-btn:hover{border-color:var(--g5);color:var(--g6);background:rgba(61,155,61,.08)}
-.spin-icon{width:10px;height:10px;border:1.5px solid var(--border-mid);
-  border-top-color:var(--g5);border-radius:50%;animation:spin .7s linear infinite;display:none}
+/* NAV */
+.nav{display:flex;align-items:stretch;overflow-x:auto;gap:0;flex:1}
+.nav::-webkit-scrollbar{display:none}
+.nv{
+  font-family:var(--font-display);font-weight:700;font-size:12px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:0 14px;background:transparent;border:none;
+  color:var(--tx4);cursor:pointer;
+  border-bottom:2.5px solid transparent;margin-bottom:-1px;
+  transition:color .15s,border-color .15s;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;position:relative
+}
+.nv:hover{color:var(--tx2)}
+.nv.on{color:var(--tx1);border-bottom-color:currentColor}
+.nv.on::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,currentColor 0%,transparent 60%);
+  opacity:.06;pointer-events:none
+}
 
-/* ═══ FILTER BAR ═══ */
-.filter-bar{background:var(--b1);border-bottom:1px solid var(--border-faint);
-  position:sticky;top:50px;z-index:90;padding:0 20px}
-.filter-body{max-width:1520px;margin:0 auto;display:flex;align-items:center;
-  gap:0;min-height:42px;flex-wrap:wrap}
-.filter-section{display:flex;align-items:center;gap:6px;padding:6px 0;
-  border-right:1px solid var(--border-faint);padding-right:14px;margin-right:14px}
-.filter-section:last-child{border-right:none;margin-right:0;padding-right:0}
-.filter-label{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx4);
-  letter-spacing:3px;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
-.filter-pills{display:flex;gap:3px;flex-wrap:wrap}
-.pill{font-family:'JetBrains Mono',monospace;font-size:8px;padding:3px 9px;
-  background:transparent;border:1px solid var(--border-faint);color:var(--tx4);
-  cursor:pointer;transition:all .15s;white-space:nowrap;letter-spacing:.5px}
-.pill:hover{border-color:var(--border-mid);color:var(--tx2)}
-.pill.act{background:var(--g3);border-color:var(--g4);color:var(--tx1);font-weight:500}
-.pill.act-warn{background:var(--a2);border-color:var(--a3);color:var(--a6)}
-.filter-tags{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.filter-tag{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;
-  font-size:8px;padding:3px 8px;background:rgba(212,139,0,.1);
-  border:1px solid rgba(212,139,0,.3);color:var(--a6);letter-spacing:.5px}
-.filter-tag-x{cursor:pointer;opacity:.7;font-size:10px;line-height:1}
-.filter-tag-x:hover{opacity:1;color:var(--a7)}
-.clear-all-btn{font-family:'JetBrains Mono',monospace;font-size:8px;padding:3px 9px;
-  background:transparent;border:1px solid rgba(200,40,40,.3);color:var(--r5);
-  cursor:pointer;transition:all .15s;letter-spacing:.5px;display:none}
-.clear-all-btn:hover{background:rgba(200,40,40,.1)}
+/* SYNC BTN */
+.sync-wrap{display:flex;align-items:center;gap:10px;margin-left:auto;padding-left:16px;flex-shrink:0}
+.sync-btn{
+  font-family:var(--font-data);font-size:10px;letter-spacing:.5px;
+  padding:6px 14px;background:transparent;
+  border:1px solid var(--bdr-md);color:var(--tx3);cursor:pointer;
+  transition:all .15s;border-radius:var(--radius);
+  display:flex;align-items:center;gap:6px
+}
+.sync-btn:hover{border-color:var(--g5);color:var(--g6);background:rgba(61,155,61,.08)}
+.spin{width:10px;height:10px;border:1.5px solid var(--bdr-md);border-top-color:var(--g5);border-radius:50%;animation:spin .7s linear infinite;display:none}
+.live-badge{
+  display:flex;align-items:center;gap:5px;
+  font-family:var(--font-data);font-size:9px;color:var(--tx4)
+}
+.live-pip{width:7px;height:7px;border-radius:50%;background:var(--s4)}
+.live-pip.on{background:var(--g6);box-shadow:0 0 0 3px rgba(78,189,82,.18);animation:pulse 2.5s infinite}
+.live-pip.err{background:var(--r5)}
 
-/* ═══ MAIN ═══ */
-.main{max-width:1520px;margin:0 auto;padding:18px 20px 60px;position:relative;z-index:1}
-.tab-panel{display:none;animation:fadeUp .3s ease both}
-.tab-panel.active{display:block}
+/* ══════════════════════════════════════════════
+   FILTER BAR
+══════════════════════════════════════════════ */
+.fbar{
+  position:sticky;top:56px;z-index:190;
+  background:var(--s1);border-bottom:1px solid var(--bdr-xs)
+}
+.fbar-inner{
+  max-width:1540px;margin:0 auto;padding:8px 22px;
+  display:flex;align-items:center;gap:0;flex-wrap:wrap;min-height:46px
+}
+.fbar-sep{width:1px;height:22px;background:var(--bdr-xs);margin:0 14px;flex-shrink:0}
+.flbl{
+  font-family:var(--font-data);font-size:9px;letter-spacing:2.5px;
+  color:var(--tx4);text-transform:uppercase;margin-right:8px;flex-shrink:0;white-space:nowrap
+}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.pill{
+  font-family:var(--font-data);font-size:9px;padding:4px 11px;
+  background:transparent;border:1px solid var(--bdr-xs);color:var(--tx4);
+  cursor:pointer;transition:all .13s;border-radius:var(--radius);white-space:nowrap;
+  letter-spacing:.3px
+}
+.pill:hover{border-color:var(--bdr-md);color:var(--tx2);background:rgba(255,255,255,.03)}
+.pill.on{background:var(--g4);border-color:var(--g5);color:var(--n1)}
+.active-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.atag{
+  display:flex;align-items:center;gap:5px;
+  font-family:var(--font-data);font-size:9px;
+  padding:3px 9px;border-radius:var(--radius);
+  background:rgba(240,168,0,.1);border:1px solid rgba(240,168,0,.25);color:var(--a6)
+}
+.atag-x{cursor:pointer;opacity:.6;font-size:11px;line-height:1;transition:opacity .1s}
+.atag-x:hover{opacity:1}
+.clear-btn{
+  font-family:var(--font-data);font-size:9px;padding:3px 10px;
+  background:transparent;border:1px solid rgba(224,56,56,.25);
+  color:var(--r5);cursor:pointer;border-radius:var(--radius);
+  transition:all .13s;display:none
+}
+.clear-btn:hover{background:rgba(224,56,56,.08)}
 
-/* ═══ STATUS BAR ═══ */
-.status-bar{display:flex;align-items:center;gap:12px;padding:6px 14px;
-  background:var(--b2);border:1px solid var(--border-faint);margin-bottom:14px;
-  font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx4);flex-wrap:wrap}
-.status-item{display:flex;align-items:center;gap:4px}
-.status-dot{width:5px;height:5px;border-radius:50%;background:var(--tx4)}
-.status-dot.ok{background:var(--g6)}
-.status-dot.err{background:var(--r5)}
-.status-dot.loading{background:var(--a4);animation:pulse .9s infinite}
+/* ══════════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════════ */
+.wrap{max-width:1540px;margin:0 auto;padding:20px 22px 60px;position:relative;z-index:1}
+.tab{display:none;animation:fadeUp .32s ease both}
+.tab.on{display:block}
 
-/* ═══ KPI CARDS ═══ */
-.kpi-row{display:grid;gap:1px;background:var(--border-faint);border:1px solid var(--border-soft);margin-bottom:14px}
-.kpi-card{background:var(--b1);padding:14px 16px;position:relative;overflow:hidden;
-  transition:background .2s;cursor:default}
-.kpi-card:hover{background:var(--b2)}
-.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.kpi-label{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:3px;
-  color:var(--tx4);text-transform:uppercase;margin-bottom:8px;line-height:1.2}
-.kpi-val{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;
-  line-height:.85;letter-spacing:-1.5px;animation:countUp .4s ease both}
-.kpi-unit{font-size:15px;font-weight:400;color:var(--tx3);margin-left:2px}
-.kpi-sub{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx4);margin-top:7px;line-height:1.4}
-.kpi-sub.warn{color:var(--a5)}
-.kpi-sub.danger{color:var(--r5)}
-.kpi-sub.ok{color:var(--g6)}
-.kpi-prog{height:2px;background:var(--border-faint);margin-top:8px;overflow:hidden}
-.kpi-prog-fill{height:100%;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
+/* ══════════════════════════════════════════════
+   PAGE HEADER
+══════════════════════════════════════════════ */
+.ph{margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--bdr-xs)}
+.ph-eye{font-family:var(--font-data);font-size:10px;color:var(--g6);letter-spacing:3px;text-transform:uppercase;margin-bottom:9px}
+.ph-h1{font-family:var(--font-display);font-weight:900;font-size:46px;line-height:.88;color:var(--tx1);text-transform:uppercase;letter-spacing:-2px}
+.ph-h1 b{color:var(--g6);font-weight:900}
 
-/* ═══ SECTION HEADER ═══ */
-.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.sec-stripe{width:3px;border-radius:1px;flex-shrink:0}
-.sec-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
-  letter-spacing:3px;text-transform:uppercase;color:var(--tx1)}
-.sec-chip{font-family:'JetBrains Mono',monospace;font-size:8px;padding:2px 8px;
-  border:1px solid;letter-spacing:1px;flex-shrink:0}
-.sec-line{flex:1;height:1px;background:var(--border-faint)}
+/* ══════════════════════════════════════════════
+   KPI CARDS
+══════════════════════════════════════════════ */
+.kpi-row{display:grid;gap:1px;background:var(--bdr-xs);border:1px solid var(--bdr-sm);margin-bottom:16px;border-radius:var(--radius);overflow:hidden}
+.kc{
+  background:var(--s1);padding:16px 20px;position:relative;overflow:hidden;
+  transition:background .18s;cursor:default
+}
+.kc:hover{background:var(--s2)}
+.kc-bar{position:absolute;top:0;left:0;right:0;height:2.5px}
+.kc-lbl{font-family:var(--font-data);font-size:9.5px;letter-spacing:1.5px;color:var(--tx3);text-transform:uppercase;margin-bottom:9px;line-height:1}
+.kc-val{font-family:var(--font-display);font-size:38px;font-weight:800;line-height:.85;letter-spacing:-1.5px;animation:kpiIn .4s ease}
+.kc-unit{font-size:16px;font-weight:400;color:var(--tx3);margin-left:2px}
+.kc-sub{font-family:var(--font-data);font-size:9px;color:var(--tx4);margin-top:7px;line-height:1.5}
+.kc-sub.ok{color:var(--g6)} .kc-sub.warn{color:var(--a5)} .kc-sub.danger{color:var(--r5)}
+.kc-prog{height:2px;background:var(--bdr-xs);margin-top:9px;overflow:hidden;border-radius:1px}
+.kc-prog-fill{height:100%;transition:width 1.3s cubic-bezier(.16,1,.3,1);border-radius:1px}
 
-/* ═══ CARDS ═══ */
-.card{background:var(--b1);border:1px solid var(--border-faint);padding:14px 16px;position:relative}
-.card-hint{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--tx4);
-  margin-bottom:8px;letter-spacing:1px}
-.chart-wrap{position:relative;width:100%}
-.chart-center{display:flex;align-items:center;justify-content:center}
-.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;
-  font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx3)}
-.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block;
-  margin-right:3px;flex-shrink:0;vertical-align:middle}
-.legend-sq{width:8px;height:8px;border-radius:1px;display:inline-block;
-  margin-right:3px;flex-shrink:0;vertical-align:middle}
+/* MINI STATS */
+.ms-row{display:grid;gap:1px;background:var(--bdr-xs);border:1px solid var(--bdr-sm);margin-bottom:16px;border-radius:var(--radius);overflow:hidden}
+.ms{background:var(--s1);padding:14px 18px}
+.ms-lbl{font-family:var(--font-data);font-size:9.5px;letter-spacing:1.5px;color:var(--tx3);text-transform:uppercase;margin-bottom:6px}
+.ms-val{font-family:var(--font-display);font-size:28px;font-weight:700;line-height:1}
 
-/* ═══ GRID LAYOUTS ═══ */
-.grid{display:grid;gap:12px;margin-bottom:12px}
+/* ══════════════════════════════════════════════
+   GRID
+══════════════════════════════════════════════ */
+.g{display:grid;gap:14px;margin-bottom:14px}
 .g2{grid-template-columns:1fr 1fr}
-.g3{grid-template-columns:1.6fr 1fr}
-.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.g3{grid-template-columns:1.7fr 1fr}
+.g4{grid-template-columns:repeat(4,1fr)}
 .g32{grid-template-columns:3fr 2fr}
 .g23{grid-template-columns:2fr 3fr}
-.g13{grid-template-columns:1fr 3fr}
-.g31{grid-template-columns:3fr 1fr}
-.sep{height:1px;background:var(--border-faint);margin:12px 0}
+.g211{grid-template-columns:2fr 1fr 1.2fr}
 
-/* ═══ INTERACTIVE CHARTS ═══ */
-.card.clickable{cursor:pointer;transition:border-color .2s,background .2s}
-.card.clickable:hover{border-color:var(--border-mid);background:var(--b2)}
-.card.clickable:hover .click-hint{opacity:1}
-.card.filtered-active{border-color:var(--a4)!important;box-shadow:0 0 0 1px rgba(212,139,0,.15)}
-.click-hint{position:absolute;top:10px;right:12px;font-family:'JetBrains Mono',monospace;
-  font-size:7px;color:var(--tx4);letter-spacing:1px;opacity:0;transition:opacity .2s;pointer-events:none}
+/* ══════════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════════ */
+.card{
+  background:var(--s1);border:1px solid var(--bdr-xs);
+  padding:18px 20px;border-radius:var(--radius);position:relative;
+  transition:border-color .18s
+}
+.card:hover{border-color:var(--bdr-sm)}
+.card.hl{border-color:var(--a4)!important;box-shadow:0 0 0 1px rgba(240,168,0,.12)}
 
-/* ═══ DATA TABLE ═══ */
-.tbl-wrap{overflow-x:auto;border:1px solid var(--border-soft)}
-.data-table{width:100%;border-collapse:collapse;font-size:11px}
-.data-table th{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--tx4);padding:8px 10px;text-align:left;
-  border-bottom:1px solid var(--border-soft);background:var(--b2);
-  white-space:nowrap;font-weight:400;position:sticky;top:0}
-.data-table th.r{text-align:right}
-.data-table td{padding:6px 10px;border-bottom:1px solid var(--border-faint);
-  color:var(--tx1);white-space:nowrap}
-.data-table td.r{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px}
-.data-table td.mono{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--tx2)}
-.data-table tr:hover td{background:var(--b3)}
-.data-table tr.total-row td{background:var(--b3);font-weight:600;color:var(--g6)}
-.tbl-info{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx4);
-  text-align:center;padding:7px}
+/* Clickable cards */
+.card.cl{cursor:pointer}
+.card.cl:hover{border-color:var(--bdr-md);background:var(--s2)}
+.card.cl::after{
+  content:'↑ clic para filtrar';position:absolute;
+  top:11px;right:14px;font-family:var(--font-data);font-size:8.5px;
+  color:var(--tx4);letter-spacing:.3px;opacity:0;transition:opacity .15s
+}
+.card.cl:hover::after{opacity:1}
 
-/* ═══ BADGES ═══ */
-.badge{display:inline-flex;align-items:center;gap:3px;font-family:'JetBrains Mono',monospace;
-  font-size:8px;padding:2px 7px;border:1px solid;letter-spacing:.5px;white-space:nowrap}
-.badge-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+/* Section header */
+.sh{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.sh-stripe{width:3px;border-radius:1px;flex-shrink:0;align-self:stretch;min-height:18px}
+.sh-title{font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:2.5px;text-transform:uppercase;color:var(--tx1)}
+.sh-chip{font-family:var(--font-data);font-size:9px;padding:3px 9px;border:1px solid;letter-spacing:.5px;border-radius:3px;flex-shrink:0}
+.sh-line{flex:1;height:1px;background:var(--bdr-xs)}
 
-/* ═══ MODULE TABS ═══ */
-.mod-tabs{display:flex;gap:0;border-bottom:1px solid var(--border-soft);margin-bottom:12px}
-.mod-tab{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;
-  text-transform:uppercase;padding:8px 14px;background:transparent;border:none;
-  color:var(--tx4);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
-  transition:all .15s}
-.mod-tab:hover{color:var(--tx2)}
-.mod-tab.active{color:var(--g6);border-bottom-color:var(--g5)}
-.mod-view{display:none}
-.mod-view.active{display:block;animation:fadeUp .25s ease both}
+/* Chart hints */
+.ch-hint{font-family:var(--font-data);font-size:9px;color:var(--tx4);margin-bottom:10px;letter-spacing:.3px}
 
-/* ═══ PAGE TITLE ═══ */
-.page-top{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border-faint)}
-.page-eyebrow{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--g6);
-  letter-spacing:4px;text-transform:uppercase;margin-bottom:8px}
-.page-h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:40px;
-  line-height:.88;color:var(--tx1);text-transform:uppercase;letter-spacing:-1.5px}
-.page-h1 em{color:var(--g6);font-style:normal}
+/* ══════════════════════════════════════════════
+   CHART WRAPPER
+══════════════════════════════════════════════ */
+.cw{position:relative;width:100%}
+.cw-center{display:flex;align-items:center;justify-content:center}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-family:var(--font-data);font-size:10px;color:var(--tx3)}
+.l-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
+.l-sq{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
 
-/* ═══ ALERT CARDS ═══ */
-.alert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.alert-card{padding:12px 14px;border-left:3px solid}
-.alert-title{font-family:'JetBrains Mono',monospace;font-size:8px;
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;font-weight:500}
-.alert-body{font-size:11px;color:var(--tx2);line-height:1.55}
+/* ══════════════════════════════════════════════
+   TABLES
+══════════════════════════════════════════════ */
+.tw{overflow-x:auto;border:1px solid var(--bdr-sm);border-radius:var(--radius)}
+.dt{width:100%;border-collapse:collapse;font-size:12px}
+.dt th{
+  font-family:var(--font-data);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--tx3);padding:9px 12px;text-align:left;white-space:nowrap;font-weight:400;
+  background:var(--s2);border-bottom:1px solid var(--bdr-md);position:sticky;top:0
+}
+.dt th.r{text-align:right}
+.dt td{padding:7px 12px;border-bottom:1px solid var(--bdr-xs);color:var(--tx1);white-space:nowrap}
+.dt td.r{text-align:right;font-family:var(--font-data);font-size:11px}
+.dt td.m{font-family:var(--font-data);font-size:11px;color:var(--tx2)}
+.dt tr:hover td{background:rgba(255,255,255,.022)}
+.dt tr.tot td{background:var(--s2);font-weight:600;color:var(--g7);font-size:12px}
+.ti{font-family:var(--font-data);font-size:9.5px;color:var(--tx4);text-align:center;padding:8px}
 
-/* ═══ PROGRESS BARS ═══ */
-.prog-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.prog-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--tx3);width:44px;flex-shrink:0}
-.prog-track{flex:1;height:5px;background:var(--border-faint);overflow:hidden}
-.prog-fill{height:100%;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-.prog-value{font-family:'JetBrains Mono',monospace;font-size:8px;width:34px;text-align:right;flex-shrink:0}
+/* ══════════════════════════════════════════════
+   BADGES
+══════════════════════════════════════════════ */
+.bdg{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--font-data);font-size:9px;
+  padding:3px 8px;border:1px solid;border-radius:3px;letter-spacing:.3px;white-space:nowrap
+}
+.bdg-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 
-/* ═══ MINI STAT ═══ */
-.mini-stats{display:grid;gap:1px;background:var(--border-faint);border:1px solid var(--border-soft);margin-bottom:12px}
-.mini-stat{background:var(--b1);padding:10px 14px;display:flex;flex-direction:column;gap:3px}
-.mini-stat-label{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--tx4);
-  letter-spacing:2px;text-transform:uppercase}
-.mini-stat-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;line-height:1}
+/* ══════════════════════════════════════════════
+   MODULE TABS
+══════════════════════════════════════════════ */
+.mtabs{display:flex;border-bottom:1px solid var(--bdr-sm);margin-bottom:14px;gap:0}
+.mt{
+  font-family:var(--font-data);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:9px 16px;background:transparent;border:none;color:var(--tx4);cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .13s
+}
+.mt:hover{color:var(--tx2)}
+.mt.on{color:var(--g6);border-bottom-color:var(--g5)}
+.mv{display:none}
+.mv.on{display:block;animation:fadeUp .25s ease both}
 
-/* ═══ TOOLTIP OVERRIDE ═══ */
-.chart-js-tooltip{background:var(--b2)!important;border:1px solid var(--border-soft)!important;
-  border-radius:0!important;padding:8px 12px!important;font-family:'JetBrains Mono',monospace!important;
-  font-size:10px!important;color:var(--tx1)!important;box-shadow:0 4px 16px rgba(0,0,0,.5)!important}
+/* ══════════════════════════════════════════════
+   ALERT CARDS
+══════════════════════════════════════════════ */
+.alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.alert{padding:13px 16px;border-left:3px solid;border-radius:0 var(--radius) var(--radius) 0}
+.alert-t{font-family:var(--font-data);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.alert-b{font-size:12px;color:var(--tx2);line-height:1.6}
+
+/* ══════════════════════════════════════════════
+   PROGRESS BARS
+══════════════════════════════════════════════ */
+.pr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.pr-lbl{font-family:var(--font-data);font-size:10px;color:var(--tx2);width:44px;flex-shrink:0}
+.pr-track{flex:1;height:6px;background:var(--bdr-xs);overflow:hidden;border-radius:3px}
+.pr-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.pr-val{font-family:var(--font-data);font-size:10px;width:36px;text-align:right;flex-shrink:0}
+
+/* ══════════════════════════════════════════════
+   SEPARATOR
+══════════════════════════════════════════════ */
+.sep{height:1px;background:var(--bdr-xs);margin:14px 0}
+.slbl{font-family:var(--font-data);font-size:9px;color:var(--r5);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
 </style>
 </head>
 <body>
 
-<!-- ══ AMBIENT ══ -->
-<div class="ambient-grid"></div>
-<div class="scanline"></div>
-
 <!-- ══ LOADING ══ -->
 <div id="loading">
-  <div class="load-logo">
-    <div class="load-hex">
-      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="26,2 50,14 50,38 26,50 2,38 2,14" fill="#1E4F1E" stroke="#3D9B3D" stroke-width="1.5"/>
-        <text x="26" y="34" font-family="Barlow Condensed" font-weight="900" font-size="22" fill="#94DC94" text-anchor="middle">G</text>
-      </svg>
-    </div>
-    <div>
-      <div class="load-brand">GeoMIP</div>
-    </div>
-  </div>
-  <div class="load-sub">Sistema de Monitoreo de Plagas<br>Ingenio Madre Tierra · Zafra 2025–26</div>
-  <div class="load-track"><div class="load-prog" id="lp"></div></div>
-  <div class="load-status" id="ls">Conectando a Google Sheets...</div>
-  <div class="load-dots">
-    <div class="load-dot" id="ld-m" title="Muestreos"></div>
-    <div class="load-dot" id="ld-c" title="Control"></div>
-    <div class="load-dot" id="ld-e" title="Ejecutados"></div>
-    <div class="load-dot" id="ld-r" title="Ronrón GC"></div>
-    <div class="load-dot" id="ld-d" title="Daño"></div>
-    <div class="load-dot" id="ld-l" title="Lote Cosecha"></div>
+  <svg class="l-icon" viewBox="0 0 60 60" fill="none">
+    <polygon points="30,3 57,17 57,43 30,57 3,43 3,17" fill="#1C2920" stroke="#3A9B3D" stroke-width="1.5"/>
+    <text x="30" y="38" font-family="Barlow Condensed" font-weight="900" font-size="24" fill="#70CC73" text-anchor="middle">G</text>
+  </svg>
+  <div class="l-title">GEOMIP</div>
+  <div class="l-sub">Sistema de Monitoreo de Plagas<br>Ingenio Madre Tierra · Zafra 2025–26</div>
+  <div class="l-bar"><div class="l-bar-fill" id="lf"></div></div>
+  <div class="l-msg" id="lm">Iniciando...</div>
+  <div class="l-dots">
+    <div class="l-dot" id="ld-m" title="Muestreos"></div>
+    <div class="l-dot" id="ld-c" title="Control"></div>
+    <div class="l-dot" id="ld-e" title="Ejecutados"></div>
+    <div class="l-dot" id="ld-r" title="Gallina Ciega"></div>
+    <div class="l-dot" id="ld-d" title="Daño"></div>
+    <div class="l-dot" id="ld-l" title="Lote Cosecha"></div>
   </div>
 </div>
 
 <!-- ══ HEADER ══ -->
 <header class="hdr">
-  <div class="hdr-accent"></div>
-  <div class="hdr-body">
-    <div class="hdr-brand">
-      <svg class="brand-hex" viewBox="0 0 28 28" fill="none">
-        <polygon points="14,1 27,7.5 27,20.5 14,27 1,20.5 1,7.5" fill="#1E4F1E" stroke="#3D9B3D" stroke-width="1"/>
-        <text x="14" y="19" font-family="Barlow Condensed" font-weight="900" font-size="13" fill="#94DC94" text-anchor="middle">G</text>
+  <div class="hdr-stripe"></div>
+  <div class="hdr-row">
+    <div class="brand">
+      <svg class="brand-icon" viewBox="0 0 34 34" fill="none">
+        <polygon points="17,1 33,9 33,25 17,33 1,25 1,9" fill="#1C2920" stroke="#3A9B3D" stroke-width="1.2"/>
+        <text x="17" y="22" font-family="Barlow Condensed" font-weight="900" font-size="16" fill="#70CC73" text-anchor="middle">G</text>
       </svg>
-      <div class="brand-text">
+      <div>
         <div class="brand-name">GeoMIP</div>
-        <div class="brand-desc">Madre Tierra · 2025–26</div>
+        <div class="brand-tagline">Madre Tierra · 2025–26</div>
       </div>
     </div>
-    <nav class="hdr-nav">
-      <button class="nav-btn active" style="color:var(--g6)" onclick="navTo('overview',this,'var(--g6)')">Overview</button>
-      <button class="nav-btn" onclick="navTo('muestreo',this,'var(--a5)')">Muestreos</button>
-      <button class="nav-btn" onclick="navTo('control',this,'var(--a4)')">Control</button>
-      <button class="nav-btn" onclick="navTo('ejecutados',this,'var(--g5)')">Ejecutados</button>
-      <button class="nav-btn" onclick="navTo('dano',this,'var(--a5)')">Daño Cosecha</button>
-      <button class="nav-btn" onclick="navTo('dinamica',this,'var(--t5)')">Dinámica</button>
-      <button class="nav-btn" onclick="navTo('presupuesto',this,'var(--a6)')">Presupuesto</button>
-      <button class="nav-btn" onclick="navTo('gallinaCiega',this,'var(--r5)')">Gallina Ciega</button>
+    <nav class="nav">
+      <button class="nv on" style="color:var(--g6)"    onclick="NAV('overview',this,'var(--g6)')">Overview</button>
+      <button class="nv"                                onclick="NAV('muestreo',this,'var(--a5)')">Muestreos</button>
+      <button class="nv"                                onclick="NAV('control',this,'var(--a4)')">Control</button>
+      <button class="nv"                                onclick="NAV('ejecutados',this,'var(--g5)')">Ejecutados</button>
+      <button class="nv"                                onclick="NAV('dano',this,'var(--a5)')">Daño Cosecha</button>
+      <button class="nv"                                onclick="NAV('dinamica',this,'var(--t5)')">Dinámica Pob.</button>
+      <button class="nv"                                onclick="NAV('presupuesto',this,'var(--a6)')">Presupuesto</button>
+      <button class="nv"                                onclick="NAV('gallinaCiega',this,'var(--r5)')">Gallina Ciega</button>
     </nav>
-    <div class="hdr-actions">
-      <div class="live-indicator">
-        <div class="live-dot" id="live-dot"></div>
-        <span class="live-text" id="live-text">conectando...</span>
+    <div class="sync-wrap">
+      <div class="live-badge">
+        <div class="live-pip" id="live-pip"></div>
+        <span id="live-ts" style="font-size:9px"></span>
       </div>
-      <button class="action-btn" onclick="syncNow()">
-        <span class="spin-icon" id="spin-icon"></span>
-        ↻ SYNC
-      </button>
+      <button class="sync-btn" onclick="doSync()"><span class="spin" id="sp"></span>↻ Sincronizar</button>
     </div>
   </div>
 </header>
 
 <!-- ══ FILTER BAR ══ -->
-<div class="filter-bar" id="filter-bar">
-  <div class="filter-body">
-    <div class="filter-section">
-      <span class="filter-label">Cat.</span>
-      <div class="filter-pills" id="pills-cat"></div>
-    </div>
-    <div class="filter-section">
-      <span class="filter-label">Zona</span>
-      <div class="filter-pills" id="pills-zona"></div>
-    </div>
-    <div class="filter-section" id="filter-tags-section" style="display:none">
-      <div class="filter-tags" id="filter-tags"></div>
-      <button class="clear-all-btn" id="clear-btn" onclick="clearAllFilters()">✕ Limpiar</button>
-    </div>
+<div class="fbar">
+  <div class="fbar-inner">
+    <span class="flbl">Catorcena</span>
+    <div class="pills" id="p-cat"></div>
+    <div class="fbar-sep"></div>
+    <span class="flbl">Zona</span>
+    <div class="pills" id="p-zona"></div>
+    <div class="fbar-sep" id="tag-sep" style="display:none"></div>
+    <div class="active-tags" id="atags"></div>
+    <button class="clear-btn" id="clear-btn" onclick="clearF()">✕ Limpiar</button>
   </div>
 </div>
 
-<main class="main">
+<!-- ══ MAIN CONTENT ══ -->
+<div class="wrap">
 
-<!-- ══ STATUS ══ -->
-<div class="status-bar">
-  <span style="color:var(--g5);letter-spacing:2px">▸ LIVE · Google Sheets</span>
-  <span class="status-item"><div class="status-dot loading" id="sd-m"></div>Muestreos</span>
-  <span class="status-item"><div class="status-dot loading" id="sd-c"></div>Control</span>
-  <span class="status-item"><div class="status-dot loading" id="sd-e"></div>Ejecutados</span>
-  <span class="status-item"><div class="status-dot loading" id="sd-r"></div>Gallina Ciega</span>
-  <span class="status-item"><div class="status-dot loading" id="sd-d"></div>Daño Cosecha</span>
-  <span class="status-item"><div class="status-dot loading" id="sd-l"></div>Lote Cosecha</span>
-  <span id="status-ts" style="margin-left:auto;font-size:8px"></span>
-</div>
-
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      OVERVIEW
-════════════════════════════════════════════ -->
-<div id="tab-overview" class="tab-panel active">
-  <div class="page-top">
-    <div class="page-eyebrow">◆ Resumen ejecutivo · Catorcena activa</div>
-    <div class="page-h1">Manejo de <em>Plagas</em><br>Ingenio Madre Tierra</div>
+═══════════════════════════════════ -->
+<div id="tab-overview" class="tab on">
+  <div class="ph">
+    <div class="ph-eye">◆ Resumen Ejecutivo · Sistema de Monitoreo</div>
+    <div class="ph-h1">Manejo de <b>Plagas</b><br>Ingenio Madre Tierra</div>
   </div>
 
-  <!-- Hero KPIs -->
+  <!-- KPIs Row 1 -->
   <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kpi-card"><div style="background:var(--g5)" class="kpi-card::before"></div>
-      <div class="kpi-label">Área Muestreada</div>
-      <div class="kpi-val" style="color:var(--g7)" id="o-am">—</div>
-      <div class="kpi-sub" id="o-am-s">hectáreas</div></div>
-    <div class="kpi-card">
-      <div class="kpi-label">Área Infestada</div>
-      <div class="kpi-val" style="color:var(--r5)" id="o-ai">—</div>
-      <div class="kpi-sub danger" id="o-ai-s">ha · cap ≥ 8%</div></div>
-    <div class="kpi-card">
-      <div class="kpi-label">% Captura promedio</div>
-      <div class="kpi-val" style="color:var(--a5)" id="o-pc">—</div>
-      <div class="kpi-sub" id="o-pc-s">umbral crítico: 8%</div></div>
-    <div class="kpi-card">
-      <div class="kpi-label">Kg Requerido</div>
-      <div class="kpi-val" style="color:var(--n1)" id="o-kr">—</div>
-      <div class="kpi-sub">rodenticida necesario</div></div>
-    <div class="kpi-card">
-      <div class="kpi-label">Kg Ejecutado</div>
-      <div class="kpi-val" style="color:var(--g6)" id="o-ke">—</div>
-      <div class="kpi-sub ok" id="o-ke-s">aplicado</div>
-      <div class="kpi-prog"><div class="kpi-prog-fill" id="o-ke-p" style="background:var(--g5)"></div></div></div>
-    <div class="kpi-card">
-      <div class="kpi-label">% Avance Control</div>
-      <div class="kpi-val" style="color:var(--a6)" id="o-av">—</div>
-      <div class="kpi-sub warn">zafra completa</div>
-      <div class="kpi-prog"><div class="kpi-prog-fill" id="o-av-p" style="background:var(--a4)"></div></div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div>
+      <div class="kc-lbl">Área Muestreada</div>
+      <div class="kc-val" style="color:var(--g7)" id="o-am">—</div>
+      <div class="kc-sub" id="o-ams">ha totales</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div>
+      <div class="kc-lbl">Área Infestada</div>
+      <div class="kc-val" style="color:var(--r5)" id="o-ai">—</div>
+      <div class="kc-sub danger" id="o-ais">ha · cap ≥8%</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div>
+      <div class="kc-lbl">% Captura Prom.</div>
+      <div class="kc-val" style="color:var(--a5)" id="o-pc">—</div>
+      <div class="kc-sub" id="o-pcs">umbral 8%</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div>
+      <div class="kc-lbl">Kg Requerido</div>
+      <div class="kc-val" style="color:var(--n1)" id="o-kr">—</div>
+      <div class="kc-sub">rodenticida</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g4)"></div>
+      <div class="kc-lbl">Kg Ejecutado</div>
+      <div class="kc-val" style="color:var(--g6)" id="o-ke">—</div>
+      <div class="kc-sub ok" id="o-kes">aplicado</div>
+      <div class="kc-prog"><div class="kc-prog-fill" id="o-kep" style="background:var(--g5)"></div></div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div>
+      <div class="kc-lbl">% Avance Control</div>
+      <div class="kc-val" style="color:var(--a6)" id="o-av">—</div>
+      <div class="kc-sub warn">zafra</div>
+      <div class="kc-prog"><div class="kc-prog-fill" id="o-avp" style="background:var(--a4)"></div></div></div>
   </div>
 
-  <!-- Secondary KPIs -->
-  <div class="mini-stats" style="grid-template-columns:repeat(4,1fr);margin-bottom:14px">
-    <div class="mini-stat"><div class="mini-stat-label">Lotes Muestreados</div><div class="mini-stat-val" style="color:var(--g6)" id="o-lm">—</div></div>
-    <div class="mini-stat"><div class="mini-stat-label">A Tiempo</div><div class="mini-stat-val" style="color:var(--g5)" id="o-at">—</div></div>
-    <div class="mini-stat"><div class="mini-stat-label">Pendientes</div><div class="mini-stat-val" style="color:var(--r5)" id="o-pnd">—</div></div>
-    <div class="mini-stat"><div class="mini-stat-label">Fuera Ventana</div><div class="mini-stat-val" style="color:var(--a5)" id="o-fv">—</div></div>
+  <!-- Mini stats -->
+  <div class="ms-row" style="grid-template-columns:repeat(4,1fr)">
+    <div class="ms"><div class="ms-lbl">Lotes Muestreados</div><div class="ms-val" style="color:var(--g6)" id="o-lm">—</div></div>
+    <div class="ms"><div class="ms-lbl">A Tiempo</div><div class="ms-val" style="color:var(--g5)" id="o-at">—</div></div>
+    <div class="ms"><div class="ms-lbl">Pendiente</div><div class="ms-val" style="color:var(--r5)" id="o-pnd">—</div></div>
+    <div class="ms"><div class="ms-lbl">Fuera Ventana</div><div class="ms-val" style="color:var(--a5)" id="o-fv">—</div></div>
   </div>
 
-  <!-- Row 1: Catorcena trend + Donut estado + Zona pct -->
-  <div class="grid" style="grid-template-columns:2fr 1fr 1.2fr;margin-bottom:12px">
-    <div class="card clickable" id="card-cat">
-      <div class="click-hint">↑ clic para filtrar catorcena</div>
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g5);height:16px"></div><div class="sec-title">% Captura por Catorcena</div><div class="sec-chip" style="color:var(--g5);border-color:var(--g4)">Umbral 8%</div><div class="sec-line"></div></div>
-      <div class="card-hint">Barras interactivas — clic para filtrar toda la vista por catorcena</div>
-      <div class="chart-wrap" style="height:190px"><canvas id="ch-cat"></canvas></div>
+  <!-- Charts Row 1 -->
+  <div class="g g211">
+    <div class="card cl" id="cd-cat">
+      <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">% Captura por Catorcena</div><div class="sh-chip" style="color:var(--g5);border-color:var(--g4)">Umbral 8%</div><div class="sh-line"></div></div>
+      <div class="ch-hint">Clic en barra → filtrar por catorcena</div>
+      <div class="cw" style="height:200px"><canvas id="c-cat"></canvas></div>
     </div>
     <div class="card">
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--a5);height:16px"></div><div class="sec-title">Estado Control</div><div class="sec-line"></div></div>
-      <div class="chart-center" style="height:155px"><canvas id="ch-est" style="max-width:150px;max-height:150px"></canvas></div>
-      <div class="legend" style="justify-content:center;margin-top:6px;margin-bottom:0">
-        <span><span class="legend-dot" style="background:var(--g5)"></span>A Tiempo (<span id="leg-at">—</span>)</span>
-        <span><span class="legend-dot" style="background:var(--r5)"></span>Pend. (<span id="leg-pnd">—</span>)</span>
-        <span><span class="legend-dot" style="background:var(--a5)"></span>Fuera (<span id="leg-fv">—</span>)</span>
+      <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">Estado Control</div><div class="sh-line"></div></div>
+      <div class="cw-center" style="height:158px"><canvas id="c-est" style="max-width:155px;max-height:155px"></canvas></div>
+      <div class="legend" style="justify-content:center;margin-top:8px;margin-bottom:0">
+        <span><span class="l-dot" style="background:var(--g5)"></span>A Tiempo (<b id="leg-at">—</b>)</span>
+        <span><span class="l-dot" style="background:var(--r5)"></span>Pend. (<b id="leg-pnd">—</b>)</span>
+        <span><span class="l-dot" style="background:var(--a5)"></span>Fuera (<b id="leg-fv">—</b>)</span>
       </div>
     </div>
-    <div class="card clickable" id="card-zona-pct">
-      <div class="click-hint">↑ clic para filtrar zona</div>
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--a5);height:16px"></div><div class="sec-title">% Captura / Zona</div><div class="sec-line"></div></div>
-      <div class="card-hint">Umbral 8% | Clic → filtrar</div>
-      <div class="chart-wrap" style="height:165px"><canvas id="ch-zona-pct"></canvas></div>
+    <div class="card cl" id="cd-zpct">
+      <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">% Captura / Zona</div><div class="sh-line"></div></div>
+      <div class="ch-hint">Clic → filtrar zona</div>
+      <div class="cw" style="height:168px"><canvas id="c-zpct"></canvas></div>
     </div>
   </div>
 
-  <!-- Row 2: Rodenticida + Estado por zona -->
-  <div class="grid g2">
+  <!-- Charts Row 2 -->
+  <div class="g g2">
     <div class="card">
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g4);height:16px"></div><div class="sec-title">Rodenticida Rec. vs Ejecutado · Zona</div><div class="sec-line"></div></div>
+      <div class="sh"><div class="sh-stripe" style="background:var(--g4)"></div><div class="sh-title">Rodenticida Rec. vs Ejecutado</div><div class="sh-line"></div></div>
       <div class="legend">
-        <span><span class="legend-sq" style="background:rgba(61,155,61,.3)"></span>Recomendado</span>
-        <span><span class="legend-sq" style="background:var(--g5)"></span>Ejecutado</span>
+        <span><span class="l-sq" style="background:rgba(58,155,61,.28)"></span>Recomendado</span>
+        <span><span class="l-sq" style="background:var(--g5)"></span>Ejecutado</span>
       </div>
-      <div class="chart-wrap" style="height:155px"><canvas id="ch-rod"></canvas></div>
+      <div class="cw" style="height:155px"><canvas id="c-rod"></canvas></div>
     </div>
-    <div class="card clickable" id="card-ez">
-      <div class="click-hint">↑ clic para filtrar zona</div>
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g3);height:16px"></div><div class="sec-title">Estado Control por Zona</div><div class="sec-line"></div></div>
+    <div class="card cl" id="cd-ez">
+      <div class="sh"><div class="sh-stripe" style="background:var(--g3)"></div><div class="sh-title">Estado Control por Zona</div><div class="sh-line"></div></div>
       <div class="legend">
-        <span><span class="legend-sq" style="background:var(--g5)"></span>A Tiempo</span>
-        <span><span class="legend-sq" style="background:var(--r5)"></span>Pendiente</span>
-        <span><span class="legend-sq" style="background:var(--a5)"></span>Fuera Ventana</span>
+        <span><span class="l-sq" style="background:var(--g5)"></span>A Tiempo</span>
+        <span><span class="l-sq" style="background:var(--r5)"></span>Pendiente</span>
+        <span><span class="l-sq" style="background:var(--a5)"></span>Fuera</span>
       </div>
-      <div class="chart-wrap" style="height:155px"><canvas id="ch-ez"></canvas></div>
+      <div class="cw" style="height:155px"><canvas id="c-ez"></canvas></div>
     </div>
   </div>
 
-  <!-- Resumen Table -->
-  <div class="card" style="margin-bottom:12px">
-    <div class="sec-hdr"><div class="sec-stripe" style="background:var(--n2);height:16px"></div><div class="sec-title">Resumen por Finca</div><div class="sec-chip" id="resumen-chip" style="color:var(--tx4);border-color:var(--border-faint)">Todos</div><div class="sec-line"></div></div>
-    <div class="tbl-wrap" style="max-height:300px;overflow-y:auto">
-      <table class="data-table">
+  <!-- Resumen table -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="sh"><div class="sh-stripe" style="background:var(--n3)"></div><div class="sh-title">Resumen por Finca</div><div class="sh-chip" id="res-chip" style="color:var(--tx4);border-color:var(--bdr-sm)">Todos</div><div class="sh-line"></div></div>
+    <div class="tw" style="max-height:280px;overflow-y:auto">
+      <table class="dt">
         <thead><tr>
           <th>Zona</th><th>Finca</th><th class="r">Lotes</th>
-          <th class="r">% Cap.Prom.</th><th class="r">Lotes ≥8%</th>
+          <th class="r">% Cap.Prom.</th><th class="r">≥ 8%</th>
           <th class="r">Kg Req.</th><th class="r">Kg Eje.</th>
           <th class="r">A Tiempo</th><th class="r">Pendiente</th>
         </tr></thead>
-        <tbody id="tb-resumen"></tbody>
+        <tbody id="tb-res"></tbody>
       </table>
     </div>
   </div>
 
   <div class="sep"></div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--r5);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px">⚠ Alertas Activas</div>
-  <div class="alert-grid">
-    <div class="alert-card" style="background:rgba(58,10,10,.4);border-color:var(--r4)">
-      <div class="alert-title" style="color:var(--r5)">⚠ Rata — Z·4 El Retiro / Horizontes</div>
-      <div class="alert-body">Captura hasta 20% cat.11. Múltiples lotes pendientes de control inmediato.</div>
+  <div class="slbl">⚠ Alertas Activas del Sistema</div>
+  <div class="alerts">
+    <div class="alert" style="background:rgba(58,10,10,.4);border-color:var(--r4)">
+      <div class="alert-t" style="color:var(--r5)">⚠ Rata — Z·4 El Retiro / Horizontes</div>
+      <div class="alert-b">Captura hasta 20% cat.11. Múltiples lotes pendientes. Acción inmediata.</div>
     </div>
-    <div class="alert-card" style="background:rgba(74,46,0,.3);border-color:var(--a4)">
-      <div class="alert-title" style="color:var(--a6)">⚠ Gallina Ciega — Explosión Cat.11</div>
-      <div class="alert-body">3,836 adultos/noche · lote 0043601 CAÑAVERALES Z·3. IPR de polación en ascenso.</div>
+    <div class="alert" style="background:rgba(74,46,0,.3);border-color:var(--a4)">
+      <div class="alert-t" style="color:var(--a6)">⚠ Gallina Ciega — Explosión Cat.11 Z·3</div>
+      <div class="alert-b">3,836 adultos/noche en lote 0043601 CAÑAVERALES. Monitoreo urgente.</div>
     </div>
-    <div class="alert-card" style="background:rgba(0,58,46,.3);border-color:var(--t4)">
-      <div class="alert-title" style="color:var(--t5)">⚠ IPR Dinámica — PETÉN Z·5</div>
-      <div class="alert-body">IPR 0.98 · lote 0600605. Umbral crítico 1.0 inminente. Intervención urgente.</div>
+    <div class="alert" style="background:rgba(0,58,46,.3);border-color:var(--t4)">
+      <div class="alert-t" style="color:var(--t5)">⚠ IPR Dinámica — PETÉN Z·5 Escalando</div>
+      <div class="alert-b">IPR 0.98 en lote 0600605. Umbral crítico 1.0 inminente. Intervenir.</div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      MUESTREOS
-════════════════════════════════════════════ -->
-<div id="tab-muestreo" class="tab-panel">
-  <div class="page-top">
-    <div class="page-eyebrow">Sigmodon hispidus · Muestreo Captura</div>
-    <div class="page-h1">Muestreos <em>Captura</em></div>
+═══════════════════════════════════ -->
+<div id="tab-muestreo" class="tab">
+  <div class="ph">
+    <div class="ph-eye">Sigmodon hispidus · Muestreo y Captura</div>
+    <div class="ph-h1">Muestreos <b>Captura</b></div>
   </div>
   <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kpi-card"><div class="kpi-label">No. Lotes</div><div class="kpi-val" style="color:var(--g7)" id="m-nl">—</div><div class="kpi-sub">muestreados</div></div>
-    <div class="kpi-card"><div class="kpi-label">% Captura</div><div class="kpi-val" style="color:var(--a5)" id="m-pc">—</div><div class="kpi-sub" id="m-pc-s">promedio</div></div>
-    <div class="kpi-card"><div class="kpi-label">Lotes ≥ 8%</div><div class="kpi-val" style="color:var(--r5)" id="m-l8">—</div><div class="kpi-sub">requieren control</div></div>
-    <div class="kpi-card"><div class="kpi-label">Área Total (ha)</div><div class="kpi-val" style="color:var(--n1)" id="m-at">—</div><div class="kpi-sub">hectáreas</div></div>
-    <div class="kpi-card"><div class="kpi-label">Kg Requerido</div><div class="kpi-val" style="color:var(--a6)" id="m-kr">—</div><div class="kpi-sub">rodenticida</div></div>
-    <div class="kpi-card"><div class="kpi-label">% Área Infestada</div><div class="kpi-val" style="color:var(--r5)" id="m-ai">—</div><div class="kpi-sub">del área total</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--g7)" id="m-nl">—</div><div class="kc-sub">muestreados</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">% Captura</div><div class="kc-val" style="color:var(--a5)" id="m-pc">—</div><div class="kc-sub" id="m-pcs">promedio</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Lotes ≥ 8%</div><div class="kc-val" style="color:var(--r5)" id="m-l8">—</div><div class="kc-sub">requieren control</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">Área (ha)</div><div class="kc-val" style="color:var(--n1)" id="m-at">—</div><div class="kc-sub">hectáreas</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Kg Requerido</div><div class="kc-val" style="color:var(--a6)" id="m-kr">—</div><div class="kc-sub">rodenticida</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--r3)"></div><div class="kc-lbl">% Área Infestada</div><div class="kc-val" style="color:var(--r5)" id="m-ai">—</div><div class="kc-sub">del total</div></div>
   </div>
-  <div class="mod-tabs">
-    <button class="mod-tab active" onclick="modTab('mue','g',this)">📊 Gráficas</button>
-    <button class="mod-tab" onclick="modTab('mue','t',this)">📋 Tabla Detalle</button>
+  <div class="mtabs">
+    <button class="mt on" onclick="MT('mue','g',this)">📊 Gráficas</button>
+    <button class="mt" onclick="MT('mue','t',this)">📋 Tabla Detalle</button>
   </div>
-  <div id="mue-g" class="mod-view active">
-    <div class="grid g2">
-      <div class="card clickable" id="card-comp">
-        <div class="click-hint">↑ clic catorcena para filtrar</div>
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g5);height:16px"></div><div class="sec-title">Composición Capturas por Catorcena</div><div class="sec-line"></div></div>
+  <div id="mue-g" class="mv on">
+    <div class="g g2">
+      <div class="card cl" id="cd-comp">
+        <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">Composición Captura por Catorcena</div><div class="sh-line"></div></div>
+        <div class="ch-hint">Clic en catorcena → filtrar</div>
         <div class="legend">
-          <span><span class="legend-sq" style="background:var(--blueLt,#3898D8)"></span>Machos</span>
-          <span><span class="legend-sq" style="background:#D4537E"></span>Hembras</span>
-          <span><span class="legend-sq" style="background:var(--g7)"></span>Jóvenes</span>
-          <span><span class="legend-sq" style="background:var(--a6)"></span>Adultas</span>
+          <span><span class="l-sq" style="background:#3898D8"></span>Machos</span>
+          <span><span class="l-sq" style="background:#D4537E"></span>Hembras</span>
+          <span><span class="l-sq" style="background:var(--g7)"></span>Jóvenes</span>
+          <span><span class="l-sq" style="background:var(--a6)"></span>Adultas</span>
         </div>
-        <div class="chart-wrap" style="height:190px"><canvas id="ch-comp"></canvas></div>
+        <div class="cw" style="height:190px"><canvas id="c-comp"></canvas></div>
       </div>
-      <div class="card clickable" id="card-top">
-        <div class="click-hint">↑ clic lote para filtrar finca</div>
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--r4);height:16px"></div><div class="sec-title">Top Lotes Mayor % Captura</div><div class="sec-line"></div></div>
-        <div class="chart-wrap" style="height:200px"><canvas id="ch-top"></canvas></div>
+      <div class="card cl" id="cd-top">
+        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Top Lotes Mayor % Captura</div><div class="sh-line"></div></div>
+        <div class="ch-hint">Clic en lote → filtrar por finca</div>
+        <div class="cw" style="height:200px"><canvas id="c-top"></canvas></div>
       </div>
     </div>
   </div>
-  <div id="mue-t" class="mod-view">
-    <div class="tbl-wrap"><table class="data-table">
+  <div id="mue-t" class="mv">
+    <div class="tw"><table class="dt">
       <thead><tr>
         <th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Estado</th>
         <th class="r">Cat.</th><th class="r">Área ha</th><th class="r">Trampas</th>
@@ -568,54 +588,54 @@ body{background:var(--b0);color:var(--tx1);font-family:'Inter',sans-serif;min-he
       </tr></thead>
       <tbody id="tb-m"></tbody>
     </table></div>
-    <div class="tbl-info" id="ti-m"></div>
+    <div class="ti" id="ti-m"></div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      CONTROL
-════════════════════════════════════════════ -->
-<div id="tab-control" class="tab-panel">
-  <div class="page-top">
-    <div class="page-eyebrow">Lotes que requieren aplicación de rodenticida</div>
-    <div class="page-h1">Seguimiento <em>Control</em></div>
+═══════════════════════════════════ -->
+<div id="tab-control" class="tab">
+  <div class="ph">
+    <div class="ph-eye">Lotes que requieren aplicación de rodenticida</div>
+    <div class="ph-h1">Seguimiento <b>Control</b></div>
   </div>
   <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kpi-card"><div class="kpi-label">No. Lotes</div><div class="kpi-val" style="color:var(--n1)" id="c-nl">—</div><div class="kpi-sub">con requerimiento</div></div>
-    <div class="kpi-card"><div class="kpi-label">A Tiempo</div><div class="kpi-val" style="color:var(--g6)" id="c-at">—</div><div class="kpi-sub ok">ejecutados</div></div>
-    <div class="kpi-card"><div class="kpi-label">Fuera de Tiempo</div><div class="kpi-val" style="color:var(--a6)" id="c-ft">—</div><div class="kpi-sub warn">con retraso</div></div>
-    <div class="kpi-card"><div class="kpi-label">Pendiente</div><div class="kpi-val" style="color:var(--r5)" id="c-pnd">—</div><div class="kpi-sub danger">sin ejecutar</div></div>
-    <div class="kpi-card"><div class="kpi-label">Kg Requeridos</div><div class="kpi-val" style="color:var(--a6)" id="c-kr">—</div><div class="kpi-sub">total necesario</div></div>
-    <div class="kpi-card"><div class="kpi-label">Kg Ejecutados</div><div class="kpi-val" style="color:var(--g6)" id="c-ke">—</div><div class="kpi-sub ok">aplicado</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--n1)" id="c-nl">—</div><div class="kc-sub">con requerimiento</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">A Tiempo</div><div class="kc-val" style="color:var(--g6)" id="c-at">—</div><div class="kc-sub ok">ejecutados</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Fuera de Tiempo</div><div class="kc-val" style="color:var(--a6)" id="c-ft">—</div><div class="kc-sub warn">con retraso</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Pendiente</div><div class="kc-val" style="color:var(--r5)" id="c-pnd">—</div><div class="kc-sub danger">sin ejecutar</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Kg Requeridos</div><div class="kc-val" style="color:var(--a6)" id="c-kr">—</div><div class="kc-sub">necesario</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g4)"></div><div class="kc-lbl">Kg Ejecutados</div><div class="kc-val" style="color:var(--g6)" id="c-ke">—</div><div class="kc-sub ok">aplicado</div></div>
   </div>
-  <div class="mod-tabs">
-    <button class="mod-tab active" onclick="modTab('ctrl','g',this)">📊 Gráficas</button>
-    <button class="mod-tab" onclick="modTab('ctrl','t',this)">📋 Tabla Control</button>
+  <div class="mtabs">
+    <button class="mt on" onclick="MT('ctrl','g',this)">📊 Gráficas</button>
+    <button class="mt" onclick="MT('ctrl','t',this)">📋 Tabla Control</button>
   </div>
-  <div id="ctrl-g" class="mod-view active">
-    <div class="grid g2">
-      <div class="card clickable" id="card-ez2">
-        <div class="click-hint">↑ clic para filtrar zona</div>
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g4);height:16px"></div><div class="sec-title">Estado Control por Zona</div><div class="sec-line"></div></div>
+  <div id="ctrl-g" class="mv on">
+    <div class="g g2">
+      <div class="card cl" id="cd-ez2">
+        <div class="sh"><div class="sh-stripe" style="background:var(--g4)"></div><div class="sh-title">Estado Control por Zona</div><div class="sh-line"></div></div>
+        <div class="ch-hint">Clic → filtrar zona</div>
         <div class="legend">
-          <span><span class="legend-sq" style="background:var(--g5)"></span>A Tiempo</span>
-          <span><span class="legend-sq" style="background:var(--r5)"></span>Pendiente</span>
-          <span><span class="legend-sq" style="background:var(--a5)"></span>Fuera Ventana</span>
+          <span><span class="l-sq" style="background:var(--g5)"></span>A Tiempo</span>
+          <span><span class="l-sq" style="background:var(--r5)"></span>Pendiente</span>
+          <span><span class="l-sq" style="background:var(--a5)"></span>Fuera Ventana</span>
         </div>
-        <div class="chart-wrap" style="height:175px"><canvas id="ch-ez2"></canvas></div>
+        <div class="cw" style="height:175px"><canvas id="c-ez2"></canvas></div>
       </div>
       <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--a4);height:16px"></div><div class="sec-title">Rodenticida Rec. vs Ejecutado</div><div class="sec-line"></div></div>
+        <div class="sh"><div class="sh-stripe" style="background:var(--a4)"></div><div class="sh-title">Rodenticida Rec. vs Ejecutado</div><div class="sh-line"></div></div>
         <div class="legend">
-          <span><span class="legend-sq" style="background:rgba(61,155,61,.3)"></span>Recomendado</span>
-          <span><span class="legend-sq" style="background:var(--g5)"></span>Ejecutado</span>
+          <span><span class="l-sq" style="background:rgba(58,155,61,.28)"></span>Recomendado</span>
+          <span><span class="l-sq" style="background:var(--g5)"></span>Ejecutado</span>
         </div>
-        <div class="chart-wrap" style="height:175px"><canvas id="ch-rod2"></canvas></div>
+        <div class="cw" style="height:175px"><canvas id="c-rod2"></canvas></div>
       </div>
     </div>
   </div>
-  <div id="ctrl-t" class="mod-view">
-    <div class="tbl-wrap"><table class="data-table">
+  <div id="ctrl-t" class="mv">
+    <div class="tw"><table class="dt">
       <thead><tr>
         <th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.M.</th><th class="r">Cat.C.</th>
         <th>Estado</th><th class="r">% Cap.</th><th class="r">Kg Req.</th><th class="r">Kg Eje.</th>
@@ -623,409 +643,405 @@ body{background:var(--b0);color:var(--tx1);font-family:'Inter',sans-serif;min-he
       </tr></thead>
       <tbody id="tb-c"></tbody>
     </table></div>
-    <div class="tbl-info" id="ti-c"></div>
+    <div class="ti" id="ti-c"></div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      EJECUTADOS
-════════════════════════════════════════════ -->
-<div id="tab-ejecutados" class="tab-panel">
-  <div class="page-top">
-    <div class="page-eyebrow">Rodenticida Ejecutado · Detalle de aplicaciones</div>
-    <div class="page-h1">Rodenticida <em>Ejecutado</em></div>
+═══════════════════════════════════ -->
+<div id="tab-ejecutados" class="tab">
+  <div class="ph">
+    <div class="ph-eye">Rodenticida Ejecutado · Detalle de aplicaciones</div>
+    <div class="ph-h1">Rodenticida <b>Ejecutado</b></div>
   </div>
   <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi-card"><div class="kpi-label">No. Lotes</div><div class="kpi-val" style="color:var(--g6)" id="e-nl">—</div><div class="kpi-sub">con aplicación</div></div>
-    <div class="kpi-card"><div class="kpi-label">Kg Ejecutado</div><div class="kpi-val" style="color:var(--g7)" id="e-kg">—</div><div class="kpi-sub ok">total aplicado</div></div>
-    <div class="kpi-card"><div class="kpi-label">Fincas</div><div class="kpi-val" style="color:var(--a6)" id="e-fn">—</div><div class="kpi-sub">con aplicación</div></div>
-    <div class="kpi-card"><div class="kpi-label">Zonas</div><div class="kpi-val" style="color:var(--t5)" id="e-zn">—</div><div class="kpi-sub">activas</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--g6)" id="e-nl">—</div><div class="kc-sub">con aplicación</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g4)"></div><div class="kc-lbl">Kg Ejecutado</div><div class="kc-val" style="color:var(--g7)" id="e-kg">—</div><div class="kc-sub ok">total</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Fincas</div><div class="kc-val" style="color:var(--a6)" id="e-fn">—</div><div class="kc-sub">con aplicación</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--t4)"></div><div class="kc-lbl">Zonas</div><div class="kc-val" style="color:var(--t5)" id="e-zn">—</div><div class="kc-sub">activas</div></div>
   </div>
-  <div class="mod-tabs">
-    <button class="mod-tab active" onclick="modTab('eje','g',this)">📊 Kg por Finca</button>
-    <button class="mod-tab" onclick="modTab('eje','t',this)">📋 Tabla Detalle</button>
+  <div class="mtabs">
+    <button class="mt on" onclick="MT('eje','g',this)">📊 Kg por Finca</button>
+    <button class="mt" onclick="MT('eje','t',this)">📋 Tabla Detalle</button>
   </div>
-  <div id="eje-g" class="mod-view active">
-    <div class="card clickable" id="card-efinca">
-      <div class="click-hint">↑ clic finca para filtrar</div>
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g5);height:16px"></div><div class="sec-title">Kg Ejecutados por Finca</div><div class="sec-line"></div></div>
-      <div class="chart-wrap" style="height:200px"><canvas id="ch-efinca"></canvas></div>
+  <div id="eje-g" class="mv on">
+    <div class="card cl" id="cd-efinca">
+      <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">Kg Ejecutados por Finca</div><div class="sh-line"></div></div>
+      <div class="ch-hint">Clic en finca → filtrar tabla</div>
+      <div class="cw" style="height:200px"><canvas id="c-efinca"></canvas></div>
     </div>
   </div>
-  <div id="eje-t" class="mod-view">
-    <div class="tbl-wrap"><table class="data-table">
+  <div id="eje-t" class="mv">
+    <div class="tw"><table class="dt">
       <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Cap.Ref.</th><th class="r">Kg Aplicados</th><th>Producto</th><th>Condición</th></tr></thead>
       <tbody id="tb-e"></tbody>
     </table></div>
-    <div class="tbl-info" id="ti-e"></div>
+    <div class="ti" id="ti-e"></div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      DAÑO COSECHA
-════════════════════════════════════════════ -->
-<div id="tab-dano" class="tab-panel">
-  <div class="page-top">
-    <div class="page-eyebrow">Barrenador & Rata · Intensidad de Daño</div>
-    <div class="page-h1">Daño en <em>Cosecha</em></div>
+═══════════════════════════════════ -->
+<div id="tab-dano" class="tab">
+  <div class="ph">
+    <div class="ph-eye">Barrenador & Rata · Intensidad de daño en campo</div>
+    <div class="ph-h1">Daño en <b>Cosecha</b></div>
   </div>
   <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi-card"><div class="kpi-label">Muestras</div><div class="kpi-val" style="color:var(--a6)" id="d-tot">—</div><div class="kpi-sub">registros</div></div>
-    <div class="kpi-card"><div class="kpi-label">% Int. Barrenador</div><div class="kpi-val" style="color:var(--a5)" id="d-barr">—</div><div class="kpi-sub">promedio</div></div>
-    <div class="kpi-card"><div class="kpi-label">% Int. Rata</div><div class="kpi-val" style="color:var(--t5)" id="d-rata">—</div><div class="kpi-sub">promedio</div></div>
-    <div class="kpi-card"><div class="kpi-label">Lotes Evaluados</div><div class="kpi-val" style="color:var(--r5)" id="d-lotes">—</div><div class="kpi-sub">lote cosecha</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Muestras</div><div class="kc-val" style="color:var(--a6)" id="d-tot">—</div><div class="kc-sub">registros</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">% Int. Barrenador</div><div class="kc-val" style="color:var(--a5)" id="d-barr">—</div><div class="kc-sub">promedio</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--t4)"></div><div class="kc-lbl">% Int. Rata</div><div class="kc-val" style="color:var(--t5)" id="d-rata">—</div><div class="kc-sub">promedio</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Lotes Evaluados</div><div class="kc-val" style="color:var(--r5)" id="d-lotes">—</div><div class="kc-sub">lote cosecha</div></div>
   </div>
-  <div class="mod-tabs">
-    <button class="mod-tab active" onclick="modTab('dano','g',this)">📊 Gráficas</button>
-    <button class="mod-tab" onclick="modTab('dano','t',this)">📋 Tabla Detalle</button>
+  <div class="mtabs">
+    <button class="mt on" onclick="MT('dano','g',this)">📊 Gráficas</button>
+    <button class="mt" onclick="MT('dano','t',this)">📋 Tabla Detalle</button>
   </div>
-  <div id="dano-g" class="mod-view active">
-    <div class="grid g2">
+  <div id="dano-g" class="mv on">
+    <div class="g g2">
       <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--a4);height:16px"></div><div class="sec-title">Tendencia Daño por Catorcena</div><div class="sec-line"></div></div>
-        <div class="legend">
-          <span><span class="legend-dot" style="background:var(--a5)"></span>Barrenador %</span>
-          <span><span class="legend-dot" style="background:var(--r5)"></span>Rata %</span>
-        </div>
-        <div class="chart-wrap" style="height:185px"><canvas id="ch-dano-trend"></canvas></div>
+        <div class="sh"><div class="sh-stripe" style="background:var(--a4)"></div><div class="sh-title">Tendencia Daño por Catorcena</div><div class="sh-line"></div></div>
+        <div class="legend"><span><span class="l-dot" style="background:var(--a5)"></span>Barrenador %</span><span><span class="l-dot" style="background:var(--r5)"></span>Rata %</span></div>
+        <div class="cw" style="height:180px"><canvas id="c-dano-trend"></canvas></div>
       </div>
       <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--r4);height:16px"></div><div class="sec-title">Severidad Barrenador</div><div class="sec-line"></div></div>
-        <div class="chart-center" style="height:185px"><canvas id="ch-sev-barr" style="max-width:170px;max-height:170px"></canvas></div>
+        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Severidad Barrenador</div><div class="sh-line"></div></div>
+        <div class="cw-center" style="height:180px"><canvas id="c-sev-barr" style="max-width:165px;max-height:165px"></canvas></div>
       </div>
     </div>
-    <div class="grid g2">
-      <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--t4);height:16px"></div><div class="sec-title">Intensidad por Zona</div><div class="sec-line"></div></div>
-        <div class="legend">
-          <span><span class="legend-sq" style="background:var(--a5)"></span>Barrenador</span>
-          <span><span class="legend-sq" style="background:var(--r5)"></span>Rata</span>
-        </div>
-        <div class="chart-wrap" style="height:150px"><canvas id="ch-dano-zona"></canvas></div>
+    <div class="g g2">
+      <div class="card cl" id="cd-dano-zona">
+        <div class="sh"><div class="sh-stripe" style="background:var(--t4)"></div><div class="sh-title">Intensidad por Zona</div><div class="sh-line"></div></div>
+        <div class="ch-hint">Clic → filtrar zona</div>
+        <div class="legend"><span><span class="l-sq" style="background:var(--a5)"></span>Barrenador</span><span><span class="l-sq" style="background:var(--r5)"></span>Rata</span></div>
+        <div class="cw" style="height:150px"><canvas id="c-dano-zona"></canvas></div>
       </div>
       <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g4);height:16px"></div><div class="sec-title">Severidad Rata</div><div class="sec-line"></div></div>
-        <div class="chart-center" style="height:150px"><canvas id="ch-sev-rata" style="max-width:140px;max-height:140px"></canvas></div>
+        <div class="sh"><div class="sh-stripe" style="background:var(--g4)"></div><div class="sh-title">Severidad Rata</div><div class="sh-line"></div></div>
+        <div class="cw-center" style="height:150px"><canvas id="c-sev-rata" style="max-width:140px;max-height:140px"></canvas></div>
       </div>
     </div>
   </div>
-  <div id="dano-t" class="mod-view">
-    <div class="tbl-wrap"><table class="data-table">
-      <thead><tr>
-        <th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Fecha</th>
-        <th class="r">Cat.</th><th class="r">% Infest.Barr.</th><th class="r">% Infest.Rata</th>
-        <th class="r">% Int.Barr.</th><th class="r">% Int.Rata</th>
-      </tr></thead>
+  <div id="dano-t" class="mv">
+    <div class="tw"><table class="dt">
+      <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Inf.Barr.</th><th class="r">% Inf.Rata</th><th class="r">% Int.Barr.</th><th class="r">% Int.Rata</th></tr></thead>
       <tbody id="tb-d"></tbody>
     </table></div>
-    <div class="tbl-info" id="ti-d"></div>
+    <div class="ti" id="ti-d"></div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      DINÁMICA POBLACIONAL
-════════════════════════════════════════════ -->
-<div id="tab-dinamica" class="tab-panel">
-  <div class="page-top">
-    <div class="page-eyebrow">Índice Potencial Reproductivo (IPR) · Sigmodon hispidus</div>
-    <div class="page-h1">Dinámica <em>Poblacional</em></div>
+═══════════════════════════════════ -->
+<div id="tab-dinamica" class="tab">
+  <div class="ph">
+    <div class="ph-eye">Índice Potencial Reproductivo (IPR) · Sigmodon hispidus</div>
+    <div class="ph-h1">Dinámica <b>Poblacional</b></div>
   </div>
   <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kpi-card"><div class="kpi-label">Muestreos</div><div class="kpi-val" style="color:var(--t5)" id="dp-ms">8</div><div class="kpi-sub">analizados</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total Sigmodon</div><div class="kpi-val" style="color:var(--n1)" id="dp-ts">50</div><div class="kpi-sub">individuos</div></div>
-    <div class="kpi-card"><div class="kpi-label">H. Gestantes</div><div class="kpi-val" style="color:var(--a6)" id="dp-hg">16</div><div class="kpi-sub warn">activas</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total Embriones</div><div class="kpi-val" style="color:var(--a5)" id="dp-te">65</div><div class="kpi-sub">detectados</div></div>
-    <div class="kpi-card"><div class="kpi-label">IPR Máximo</div><div class="kpi-val" style="color:var(--r5)" id="dp-ipr">0.98</div><div class="kpi-sub danger">umbral crítico: 1.0</div>
-      <div class="kpi-prog"><div class="kpi-prog-fill" style="background:var(--r4);width:98%"></div></div></div>
-    <div class="kpi-card"><div class="kpi-label">Lotes Riesgo</div><div class="kpi-val" style="color:var(--a6)" id="dp-rm">2</div><div class="kpi-sub warn">IPR ≥ 0.5</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--t4)"></div><div class="kc-lbl">Muestreos</div><div class="kc-val" style="color:var(--t5)" id="dp-ms">8</div><div class="kc-sub">analizados</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">Total Sigmodon</div><div class="kc-val" style="color:var(--n1)" id="dp-ts">50</div><div class="kc-sub">individuos</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">H. Gestantes</div><div class="kc-val" style="color:var(--a6)" id="dp-hg">16</div><div class="kc-sub warn">activas</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Total Embriones</div><div class="kc-val" style="color:var(--a5)" id="dp-te">65</div><div class="kc-sub">detectados</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">IPR Máximo</div><div class="kc-val" style="color:var(--r5)" id="dp-ipr">0.98</div><div class="kc-sub danger">umbral: 1.0</div>
+      <div class="kc-prog"><div class="kc-prog-fill" style="background:var(--r4);width:98%"></div></div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Lotes Riesgo</div><div class="kc-val" style="color:var(--a6)" id="dp-rm">2</div><div class="kc-sub warn">IPR ≥ 0.5</div></div>
   </div>
-  <div class="mod-tabs">
-    <button class="mod-tab active" onclick="modTab('dp','g',this)">📊 Gráfica IPR</button>
-    <button class="mod-tab" onclick="modTab('dp','t',this)">📋 Tabla Detalle</button>
+  <div class="mtabs">
+    <button class="mt on" onclick="MT('dp','g',this)">📊 Gráfica IPR</button>
+    <button class="mt" onclick="MT('dp','t',this)">📋 Tabla Detalle</button>
   </div>
-  <div id="dp-g" class="mod-view active">
+  <div id="dp-g" class="mv on">
     <div class="card" style="margin-bottom:10px">
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--t4);height:16px"></div><div class="sec-title">Tendencia IPR por Fecha</div><div class="sec-chip" style="color:var(--r5);border-color:rgba(192,40,40,.4)">Umbral crítico: 1.0</div><div class="sec-line"></div></div>
-      <div class="card-hint">IPR &lt; 0.5 = Bajo · 0.5–1.0 = Medio Riesgo · ≥1.0 = ⚠ Acción Inmediata</div>
-      <div class="chart-wrap" style="height:210px"><canvas id="ch-ipr"></canvas></div>
+      <div class="sh"><div class="sh-stripe" style="background:var(--t4)"></div><div class="sh-title">Tendencia IPR por Fecha</div><div class="sh-chip" style="color:var(--r5);border-color:rgba(224,56,56,.35)">Umbral Crítico: 1.0</div><div class="sh-line"></div></div>
+      <div class="ch-hint">IPR &lt; 0.5 = Bajo · 0.5–1.0 = Riesgo Medio · ≥ 1.0 = ⚠ Acción Inmediata</div>
+      <div class="cw" style="height:210px"><canvas id="c-ipr"></canvas></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-      <div style="padding:12px 14px;background:var(--b2);border-left:2px solid var(--g5)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--g6)">IPR &lt; 0.5</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx4);margin-top:5px;line-height:1.5">BAJO — Estable<br>Bajo potencial de crecimiento.</div>
+    <div class="g" style="grid-template-columns:repeat(3,1fr)">
+      <div style="padding:14px 16px;background:var(--s1);border:1px solid var(--bdr-xs);border-left:3px solid var(--g5);border-radius:var(--radius)">
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--g6)">IPR &lt; 0.5</div>
+        <div style="font-family:var(--font-data);font-size:9.5px;color:var(--tx3);margin-top:5px;line-height:1.6">BAJO — Estable<br>Bajo potencial de crecimiento.</div>
       </div>
-      <div style="padding:12px 14px;background:var(--b2);border-left:2px solid var(--a5)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--a6)">IPR 0.5–1.0</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx4);margin-top:5px;line-height:1.5">MEDIO — Riesgo<br>Monitoreo continuo requerido.</div>
+      <div style="padding:14px 16px;background:var(--s1);border:1px solid var(--bdr-xs);border-left:3px solid var(--a5);border-radius:var(--radius)">
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--a6)">IPR 0.5–1.0</div>
+        <div style="font-family:var(--font-data);font-size:9.5px;color:var(--tx3);margin-top:5px;line-height:1.6">MEDIO — Riesgo<br>Monitoreo continuo requerido.</div>
       </div>
-      <div style="padding:12px 14px;background:var(--b2);border-left:2px solid var(--r4)">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--r5)">IPR ≥ 1.0</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--tx4);margin-top:5px;line-height:1.5">ALTO — Crítico<br>Implementar control inmediato.</div>
+      <div style="padding:14px 16px;background:var(--s1);border:1px solid var(--bdr-xs);border-left:3px solid var(--r4);border-radius:var(--radius)">
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--r5)">IPR ≥ 1.0</div>
+        <div style="font-family:var(--font-data);font-size:9.5px;color:var(--tx3);margin-top:5px;line-height:1.6">ALTO — Crítico<br>Implementar control inmediato.</div>
       </div>
     </div>
   </div>
-  <div id="dp-t" class="mod-view">
-    <div class="tbl-wrap"><table class="data-table">
+  <div id="dp-t" class="mv">
+    <div class="tw"><table class="dt">
       <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Nivel IPR</th><th class="r">% Cap.</th><th class="r">Sigmodon</th><th class="r">H.Gest.</th><th class="r">Embriones</th><th class="r">IPR</th></tr></thead>
       <tbody id="tb-dp"></tbody>
     </table></div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      PRESUPUESTO
-════════════════════════════════════════════ -->
-<div id="tab-presupuesto" class="tab-panel">
-  <div class="page-top">
-    <div class="page-eyebrow">Presupuesto Control Rata Cañera · Zafra 2025–26</div>
-    <div class="page-h1">Presupuesto <em>Rodenticida</em></div>
+═══════════════════════════════════ -->
+<div id="tab-presupuesto" class="tab">
+  <div class="ph">
+    <div class="ph-eye">Presupuesto Control Rata Cañera · Zafra 2025–26</div>
+    <div class="ph-h1">Presupuesto <b>Rodenticida</b></div>
   </div>
   <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kpi-card"><div class="kpi-label">Kg 1er Revisado</div><div class="kpi-val" style="color:var(--n1)">15,622</div><div class="kpi-sub">presupuesto zafra</div></div>
-    <div class="kpi-card"><div class="kpi-label">Kg Entregados</div><div class="kpi-val" style="color:var(--g6)">7,620</div><div class="kpi-sub ok">a campo</div></div>
-    <div class="kpi-card"><div class="kpi-label">Kg Disponibles</div><div class="kpi-val" style="color:var(--a6)">8,002</div><div class="kpi-sub warn">por entregar</div></div>
-    <div class="kpi-card"><div class="kpi-label">% Avance</div><div class="kpi-val" style="color:var(--a5)">49<span class="kpi-unit">%</span></div><div class="kpi-sub">entrega vs presupuesto</div><div class="kpi-prog"><div class="kpi-prog-fill" style="background:var(--a4);width:49%"></div></div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">Kg 1er Revisado</div><div class="kc-val" style="color:var(--n1)">15,622</div><div class="kc-sub">presupuesto zafra</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">Kg Entregados</div><div class="kc-val" style="color:var(--g6)">7,620</div><div class="kc-sub ok">despachados</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Kg Disponibles</div><div class="kc-val" style="color:var(--a6)">8,002</div><div class="kc-sub warn">por entregar</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">% Avance</div><div class="kc-val" style="color:var(--a5)">49<span class="kc-unit">%</span></div><div class="kc-sub">vs presupuesto</div><div class="kc-prog"><div class="kc-prog-fill" style="background:var(--a4);width:49%"></div></div></div>
   </div>
-  <div class="grid g2">
+  <div class="g g2">
     <div class="card">
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--g5);height:16px"></div><div class="sec-title">Avance por Zona</div><div class="sec-line"></div></div>
-      <div id="pres-prog" style="margin:8px 0"></div>
+      <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">Avance por Zona</div><div class="sh-line"></div></div>
+      <div id="pres-prog" style="margin-top:6px"></div>
     </div>
     <div class="card">
-      <div class="sec-hdr"><div class="sec-stripe" style="background:var(--a5);height:16px"></div><div class="sec-title">Kg Revisado vs Entregado</div><div class="sec-line"></div></div>
-      <div class="legend">
-        <span><span class="legend-sq" style="background:rgba(61,155,61,.3)"></span>1er Revisado</span>
-        <span><span class="legend-sq" style="background:var(--g5)"></span>Entregado</span>
-      </div>
-      <div class="chart-wrap" style="height:190px"><canvas id="ch-pres"></canvas></div>
+      <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">Kg Revisado vs Entregado</div><div class="sh-line"></div></div>
+      <div class="legend"><span><span class="l-sq" style="background:rgba(58,155,61,.28)"></span>1er Revisado</span><span><span class="l-sq" style="background:var(--g5)"></span>Entregado</span></div>
+      <div class="cw" style="height:195px"><canvas id="c-pres"></canvas></div>
     </div>
   </div>
-  <div class="card" style="margin-top:10px">
-    <div class="sec-hdr"><div class="sec-stripe" style="background:var(--n2);height:16px"></div><div class="sec-title">Detalle por Zona</div><div class="sec-line"></div></div>
-    <div class="tbl-wrap"><table class="data-table">
+  <div class="card" style="margin-top:12px">
+    <div class="sh"><div class="sh-stripe" style="background:var(--n3)"></div><div class="sh-title">Detalle por Zona</div><div class="sh-line"></div></div>
+    <div class="tw"><table class="dt">
       <thead><tr><th>Zona</th><th>Plaga</th><th class="r">Kg 1er Revisado</th><th class="r">Kg Entregados</th><th class="r">Kg Disponibles</th><th class="r">% Avance</th></tr></thead>
       <tbody>
-        <tr><td class="mono">1</td><td>RATA</td><td class="r">3,643</td><td class="r" style="color:var(--g6)">726</td><td class="r" style="color:var(--a6)">2,917</td><td class="r"><span style="color:var(--r5)">20%</span></td></tr>
-        <tr><td class="mono">3</td><td>RATA</td><td class="r">1,782</td><td class="r" style="color:var(--g6)">998</td><td class="r" style="color:var(--a6)">784</td><td class="r"><span style="color:var(--a5)">56%</span></td></tr>
-        <tr><td class="mono">4</td><td>RATA</td><td class="r">2,312</td><td class="r" style="color:var(--g6)">1,860</td><td class="r" style="color:var(--a6)">452</td><td class="r"><span style="color:var(--g6)">80%</span></td></tr>
-        <tr><td class="mono">5</td><td>RATA</td><td class="r">6,570</td><td class="r" style="color:var(--g6)">2,722</td><td class="r" style="color:var(--a6)">3,848</td><td class="r"><span style="color:var(--r5)">41%</span></td></tr>
-        <tr><td class="mono">8</td><td>RATA</td><td class="r">1,315</td><td class="r" style="color:var(--g6)">1,315</td><td class="r">0</td><td class="r"><span style="color:var(--g7)">100% ✓</span></td></tr>
-        <tr class="total-row"><td colspan="2">TOTAL</td><td class="r">15,622</td><td class="r">7,620</td><td class="r">8,002</td><td class="r">49%</td></tr>
+        <tr><td class="m">Z·1</td><td>RATA</td><td class="r">3,643</td><td class="r" style="color:var(--g6)">726</td><td class="r" style="color:var(--a6)">2,917</td><td class="r"><span style="color:var(--r5)">20%</span></td></tr>
+        <tr><td class="m">Z·3</td><td>RATA</td><td class="r">1,782</td><td class="r" style="color:var(--g6)">998</td><td class="r" style="color:var(--a6)">784</td><td class="r"><span style="color:var(--a5)">56%</span></td></tr>
+        <tr><td class="m">Z·4</td><td>RATA</td><td class="r">2,312</td><td class="r" style="color:var(--g6)">1,860</td><td class="r" style="color:var(--a6)">452</td><td class="r"><span style="color:var(--g6)">80%</span></td></tr>
+        <tr><td class="m">Z·5</td><td>RATA</td><td class="r">6,570</td><td class="r" style="color:var(--g6)">2,722</td><td class="r" style="color:var(--a6)">3,848</td><td class="r"><span style="color:var(--r5)">41%</span></td></tr>
+        <tr><td class="m">Z·8</td><td>RATA</td><td class="r">1,315</td><td class="r" style="color:var(--g6)">1,315</td><td class="r">0</td><td class="r"><span style="color:var(--g7)">100% ✓</span></td></tr>
+        <tr class="tot"><td colspan="2">TOTAL</td><td class="r">15,622</td><td class="r">7,620</td><td class="r">8,002</td><td class="r">49%</td></tr>
       </tbody>
     </table></div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
+<!-- ═══════════════════════════════════
      GALLINA CIEGA
-════════════════════════════════════════════ -->
-<div id="tab-gallinaCiega" class="tab-panel">
-  <div class="page-top">
-    <div class="page-eyebrow">Trampa de Luz · Phyllophaga · Anomala · Diplotaxis</div>
-    <div class="page-h1">Gallina <em>Ciega</em></div>
+═══════════════════════════════════ -->
+<div id="tab-gallinaCiega" class="tab">
+  <div class="ph">
+    <div class="ph-eye">Trampa de Luz · Phyllophaga · Anomala · Diplotaxis</div>
+    <div class="ph-h1">Gallina <b>Ciega</b></div>
   </div>
   <div class="kpi-row" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kpi-card"><div class="kpi-label">No. Trampas</div><div class="kpi-val" style="color:var(--n1)" id="gc-nt">—</div><div class="kpi-sub">instaladas</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total Captura</div><div class="kpi-val" style="color:var(--r5)" id="gc-tc">—</div><div class="kpi-sub danger">adultos</div></div>
-    <div class="kpi-card"><div class="kpi-label">Captura Máxima</div><div class="kpi-val" style="color:var(--a6)" id="gc-cm">—</div><div class="kpi-sub">un solo lote</div></div>
-    <div class="kpi-card"><div class="kpi-label">% Phyllophaga</div><div class="kpi-val" style="color:var(--a5)" id="gc-ph">—</div><div class="kpi-sub">especie dominante</div></div>
-    <div class="kpi-card"><div class="kpi-label">Lotes Muestreados</div><div class="kpi-val" style="color:var(--g6)" id="gc-lm">—</div><div class="kpi-sub">con trampa</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">No. Trampas</div><div class="kc-val" style="color:var(--n1)" id="gc-nt">—</div><div class="kc-sub">instaladas</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Total Captura</div><div class="kc-val" style="color:var(--r5)" id="gc-tc">—</div><div class="kc-sub danger">adultos</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Captura Máxima</div><div class="kc-val" style="color:var(--a6)" id="gc-cm">—</div><div class="kc-sub">en un lote</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">% Phyllophaga</div><div class="kc-val" style="color:var(--a5)" id="gc-ph">—</div><div class="kc-sub">especie dominante</div></div>
+    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">Lotes Muestreados</div><div class="kc-val" style="color:var(--g6)" id="gc-lm">—</div><div class="kc-sub">con trampa</div></div>
   </div>
-  <div class="mod-tabs">
-    <button class="mod-tab active" onclick="modTab('gc','g',this)">📊 Gráficas</button>
-    <button class="mod-tab" onclick="modTab('gc','t',this)">📋 Tabla Detalle</button>
+  <div class="mtabs">
+    <button class="mt on" onclick="MT('gc','g',this)">📊 Gráficas</button>
+    <button class="mt" onclick="MT('gc','t',this)">📋 Tabla Detalle</button>
   </div>
-  <div id="gc-g" class="mod-view active">
-    <div class="grid g2">
-      <div class="card clickable" id="card-gcz">
-        <div class="click-hint">↑ clic para filtrar zona</div>
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--r4);height:16px"></div><div class="sec-title">Captura por Zona</div><div class="sec-line"></div></div>
-        <div class="chart-wrap" style="height:175px"><canvas id="ch-gcz"></canvas></div>
+  <div id="gc-g" class="mv on">
+    <div class="g g2">
+      <div class="card cl" id="cd-gcz">
+        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Captura por Zona</div><div class="sh-line"></div></div>
+        <div class="ch-hint">Clic → filtrar zona</div>
+        <div class="cw" style="height:175px"><canvas id="c-gcz"></canvas></div>
       </div>
       <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--a4);height:16px"></div><div class="sec-title">Tendencia de Captura</div><div class="sec-line"></div></div>
-        <div class="chart-wrap" style="height:175px"><canvas id="ch-gct"></canvas></div>
+        <div class="sh"><div class="sh-stripe" style="background:var(--a4)"></div><div class="sh-title">Tendencia de Captura</div><div class="sh-line"></div></div>
+        <div class="cw" style="height:175px"><canvas id="c-gct"></canvas></div>
       </div>
     </div>
-    <div class="grid g2">
+    <div class="g g2">
       <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--a5);height:16px"></div><div class="sec-title">Especie por Finca</div><div class="sec-line"></div></div>
+        <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">Especie por Finca</div><div class="sh-line"></div></div>
         <div class="legend">
-          <span><span class="legend-sq" style="background:#3898D8"></span>Phyllophaga</span>
-          <span><span class="legend-sq" style="background:var(--t5)"></span>Anomala</span>
-          <span><span class="legend-sq" style="background:var(--g7)"></span>Diplotaxis</span>
+          <span><span class="l-sq" style="background:#3898D8"></span>Phyllophaga</span>
+          <span><span class="l-sq" style="background:var(--t5)"></span>Anomala</span>
+          <span><span class="l-sq" style="background:var(--g7)"></span>Diplotaxis</span>
         </div>
-        <div class="chart-wrap" style="height:160px"><canvas id="ch-gcf"></canvas></div>
+        <div class="cw" style="height:160px"><canvas id="c-gcf"></canvas></div>
       </div>
-      <div class="card">
-        <div class="sec-hdr"><div class="sec-stripe" style="background:var(--r4);height:16px"></div><div class="sec-title">Lotes Críticos</div><div class="sec-line"></div></div>
-        <div class="chart-wrap" style="height:160px"><canvas id="ch-gcl"></canvas></div>
+      <div class="card cl" id="cd-gcl">
+        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Lotes Críticos</div><div class="sh-line"></div></div>
+        <div class="cw" style="height:160px"><canvas id="c-gcl"></canvas></div>
       </div>
     </div>
   </div>
-  <div id="gc-t" class="mod-view">
-    <div class="tbl-wrap"><table class="data-table">
+  <div id="gc-t" class="mv">
+    <div class="tw"><table class="dt">
       <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.</th><th>Fecha</th><th>Trampa</th><th class="r">N°Tr.</th><th class="r">Phyllophaga</th><th class="r">Diplotaxis</th><th class="r">Anomala</th><th class="r">Total</th></tr></thead>
       <tbody id="tb-gc"></tbody>
     </table></div>
   </div>
 </div>
 
-</main>
+</div><!-- end .wrap -->
 
-<footer style="border-top:1px solid var(--border-faint);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;z-index:1;position:relative;background:rgba(6,10,6,.9)">
-  <div style="display:flex;align-items:center;gap:8px">
-    <svg width="8" height="8" viewBox="0 0 8 8"><polygon points="4,0 8,2 8,6 4,8 0,6 0,2" fill="var(--g4)"/></svg>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--tx4);letter-spacing:3px;text-transform:uppercase">GeoMIP · Loker Estudio · Ingenio Madre Tierra · Zafra 2025–26</span>
+<footer style="border-top:1px solid var(--bdr-xs);padding:12px 22px;display:flex;justify-content:space-between;align-items:center;background:var(--s1)">
+  <div style="display:flex;align-items:center;gap:9px">
+    <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,2.5 10,7.5 5,10 0,7.5 0,2.5" fill="var(--g4)"/></svg>
+    <span style="font-family:var(--font-data);font-size:9px;color:var(--tx4);letter-spacing:2px;text-transform:uppercase">GeoMIP · Loker Estudio · Ingenio Madre Tierra · Zafra 2025–26</span>
   </div>
-  <span id="footer-ts" style="font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--tx4)">Live · Google Apps Script</span>
+  <span id="foot-ts" style="font-family:var(--font-data);font-size:9px;color:var(--tx4)">Live · Google Sheets</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-/* ═════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    CONFIG
-═════════════════════════════════════════════════════ */
-const API = "https://script.google.com/macros/s/AKfycbwLU1w40rUpRSjhsAXV2bZ3GPNbP5dppd8KHSWcHW54FUpFAr1K9cO97FZLXxTQ-Zga/exec";
-const CACHE_KEY = "geomip_v8";
-const CACHE_MIN = 10;
-const ZONAS = [1,3,4,5,8];
+══════════════════════════════════════════════ */
+const API      = "https://script.google.com/macros/s/AKfycbwLU1w40rUpRSjhsAXV2bZ3GPNbP5dppd8KHSWcHW54FUpFAr1K9cO97FZLXxTQ-Zga/exec";
+const CACHE_K  = "geomip_v9";
+const CACHE_M  = 10;
+const ZONAS    = [1,3,4,5,8];
 
-/* ═════════════════════════════════════════════════════
-   UTILITIES
-═════════════════════════════════════════════════════ */
-const nv = v => { const x = parseFloat(String(v||0).replace(/,/g,"")); return isNaN(x)?0:x; };
+/* ══ Helpers ══ */
+const nv  = v => { const x=parseFloat(String(v||0).replace(/,/g,"")); return isNaN(x)?0:x; };
 const fmt = v => { const n=Math.round(v); return n>=1000?n.toLocaleString("es-GT"):String(n); };
-const fmtD = v => v>=1000?Number(v).toLocaleString("es-GT"):v;
+const fmtN= v => v>=1000?Number(v).toLocaleString("es-GT"):v;
 const pct = (a,b) => b>0?Math.round(a/b*100):0;
 const avg = (arr,k) => arr.length?(arr.reduce((s,r)=>s+nv(r[k]),0)/arr.length).toFixed(1):0;
-const dstr = v => { try{ return new Date(v).toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"}); }catch{ return v||""; } };
-const $ = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-const W = (id,p) => { const e=document.getElementById(id); if(e) e.style.width=Math.min(p,100)+"%"; };
+const ds  = v => { try{return new Date(v).toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"});}catch{return v||"";} };
+const $   = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+const W   = (id,p) => { const e=document.getElementById(id); if(e) e.style.width=Math.min(p,100)+"%"; };
 
-/* Chart defaults */
-Chart.defaults.font.family = "'JetBrains Mono', monospace";
-Chart.defaults.font.size   = 10;
-Chart.defaults.color       = "#5A7A5A";
-const CG = "rgba(82,184,82,.06)", CT = "#5A7A5A";
-const cBase = {
+/* ══ Chart Defaults ══ */
+Chart.defaults.font.family = "'JetBrains Mono',monospace";
+Chart.defaults.font.size   = 11;
+Chart.defaults.color       = "#7D9E82";
+const CG = "rgba(255,255,255,.04)", CT = "#7D9E82";
+const TT = {
+  backgroundColor:"#121A17",borderColor:"rgba(255,255,255,.1)",borderWidth:1,
+  titleFont:{family:"JetBrains Mono",size:10},bodyFont:{family:"JetBrains Mono",size:11},
+  titleColor:"#A8C8AC",bodyColor:"#ECF5EE",padding:12,cornerRadius:var=>3,
+  displayColors:true,boxWidth:9,boxHeight:9,boxPadding:4
+};
+const BASE = {
   responsive:true, maintainAspectRatio:false,
-  plugins:{ legend:{display:false}, tooltip:{
-    backgroundColor:"#0F170F", borderColor:"rgba(82,184,82,.2)", borderWidth:1,
-    titleFont:{family:"JetBrains Mono",size:9}, bodyFont:{family:"JetBrains Mono",size:10},
-    titleColor:"#8AAA8A", bodyColor:"#E8F5E8", padding:10, cornerRadius:0
-  }},
+  plugins:{ legend:{display:false}, tooltip:TT },
   scales:{
-    x:{ grid:{color:CG,lineWidth:.5}, ticks:{color:CT} },
-    y:{ grid:{color:CG,lineWidth:.5}, ticks:{color:CT} }
+    x:{ grid:{color:CG,lineWidth:.5}, ticks:{color:CT,font:{size:11}} },
+    y:{ grid:{color:CG,lineWidth:.5}, ticks:{color:CT,font:{size:11}} }
   }
 };
-const charts = {};
-function MK(id,cfg){
+
+const CH = {};
+function MK(id, cfg) {
   const el = document.getElementById(id); if(!el) return;
-  if(charts[id]) charts[id].destroy();
-  charts[id] = new Chart(el, cfg);
+  if(CH[id]) CH[id].destroy();
+  CH[id] = new Chart(el, cfg);
 }
 
-/* ═════════════════════════════════════════════════════
-   STATE & FILTER SYSTEM
-═════════════════════════════════════════════════════ */
+/* ══ State ══ */
 let DB = {};
 const F = { cat:null, zona:null, finca:null };
 
-function filtered(key){
-  const data = DB[key]||[];
-  return data.filter(r => {
-    if(F.cat  !==null && nv(r.ID_Catorcena)!==F.cat)  return false;
+/* ══════════════════════════════════════════════
+   FILTER ENGINE
+══════════════════════════════════════════════ */
+function FD(key) {
+  return (DB[key]||[]).filter(r => {
+    if(F.cat  !==null && nv(r.ID_Catorcena)!==F.cat)   return false;
     if(F.zona !==null && nv(r.ID_Zona)     !==F.zona)  return false;
     if(F.finca!==null && (r.Nombre_finca||"").trim()!==F.finca) return false;
     return true;
   });
 }
 
-function setFilter(key, val){
+function SF(key, val) {
   F[key] = val;
-  syncPills();
-  updateFilterTags();
+  updatePills();
+  updateTags();
   refreshAll();
 }
 
-function clearAllFilters(){
+function clearF() {
   F.cat=null; F.zona=null; F.finca=null;
-  syncPills();
-  updateFilterTags();
+  updatePills();
+  updateTags();
   refreshAll();
 }
 
-function syncPills(){
-  document.querySelectorAll("#pills-cat .pill").forEach(p=>{
-    p.classList.toggle("act", p.dataset.v === (F.cat===null?"all":String(F.cat)));
-  });
-  document.querySelectorAll("#pills-zona .pill").forEach(p=>{
-    p.classList.toggle("act", p.dataset.v === (F.zona===null?"all":String(F.zona)));
-  });
+function updatePills() {
+  document.querySelectorAll("#p-cat .pill").forEach(p =>
+    p.classList.toggle("on", p.dataset.v===(F.cat===null?"all":String(F.cat))));
+  document.querySelectorAll("#p-zona .pill").forEach(p =>
+    p.classList.toggle("on", p.dataset.v===(F.zona===null?"all":String(F.zona))));
 }
 
-function updateFilterTags(){
+function updateTags() {
+  const wrap = document.getElementById("atags");
+  const sep  = document.getElementById("tag-sep");
+  const cb   = document.getElementById("clear-btn");
   const tags = [];
-  if(F.cat!==null)   tags.push({label:`Cat. ${F.cat}`,   clear:()=>setFilter("cat",null)});
-  if(F.zona!==null)  tags.push({label:`Zona ${F.zona}`,  clear:()=>setFilter("zona",null)});
-  if(F.finca!==null) tags.push({label:F.finca.slice(0,16), clear:()=>setFilter("finca",null)});
-  const sec  = document.getElementById("filter-tags-section");
-  const wrap = document.getElementById("filter-tags");
-  const btn  = document.getElementById("clear-btn");
-  if(tags.length){
-    sec.style.display="flex";
-    btn.style.display="block";
-    wrap.innerHTML = tags.map((t,i)=>`<div class="filter-tag">${t.label}<span class="filter-tag-x" onclick="(${t.clear.toString()})()">✕</span></div>`).join("");
-  } else {
-    sec.style.display="none"; btn.style.display="none"; wrap.innerHTML="";
-  }
-  // Update active chart card styles
-  document.querySelectorAll(".card.clickable").forEach(c=>c.classList.remove("filtered-active"));
-  if(F.cat!==null)   document.getElementById("card-cat")?.classList.add("filtered-active");
-  if(F.zona!==null){
-    ["card-zona-pct","card-ez","card-ez2","card-gcz"].forEach(id=>document.getElementById(id)?.classList.add("filtered-active"));
-  }
-  if(F.finca!==null){ document.getElementById("card-efinca")?.classList.add("filtered-active"); document.getElementById("card-top")?.classList.add("filtered-active"); }
+  if(F.cat  !==null) tags.push({lbl:`Cat. ${F.cat}`,   clr:()=>SF("cat",null)});
+  if(F.zona !==null) tags.push({lbl:`Zona ${F.zona}`,  clr:()=>SF("zona",null)});
+  if(F.finca!==null) tags.push({lbl:F.finca.slice(0,14),clr:()=>SF("finca",null)});
+  wrap.innerHTML = tags.map(t =>
+    `<div class="atag">${t.lbl}<span class="atag-x" onclick="(${t.clr})()">✕</span></div>`
+  ).join("");
+  sep.style.display = tags.length ? "block" : "none";
+  cb.style.display  = tags.length ? "block" : "none";
+
+  // Highlight active chart cards
+  ["cd-cat","cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-comp","cd-top","cd-efinca","cd-dano-zona","cd-gcl"].forEach(id => {
+    document.getElementById(id)?.classList.remove("hl");
+  });
+  if(F.cat!==null)  document.getElementById("cd-cat")?.classList.add("hl");
+  if(F.zona!==null) ["cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-dano-zona"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
+  if(F.finca!==null)["cd-top","cd-efinca"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
 }
 
-/* ═════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    CACHE
-═════════════════════════════════════════════════════ */
-const saveCache = d => { try{ localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),d})); }catch{} };
-const loadCache = () => { try{ const r=JSON.parse(localStorage.getItem(CACHE_KEY)||"null"); if(!r)return null; const age=(Date.now()-r.ts)/60000; return age>CACHE_MIN?null:{d:r.d,age:Math.round(age)}; }catch{return null;} };
-const clearCache = () => { try{ localStorage.removeItem(CACHE_KEY); }catch{} };
+══════════════════════════════════════════════ */
+const saveC = d => { try{localStorage.setItem(CACHE_K,JSON.stringify({ts:Date.now(),d}));}catch{} };
+const loadC = () => {
+  try{
+    const r=JSON.parse(localStorage.getItem(CACHE_K)||"null");
+    if(!r) return null;
+    const age=(Date.now()-r.ts)/60000;
+    return age>CACHE_M?null:{d:r.d,age:Math.round(age)};
+  }catch{return null;}
+};
+const clearC=()=>{try{localStorage.removeItem(CACHE_K);}catch{}};
 
-/* ═════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    LOADING UI
-═════════════════════════════════════════════════════ */
-const LP = (p,msg) => { document.getElementById("lp").style.width=p+"%"; document.getElementById("ls").textContent=msg; };
-const ldot = (k,ok) => { const e=document.getElementById("ld-"+k); if(e) e.classList.add(ok?"ok":"err"); };
-const SD = (k,s) => { const e=document.getElementById("sd-"+k); if(e) e.className="status-dot "+(s==="ok"?"ok":s==="err"?"err":"loading"); };
-function setLive(ok){
-  const dot=document.getElementById("live-dot"), txt=document.getElementById("live-text");
-  dot.className = "live-dot "+(ok?"on":"err");
-  txt.style.color = ok?"var(--g7)":"var(--r5)";
-  const ts = new Date().toLocaleTimeString("es-GT");
-  txt.textContent = ok?ts:"error · reintenta";
-  document.getElementById("footer-ts").textContent = ok?"Actualizado: "+ts:"Error de conexión";
-  document.getElementById("status-ts").textContent = ok?"↻ "+ts:"";
+══════════════════════════════════════════════ */
+const LP = (p,msg) => {
+  document.getElementById("lf").style.width=p+"%";
+  document.getElementById("lm").textContent=msg;
+};
+const LDot = (k,ok) => { const e=document.getElementById("ld-"+k); if(e)e.classList.add(ok?"ok":"er"); };
+const SD   = (k,s) => {
+  // status dots are removed from header - nothing to update
+};
+
+function setLive(ok, ts) {
+  const pip = document.getElementById("live-pip");
+  const ltx = document.getElementById("live-ts");
+  pip.className = "live-pip "+(ok?"on":"err");
+  ltx.textContent = ok ? (ts||new Date().toLocaleTimeString("es-GT")) : "sin conexión";
+  ltx.style.color = ok?"var(--g6)":"var(--r5)";
+  $("foot-ts", ok?"Actualizado: "+(ts||new Date().toLocaleTimeString("es-GT")):"Error de conexión");
 }
 
-/* ═════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    DATA LOADING
-═════════════════════════════════════════════════════ */
-async function boot(){
-  document.getElementById("spin-icon").style.display="block";
-  const cached = loadCache();
-  if(cached){
+══════════════════════════════════════════════ */
+async function boot() {
+  const cached = loadC();
+  if (cached) {
     LP(100,"Datos en caché...");
     DB = cached.d;
-    document.getElementById("live-text").textContent = `caché ${cached.age}m · actualizando...`;
-    markSheets(); buildPills(); buildAllCharts(); refreshAll(); buildStaticCharts();
+    buildPills(); buildAllCharts(); buildStaticCharts(); refreshAll();
     setLive(true);
-    setTimeout(hideLoader,250);
+    setTimeout(hideLoad, 200);
     fetchFresh(true);
   } else {
     LP(15,"Conectando a Google Sheets...");
@@ -1033,97 +1049,107 @@ async function boot(){
   }
 }
 
-async function fetchFresh(bg){
-  try{
+async function fetchFresh(bg) {
+  document.getElementById("sp").style.display = "block";
+  try {
     if(!bg) LP(30,"Descargando datos...");
-    const ctrl = new AbortController();
-    const tout = setTimeout(()=>ctrl.abort(),50000);
-    const res = await fetch(API, {signal:ctrl.signal});
+    const ctrl=new AbortController(), tout=setTimeout(()=>ctrl.abort(),50000);
+    const res = await fetch(API,{signal:ctrl.signal});
     clearTimeout(tout);
     if(!res.ok) throw new Error("HTTP "+res.status);
     const j = await res.json();
-    if(!bg) LP(70,"Procesando...");
-    DB = j; saveCache(j);
-    markSheets(); buildPills(); buildAllCharts(); refreshAll(); buildStaticCharts();
+    if(!bg) LP(75,"Procesando datos...");
+    DB = j; saveC(j);
+    markDots();
+    buildPills();
+    buildAllCharts();
+    buildStaticCharts();
+    refreshAll();
     setLive(true);
-    if(!bg){ LP(100,"¡Listo!"); setTimeout(hideLoader,300); }
-  }catch(e){
+    if(!bg){LP(100,"¡Listo!");setTimeout(hideLoad,350);}
+  } catch(e) {
     console.error(e);
     if(!bg){
-      const c2=loadCache();
-      if(c2){ DB=c2.d; markSheets(); buildPills(); buildAllCharts(); refreshAll(); buildStaticCharts(); setLive(false); LP(100,"Sin conexión · datos guardados"); setTimeout(hideLoader,700); }
-      else { LP(100,"Error: "+e.message); setLive(false); setTimeout(hideLoader,1500); }
-    } else { document.getElementById("live-text").textContent="caché · sin red"; document.getElementById("live-text").style.color="var(--a5)"; }
-  }finally{ document.getElementById("spin-icon").style.display="none"; }
+      const c2=loadC();
+      if(c2){DB=c2.d;buildPills();buildAllCharts();buildStaticCharts();refreshAll();setLive(false);LP(100,"Sin conexión · datos guardados");setTimeout(hideLoad,800);}
+      else{LP(100,"Error: "+e.message);setLive(false);setTimeout(hideLoad,1800);}
+    } else {setLive(false);}
+  } finally {document.getElementById("sp").style.display="none";}
 }
 
-function hideLoader(){
+function hideLoad(){
   const l=document.getElementById("loading");
-  if(!l)return; l.classList.add("fade"); setTimeout(()=>{ if(l.parentNode)l.remove(); },600);
+  if(!l)return; l.classList.add("out"); setTimeout(()=>{if(l.parentNode)l.remove();},700);
 }
 
-async function syncNow(){ clearCache(); document.getElementById("live-text").textContent="sincronizando..."; await fetchFresh(false); }
+async function doSync(){clearC();LP&&(document.getElementById("lf").style.width="0%");await fetchFresh(false);}
 
-function markSheets(){
+function markDots(){
   [["m","muestreo"],["c","control"],["e","ejecutados"],["r","ronron"],["d","dano"],["l","lote"]].forEach(([k,key])=>{
-    const ok=Array.isArray(DB[key])&&DB[key].length>0;
-    SD(k,ok?"ok":"err"); ldot(k,ok);
+    LDot(k,Array.isArray(DB[key])&&DB[key].length>0);
   });
 }
 
-/* ═════════════════════════════════════════════════════
-   FILTER PILLS
-═════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   PILLS BUILDER
+══════════════════════════════════════════════ */
 function buildPills(){
-  const m = DB.muestreo||[];
-  const cats  = [...new Set(m.map(r=>nv(r.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
-  const zones = [...new Set(m.map(r=>nv(r.ID_Zona)).filter(Boolean))].sort((a,b)=>a-b);
+  const m=DB.muestreo||[];
+  const cats=[...new Set(m.map(r=>nv(r.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
+  const zones=[...new Set(m.map(r=>nv(r.ID_Zona)).filter(Boolean))].sort((a,b)=>a-b);
 
-  document.getElementById("pills-cat").innerHTML =
-    `<button class="pill act" data-v="all" onclick="setFilter('cat',null)">TODAS</button>`+
-    cats.map(c=>`<button class="pill" data-v="${c}" onclick="setFilter('cat',${c})">Cat.${c}</button>`).join("");
+  document.getElementById("p-cat").innerHTML=
+    `<button class="pill on" data-v="all" onclick="SF('cat',null)">TODAS</button>`+
+    cats.map(c=>`<button class="pill" data-v="${c}" onclick="SF('cat',${c})">Cat.${c}</button>`).join("");
 
-  document.getElementById("pills-zona").innerHTML =
-    `<button class="pill act" data-v="all" onclick="setFilter('zona',null)">TODAS</button>`+
-    zones.map(z=>`<button class="pill" data-v="${z}" onclick="setFilter('zona',${z})">Z·${z}</button>`).join("");
+  document.getElementById("p-zona").innerHTML=
+    `<button class="pill on" data-v="all" onclick="SF('zona',null)">TODAS</button>`+
+    zones.map(z=>`<button class="pill" data-v="${z}" onclick="SF('zona',${z})">Z·${z}</button>`).join("");
 }
 
-/* ═════════════════════════════════════════════════════
-   KPI UPDATE
-═════════════════════════════════════════════════════ */
-function updateKPIs(){
-  const m = filtered("muestreo"), c = filtered("control"), e = filtered("ejecutados"), r = DB.ronron||[];
-  const d = filtered("dano"), gcF = F.zona!==null?r.filter(x=>nv(x.ID_Zona)===F.zona):r;
+/* ══════════════════════════════════════════════
+   MASTER REFRESH
+══════════════════════════════════════════════ */
+function refreshAll(){
+  updateKPIs();
+  buildAllCharts();
+  renderTables();
+}
 
-  const kgRec = c.reduce((s,x)=>s+nv(x.Kg_Recomendados),0);
-  const kgEje = e.length?e.reduce((s,x)=>s+nv(x.Kg_Aplicados),0):c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0);
-  const at  = c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length;
-  const pnd = c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length;
-  const fv  = c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length;
-  const pctProm = m.length?(m.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/m.length).toFixed(1):0;
-  const areaTot = m.reduce((s,x)=>s+nv(x.Area||x.Area_lote_ha||0),0)||8037;
-  const areaInf = m.filter(x=>nv(x.Porcentaje_Captura)>=8).reduce((s,x)=>s+nv(x.Area||0),0);
+/* ══════════════════════════════════════════════
+   KPIs
+══════════════════════════════════════════════ */
+function updateKPIs(){
+  const m=FD("muestreo"), c=FD("control"), e=FD("ejecutados"), r=DB.ronron||[];
+  const d=FD("dano");
+  const gcF=F.zona!==null?r.filter(x=>nv(x.ID_Zona)===F.zona):r;
+
+  const kgRec=c.reduce((s,x)=>s+nv(x.Kg_Recomendados),0);
+  const kgEje=e.length?e.reduce((s,x)=>s+nv(x.Kg_Aplicados),0):c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0);
+  const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length;
+  const pnd=c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length;
+  const fv=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length;
+  const pctP=m.length?(m.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/m.length).toFixed(1):0;
+  const areaTot=m.reduce((s,x)=>s+nv(x.Area||x.Area_lote_ha||0),0)||8037;
+  const areaInf=m.filter(x=>nv(x.Porcentaje_Captura)>=8).reduce((s,x)=>s+nv(x.Area||0),0);
+  const avance=pct(kgEje,kgRec);
 
   // Overview
-  $("o-am", fmt(areaTot));
-  $("o-ai", fmt(areaInf));
-  $("o-pc", pctProm+"%");
-  $("o-pc-s", nv(pctProm)>=8?"⚠ Sobre umbral 8%":"✓ Bajo umbral 8%");
-  $("o-kr", fmt(kgRec));
-  $("o-ke", fmt(kgEje));
-  $("o-ke-s", pct(kgEje,kgRec)+"% avance");
-  W("o-ke-p", pct(kgEje,kgRec));
-  $("o-av", pct(kgEje,kgRec)+"%");
-  W("o-av-p", pct(kgEje,kgRec));
-  $("o-lm", fmt(m.length)); $("o-at", fmt(at)); $("o-pnd", fmt(pnd)); $("o-fv", fmt(fv));
+  $("o-am",fmt(areaTot)); $("o-ams",`${m.length} lotes muestreados`);
+  $("o-ai",fmt(areaInf)); $("o-ais",nv(areaInf)>0?`${pct(areaInf,areaTot)}% del área`:"—");
+  $("o-pc",pctP+"%"); $("o-pcs",nv(pctP)>=8?"⚠ Sobre umbral":"✓ Bajo umbral 8%");
+  $("o-kr",fmt(kgRec));
+  $("o-ke",fmt(kgEje)); $("o-kes",avance+"% del requerido");
+  W("o-kep",avance);
+  $("o-av",avance+"%"); W("o-avp",avance);
+  $("o-lm",fmt(m.length)); $("o-at",fmt(at)); $("o-pnd",fmt(pnd)); $("o-fv",fmt(fv));
   $("leg-at",at); $("leg-pnd",pnd); $("leg-fv",fv);
 
   // Muestreo
-  $("m-nl",fmt(m.length)); $("m-pc",pctProm+"%");
-  $("m-pc-s",nv(pctProm)>=8?"⚠ Sobre umbral":"✓ Bajo umbral");
+  $("m-nl",fmt(m.length)); $("m-pc",pctP+"%");
+  $("m-pcs",nv(pctP)>=8?"⚠ Sobre umbral":"✓ Bajo umbral");
   $("m-l8",fmt(m.filter(x=>nv(x.Porcentaje_Captura)>=8).length));
-  $("m-at",fmt(areaTot)); $("m-kr",fmt(kgRec));
-  $("m-ai",pct(areaInf,areaTot)+"%");
+  $("m-at",fmt(areaTot)); $("m-kr",fmt(kgRec)); $("m-ai",pct(areaInf,areaTot)+"%");
 
   // Control
   $("c-nl",fmt(c.length)); $("c-at",fmt(at)); $("c-ft",fmt(fv)); $("c-pnd",fmt(pnd));
@@ -1140,9 +1166,9 @@ function updateKPIs(){
   $("d-rata",avg(d,"Porc_Inten_Infest_Rata")+"%");
   $("d-lotes",fmt((DB.lote||[]).length));
 
-  // Gallina ciega
+  // GC
   const gcTot=gcF.reduce((s,x)=>s+nv(x.TotalCaptura),0);
-  const gcPh =gcF.reduce((s,x)=>s+nv(x.Phyllophaga),0);
+  const gcPh=gcF.reduce((s,x)=>s+nv(x.Phyllophaga),0);
   $("gc-nt",fmt(gcF.reduce((s,x)=>s+nv(x.No_Trampas),0)||48));
   $("gc-tc",fmt(gcTot||13172));
   $("gc-cm",fmt(Math.max(...gcF.map(x=>nv(x.TotalCaptura)),0)||3212));
@@ -1150,326 +1176,363 @@ function updateKPIs(){
   $("gc-lm",fmt(gcF.length||17));
 }
 
-/* ═════════════════════════════════════════════════════
-   CHARTS (all respond to filters)
-═════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   DYNAMIC CHARTS (respond to all filters)
+══════════════════════════════════════════════ */
 function buildAllCharts(){
-  const m = filtered("muestreo"), c = filtered("control"), e = filtered("ejecutados");
+  const m=FD("muestreo"), c=FD("control"), e=FD("ejecutados"), d=FD("dano");
 
-  /* -- catorcena map -- */
+  /* Catorcena aggregation */
   const CM={};
   m.forEach(r=>{
-    const cat=nv(r.ID_Catorcena); if(!CM[cat])CM[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0,kgR:0};
+    const cat=nv(r.ID_Catorcena); if(!CM[cat])CM[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0};
     CM[cat].s+=nv(r.Porcentaje_Captura); CM[cat].n++;
     CM[cat].mac+=nv(r.Machos); CM[cat].hem+=nv(r.Hembras);
     CM[cat].jov+=nv(r.Jovenes); CM[cat].adu+=nv(r.Adultas);
-    CM[cat].kgR+=nv(r.Kg_a_aplicar);
   });
-  const cats = Object.keys(CM).map(Number).sort((a,b)=>a-b);
-  const catPct = cats.length?cats.map(c=>+(CM[c].s/CM[c].n).toFixed(1)):[5,5,9,12,8,9,10,9,7,9,9];
-  const catLabels = cats.length?cats.map(String):["1","2","3","4","5","6","7","8","9","10","11"];
+  const cats=Object.keys(CM).map(Number).sort((a,b)=>a-b);
+  const cPct=cats.length?cats.map(c=>+(CM[c].s/CM[c].n).toFixed(1)):[5,5,9,12,8,9,10,9,7,9,9];
+  const cLbl=cats.length?cats.map(String):["1","2","3","4","5","6","7","8","9","10","11"];
 
-  /* -- % CAPTURA POR CATORCENA (bar, clickable) -- */
-  MK("ch-cat",{type:"bar",data:{
-    labels:catLabels,
-    datasets:[{
-      label:"% Captura",
-      data:catPct,
-      backgroundColor:catPct.map((v,i)=> F.cat!==null&&cats[i]!==F.cat?"rgba(61,155,61,.12)":(v>=8?"rgba(192,40,40,.8)":"rgba(61,155,61,.75)")),
-      borderColor:catPct.map((v,i)=> F.cat!==null&&cats[i]!==F.cat?"transparent":(v>=8?"rgba(224,60,60,.9)":"rgba(82,184,82,.9)")),
-      borderWidth:1, borderRadius:2
-    }]},
-    options:{...cBase,
-      onClick:(evt,els)=>{
-        if(!els.length){setFilter("cat",null);return;}
-        const c=cats.length?cats[els[0].index]:els[0].index+1;
-        F.cat===c?setFilter("cat",null):setFilter("cat",c);
-      },
-      scales:{x:{...cBase.scales.x},y:{...cBase.scales.y,min:0,ticks:{callback:v=>v+"%"}}},
-      plugins:{...cBase.plugins,annotation:{annotations:{umbral:{type:"line",yMin:8,yMax:8,borderColor:"rgba(212,139,0,.5)",borderWidth:1.5,borderDash:[5,4],label:{content:"Umbral 8%",enabled:true,color:"#D48B00",font:{size:8},position:"end"}}}}}
-    }
-  });
+  /* ── % Captura Catorcena (bar, clickable) ── */
+  MK("c-cat",{type:"bar",data:{labels:cLbl,datasets:[{
+    label:"% Cap",data:cPct,
+    backgroundColor:cPct.map((v,i)=>F.cat!==null&&cats[i]!==F.cat?"rgba(61,155,61,.1)":(v>=8?"rgba(196,36,36,.82)":"rgba(58,155,61,.78)")),
+    borderColor:cPct.map((v,i)=>F.cat!==null&&cats[i]!==F.cat?"transparent":(v>=8?"rgba(224,56,56,.9)":"rgba(78,189,82,.9)")),
+    borderWidth:1,borderRadius:3
+  }]},options:{...BASE,
+    onClick:(e,els)=>{
+      if(!els.length){SF("cat",null);return;}
+      const c=cats.length?cats[els[0].index]:els[0].index+1;
+      F.cat===c?SF("cat",null):SF("cat",c);
+    },
+    scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,ticks:{callback:v=>v+"%"}}},
+    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}
+  }});
 
-  /* -- ESTADO CONTROL (donut) -- */
+  /* ── Estado Donut ── */
   const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length||126;
   const pnd=c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length||85;
   const fv=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length||41;
-  MK("ch-est",{type:"doughnut",data:{
-    labels:["A Tiempo","Pendiente","Fuera Ventana"],
-    datasets:[{data:[at,pnd,fv],backgroundColor:["#3D9B3D","#C42828","#D48B00"],borderWidth:0,hoverOffset:5}]
-  },options:{plugins:{legend:{display:false}},cutout:"66%",layout:{padding:8}}});
+  const dnutCfg={type:"doughnut",data:{labels:["A Tiempo","Pendiente","Fuera Ventana"],datasets:[{
+    data:[at,pnd,fv],backgroundColor:["#3A9B3D","#C42424","#D48A00"],
+    borderColor:"rgba(255,255,255,.04)",borderWidth:2,hoverOffset:6
+  }]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"66%",layout:{padding:10}}};
+  MK("c-est",dnutCfg);
 
-  /* -- % CAPTURA POR ZONA (bar, clickable) -- */
-  const zPct = ZONAS.map(z=>{const rw=m.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/rw.length).toFixed(1):0;});
-  MK("ch-zona-pct",{type:"bar",data:{
-    labels:ZONAS.map(z=>`Z·${z}`),
-    datasets:[{label:"% Captura",data:zPct,
-      backgroundColor:ZONAS.map((z,i)=> F.zona!==null&&z!==F.zona?"rgba(61,155,61,.1)":(zPct[i]>=8?"rgba(196,40,40,.8)":"rgba(61,155,61,.7)")),
-      borderRadius:2, borderWidth:0}]},
-    options:{...cBase,
-      onClick:(evt,els)=>{if(!els.length){setFilter("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?setFilter("zona",null):setFilter("zona",z);},
-      scales:{x:{...cBase.scales.x},y:{...cBase.scales.y,ticks:{callback:v=>v+"%"}}},
-      plugins:{...cBase.plugins}
-    }
-  });
+  /* ── % Cap Zona (bar, clickable) ── */
+  const zPct=ZONAS.map(z=>{const rw=m.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/rw.length).toFixed(1):0;});
+  const zBg=ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(61,155,61,.08)":(zPct[i]>=8?"rgba(196,36,36,.82)":"rgba(58,155,61,.78)"));
+  MK("c-zpct",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{
+    label:"% Cap",data:zPct,backgroundColor:zBg,borderRadius:3,borderWidth:0
+  }]},options:{...BASE,
+    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
+    scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,ticks:{callback:v=>v+"%"}}},
+    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}
+  }});
 
-  /* -- RODENTICIDA REC vs EJE -- */
-  MK("ch-rod",{type:"bar",data:{
-    labels:ZONAS.map(z=>`Z·${z}`),
-    datasets:[
-      {label:"Recomendados",data:ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Recomendados),0))||[159,794,1707,1849,1002][ZONAS.indexOf(z)]),backgroundColor:"rgba(61,155,61,.25)",borderRadius:2},
-      {label:"Ejecutados",  data:ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)))||[59,458,1049,1462,573],backgroundColor:"rgba(61,155,61,.8)",borderRadius:2}
-    ]
-  },options:{...cBase,plugins:{...cBase.plugins}}});
-  // duplicate for control tab
-  setTimeout(()=>{ if(charts["ch-rod"]) { const cfg={...charts["ch-rod"].config.data}; MK("ch-rod2",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"Recomendados",data:charts["ch-rod"].data.datasets[0].data.slice(),backgroundColor:"rgba(61,155,61,.25)",borderRadius:2},{label:"Ejecutados",data:charts["ch-rod"].data.datasets[1].data.slice(),backgroundColor:"rgba(61,155,61,.8)",borderRadius:2}]},options:{...cBase,plugins:{...cBase.plugins}}}); }},100);
+  /* ── Rodenticida ── */
+  const rodRec=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Recomendados),0))||[159,794,1707,1849,1002][ZONAS.indexOf(z)]);
+  const rodEje=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)))||[59,458,1049,1462,573];
+  const rodCfg={type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
+    {label:"Recomendado",data:rodRec,backgroundColor:"rgba(58,155,61,.25)",borderRadius:3},
+    {label:"Ejecutado",  data:rodEje,backgroundColor:"rgba(58,155,61,.82)",borderRadius:3}
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT}}}};
+  MK("c-rod",rodCfg);
+  // Clone for control tab
+  setTimeout(()=>{
+    MK("c-rod2",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
+      {label:"Recomendado",data:rodRec.slice(),backgroundColor:"rgba(58,155,61,.25)",borderRadius:3},
+      {label:"Ejecutado",  data:rodEje.slice(),backgroundColor:"rgba(58,155,61,.82)",borderRadius:3}
+    ]},options:{...BASE,plugins:{...BASE.plugins}}});
+  },80);
 
-  /* -- ESTADO CONTROL POR ZONA (stacked, clickable) -- */
+  /* ── Estado por Zona (stacked, clickable) ── */
   const ezA=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("TIEMPO")).length);
   const ezP=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("PENDIENTE")).length);
   const ezF=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("VENTANA")).length);
   const ezCfg={type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
-    {label:"A Tiempo", data:ezA.some(v=>v>0)?ezA:[3,21,45,36,3], backgroundColor:"rgba(61,155,61,.85)",borderRadius:2,stack:"s"},
-    {label:"Pendiente",data:ezP.some(v=>v>0)?ezP:[3,21,15,34,10],backgroundColor:"rgba(192,40,40,.85)",borderRadius:2,stack:"s"},
-    {label:"Fuera",    data:ezF.some(v=>v>0)?ezF:[2,11,12,13,3], backgroundColor:"rgba(212,139,0,.75)",borderRadius:2,stack:"s"},
-  ]},options:{...cBase,
-    onClick:(evt,els)=>{if(!els.length){setFilter("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?setFilter("zona",null):setFilter("zona",z);},
-    plugins:{...cBase.plugins},
-    scales:{x:{...cBase.scales.x,stacked:true},y:{...cBase.scales.y,stacked:true}}
+    {label:"A Tiempo", data:ezA.some(v=>v>0)?ezA:[3,21,45,36,3], backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(58,155,61,.1)":"rgba(58,155,61,.82)"),borderRadius:2,stack:"s"},
+    {label:"Pendiente",data:ezP.some(v=>v>0)?ezP:[3,21,15,34,10],backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(196,36,36,.08)":"rgba(196,36,36,.82)"),borderRadius:2,stack:"s"},
+    {label:"Fuera",    data:ezF.some(v=>v>0)?ezF:[2,11,12,13,3], backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(212,138,0,.08)":"rgba(212,138,0,.78)"),borderRadius:2,stack:"s"},
+  ]},options:{...BASE,
+    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
+    plugins:{...BASE.plugins,tooltip:TT},
+    scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}
   }};
-  MK("ch-ez",ezCfg); MK("ch-ez2",{...ezCfg});
+  MK("c-ez",ezCfg);
+  setTimeout(()=>{MK("c-ez2",{...ezCfg,data:{labels:ezCfg.data.labels,datasets:ezCfg.data.datasets.map(ds=>({...ds,data:[...ds.data]}))},options:{...ezCfg.options}});},80);
 
-  /* -- COMPOSICIÓN CAPTURAS (stacked, clickable) -- */
-  MK("ch-comp",{type:"bar",data:{labels:catLabels,datasets:[
-    {label:"Machos", data:cats.length?cats.map(c=>CM[c].mac):[48,68,99,247,194,284,142,244,209,325,266],backgroundColor:"rgba(56,152,216,.8)",borderRadius:2,stack:"s"},
-    {label:"Hembras",data:cats.length?cats.map(c=>CM[c].hem):[40,65,101,180,190,361,120,200,157,244,229],backgroundColor:"rgba(212,83,126,.8)",borderRadius:2,stack:"s"},
-    {label:"Jóvenes",data:cats.length?cats.map(c=>CM[c].jov):[24,46,32,99,54,160,53,135,135,160,177],  backgroundColor:"rgba(128,212,134,.8)",borderRadius:2,stack:"s"},
-    {label:"Adultas",data:cats.length?cats.map(c=>CM[c].adu):[64,87,169,328,330,485,209,309,231,409,318],backgroundColor:"rgba(245,188,48,.8)",borderRadius:2,stack:"s"},
-  ]},options:{...cBase,
-    onClick:(evt,els)=>{if(!els.length)return; const c=cats.length?cats[els[0].index]:els[0].index+1; F.cat===c?setFilter("cat",null):setFilter("cat",c);},
-    plugins:{...cBase.plugins},scales:{x:{...cBase.scales.x,stacked:true},y:{...cBase.scales.y,stacked:true}}
+  /* ── Composición (stacked, clickable) ── */
+  MK("c-comp",{type:"bar",data:{labels:cLbl,datasets:[
+    {label:"Machos", data:cats.length?cats.map(c=>CM[c].mac):[48,68,99,247,194,284,142,244,209,325,266],backgroundColor:"rgba(56,152,216,.82)",borderRadius:2,stack:"s"},
+    {label:"Hembras",data:cats.length?cats.map(c=>CM[c].hem):[40,65,101,180,190,361,120,200,157,244,229],backgroundColor:"rgba(212,83,126,.82)",borderRadius:2,stack:"s"},
+    {label:"Jóvenes",data:cats.length?cats.map(c=>CM[c].jov):[24,46,32,99,54,160,53,135,135,160,177],  backgroundColor:"rgba(112,204,115,.82)",borderRadius:2,stack:"s"},
+    {label:"Adultas",data:cats.length?cats.map(c=>CM[c].adu):[64,87,169,328,330,485,209,309,231,409,318],backgroundColor:"rgba(245,188,46,.82)",borderRadius:2,stack:"s"},
+  ]},options:{...BASE,
+    onClick:(e,els)=>{if(!els.length)return; const c=cats.length?cats[els[0].index]:els[0].index+1; F.cat===c?SF("cat",null):SF("cat",c);},
+    plugins:{...BASE.plugins,tooltip:TT},
+    scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}
   }});
 
-  /* -- TOP LOTES (horizontal bar, clickable) -- */
-  const topRows = [...m].sort((a,b)=>nv(b.Porcentaje_Captura)-nv(a.Porcentaje_Captura)).slice(0,10);
-  const topFincas = topRows.map(r=>r.Nombre_finca||"");
-  MK("ch-top",{type:"bar",data:{
-    labels:topRows.map(r=>`${(r.Nombre_finca||"").slice(0,10)} ${String(r.ID_Lote||"").slice(-4)}`),
-    datasets:[{label:"%",data:topRows.map(r=>nv(r.Porcentaje_Captura)),
-      backgroundColor:topRows.map(r=>nv(r.Porcentaje_Captura)>=8?"rgba(192,40,40,.85)":"rgba(61,155,61,.7)"),borderRadius:2}]
-  },options:{...cBase,indexAxis:"y",
-    onClick:(evt,els)=>{if(!els.length)return; const fn=topFincas[els[0].index]; F.finca===fn?setFilter("finca",null):setFilter("finca",fn);},
-    scales:{x:{...cBase.scales.x,ticks:{callback:v=>v+"%"}},y:{...cBase.scales.y,ticks:{font:{size:8}}}},
-    plugins:{...cBase.plugins}
+  /* ── Top Lotes (horizontal, clickable) ── */
+  const topR=[...m].sort((a,b)=>nv(b.Porcentaje_Captura)-nv(a.Porcentaje_Captura)).slice(0,10);
+  const topFn=topR.map(r=>r.Nombre_finca||"");
+  MK("c-top",{type:"bar",data:{
+    labels:topR.map(r=>`${(r.Nombre_finca||"").slice(0,9)} ${String(r.ID_Lote||"").slice(-4)}`),
+    datasets:[{label:"%",data:topR.map(r=>nv(r.Porcentaje_Captura)),
+      backgroundColor:topR.map(r=>nv(r.Porcentaje_Captura)>=8?"rgba(196,36,36,.82)":"rgba(58,155,61,.78)"),borderRadius:3}]
+  },options:{...BASE,indexAxis:"y",
+    onClick:(e,els)=>{if(!els.length)return; const fn=topFn[els[0].index]; F.finca===fn?SF("finca",null):SF("finca",fn);},
+    scales:{x:{...BASE.scales.x,ticks:{callback:v=>v+"%"}},y:{...BASE.scales.y,ticks:{font:{size:10}}}},
+    plugins:{...BASE.plugins,tooltip:TT}
   }});
 
-  /* -- KG POR FINCA EJECUTADOS (clickable) -- */
+  /* ── Kg por Finca Ejecutados (clickable) ── */
   const fMap={};
-  e.forEach(r=>{const f=(r.Nombre_finca||"").trim();fMap[f]=(fMap[f]||0)+nv(r.Kg_Aplicados);});
-  const topF=Object.entries(Object.keys(fMap).length?fMap:{"CONCEPCIÓN LA NORIA":2000,"MIXQUEÑO":588,"LA ENCANTADORA":512,"CAÑAVERALES":383,"PATRICIA":314,"PALMIRA":225,"VICTORY":212,"LAS FLORES":207,"MALAGA":194,"BARRANQUILLA":186}).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  MK("ch-efinca",{type:"bar",data:{
-    labels:topF.map(f=>f[0].slice(0,15)),
+  e.forEach(r=>{const f=(r.Nombre_finca||"").trim(); fMap[f]=(fMap[f]||0)+nv(r.Kg_Aplicados);});
+  const topF=Object.entries(Object.keys(fMap).length?fMap:{
+    "CONCEPCIÓN LA NORIA":2000,"MIXQUEÑO":588,"LA ENCANTADORA":512,
+    "CAÑAVERALES":383,"PATRICIA":314,"PALMIRA":225,"VICTORY":212,
+    "LAS FLORES":207,"MALAGA":194,"BARRANQUILLA":186
+  }).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  MK("c-efinca",{type:"bar",data:{
+    labels:topF.map(f=>f[0].slice(0,14)),
     datasets:[{label:"Kg",data:topF.map(f=>f[1]),
-      backgroundColor:topF.map(f=>F.finca===f[0]?"rgba(128,212,134,.95)":"rgba(61,155,61,.75)"),borderRadius:2}]
-  },options:{...cBase,
-    onClick:(evt,els)=>{if(!els.length)return; const fn=topF[els[0].index][0]; F.finca===fn?setFilter("finca",null):setFilter("finca",fn);},
-    scales:{x:{...cBase.scales.x,ticks:{font:{size:8}}},y:{...cBase.scales.y}},
-    plugins:{...cBase.plugins}
+      backgroundColor:topF.map(f=>F.finca===f[0]?"rgba(112,204,115,.95)":"rgba(58,155,61,.78)"),borderRadius:3}]
+  },options:{...BASE,
+    onClick:(e,els)=>{if(!els.length)return; const fn=topF[els[0].index][0]; F.finca===fn?SF("finca",null):SF("finca",fn);},
+    scales:{x:{...BASE.scales.x,ticks:{font:{size:10}}},y:{...BASE.scales.y}},
+    plugins:{...BASE.plugins,tooltip:TT}
   }});
 
-  /* -- DAÑO TENDENCIA -- */
-  const d = filtered("dano");
+  /* ── Daño Tendencia ── */
   const catsDano=[...new Set(d.map(x=>nv(x.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
-  MK("ch-dano-trend",{type:"line",data:{labels:catsDano.map(String),datasets:[
+  MK("c-dano-trend",{type:"line",data:{labels:catsDano.map(String),datasets:[
     {label:"Barrenador %",data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(1):0;}),
-      borderColor:"#F0A800",borderWidth:2.5,pointRadius:4,pointBackgroundColor:"#D48B00",fill:true,backgroundColor:"rgba(240,168,0,.08)",tension:.3},
-    {label:"Rata %",      data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(1):0;}),
-      borderColor:"#E03C3C",borderWidth:2,pointRadius:3,pointBackgroundColor:"#C42828",fill:true,backgroundColor:"rgba(224,60,60,.06)",tension:.3},
-  ]},options:{...cBase,plugins:{...cBase.plugins}}});
+      borderColor:"#F0A800",borderWidth:2.5,pointRadius:4.5,pointBackgroundColor:"#D48A00",
+      fill:true,backgroundColor:"rgba(240,168,0,.08)",tension:.3},
+    {label:"Rata %",data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(1):0;}),
+      borderColor:"#E03838",borderWidth:2,pointRadius:3.5,pointBackgroundColor:"#C42424",
+      fill:true,backgroundColor:"rgba(224,56,56,.06)",tension:.3},
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
 
-  /* -- DAÑO ZONA -- */
-  MK("ch-dano-zona",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
-    {label:"Barrenador",data:ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(2):0;}),backgroundColor:"rgba(212,139,0,.8)",borderRadius:2},
-    {label:"Rata",      data:ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(2):0;}),backgroundColor:"rgba(192,40,40,.8)",borderRadius:2},
-  ]},options:{...cBase,plugins:{...cBase.plugins}}});
+  /* ── Daño por Zona (grouped, clickable) ── */
+  const dZB=ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(2):0;});
+  const dZR=ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(2):0;});
+  MK("c-dano-zona",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
+    {label:"Barrenador",data:dZB,backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(240,168,0,.1)":"rgba(240,168,0,.82)"),borderRadius:3},
+    {label:"Rata",      data:dZR,backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(224,56,56,.08)":"rgba(224,56,56,.78)"),borderRadius:3},
+  ]},options:{...BASE,
+    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
+    plugins:{...BASE.plugins,tooltip:TT}
+  }});
 
-  /* -- SEVERIDADES -- */
-  const l=DB.lote||[];
-  const sB={}; l.forEach(r=>{const s=(r["MUY SEVERO"]||"S/D").toString().trim();sB[s]=(sB[s]||0)+1;});
-  MK("ch-sev-barr",{type:"doughnut",data:{labels:Object.keys(sB),datasets:[{data:Object.values(sB),backgroundColor:["#C42828","#3D9B3D","#D48B00","#52B852","#E03C3C","#1A7858"],borderWidth:0,hoverOffset:4}]},options:{plugins:{legend:{display:false}},cutout:"60%",layout:{padding:8}}});
-  const sR={}; l.forEach(r=>{const s=(r["MUY SEVERO.1"]||"S/D").toString().trim();sR[s]=(sR[s]||0)+1;});
-  MK("ch-sev-rata",{type:"doughnut",data:{labels:Object.keys(sR),datasets:[{data:Object.values(sR),backgroundColor:["#52B852","#D48B00","#E03C3C","#C42828","#3D9B3D","#1A7858"],borderWidth:0,hoverOffset:4}]},options:{plugins:{legend:{display:false}},cutout:"60%",layout:{padding:6}}});
+  /* ── Severidades (donuts) ── */
+  const lote=DB.lote||[];
+  const sB={}, sR={};
+  lote.forEach(r=>{
+    const sb=(r["MUY SEVERO"]||"S/D").toString().trim();
+    const sr=(r["MUY SEVERO.1"]||"S/D").toString().trim();
+    sB[sb]=(sB[sb]||0)+1; sR[sr]=(sR[sr]||0)+1;
+  });
+  MK("c-sev-barr",{type:"doughnut",data:{labels:Object.keys(sB),datasets:[{data:Object.values(sB),backgroundColor:["#C42424","#3A9B3D","#D48A00","#4EBD52","#E03838","#007B60"],borderColor:"rgba(255,255,255,.04)",borderWidth:2,hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:10}}});
+  MK("c-sev-rata", {type:"doughnut",data:{labels:Object.keys(sR),datasets:[{data:Object.values(sR),backgroundColor:["#4EBD52","#D48A00","#E03838","#C42424","#3A9B3D","#1EC09A"],borderColor:"rgba(255,255,255,.04)",borderWidth:2,hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:8}}});
 
-  /* -- GC ZONA (clickable) -- */
-  const gc=F.zona!==null?(DB.ronron||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.ronron||[]);
-  const gcZ=ZONAS.map(z=>(DB.ronron||[]).filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.TotalCaptura),0));
-  MK("ch-gcz",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"Adultos",
-    data:gcZ.some(v=>v>0)?gcZ:[0,11886,987,0,299],
-    backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(192,40,40,.12)":"rgba(192,40,40,.8)"),borderRadius:3}]
-  },options:{...cBase,
-    onClick:(evt,els)=>{if(!els.length){setFilter("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?setFilter("zona",null):setFilter("zona",z);},
-    plugins:{...cBase.plugins}
+  /* ── GC Zona (clickable) ── */
+  const gcAll=DB.ronron||[];
+  const gcZ=ZONAS.map(z=>gcAll.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.TotalCaptura),0));
+  MK("c-gcz",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{
+    label:"Adultos",data:gcZ.some(v=>v>0)?gcZ:[0,11886,987,0,299],
+    backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(196,36,36,.1)":"rgba(196,36,36,.82)"),borderRadius:3
+  }]},options:{...BASE,
+    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
+    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw.toLocaleString("es-GT")} adultos`}}}
   }});
 }
 
-/* ═════════════════════════════════════════════════════
-   STATIC CHARTS (don't change with filters)
-═════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   STATIC CHARTS (IPR, Presupuesto, GC extras)
+══════════════════════════════════════════════ */
 function buildStaticCharts(){
-  // IPR
-  MK("ch-ipr",{type:"line",data:{
-    labels:["21 oct 2025","29 ene","30 ene","31 ene","21 feb","27 feb","2 mar","3 mar"],
-    datasets:[{label:"IPR",data:[0.25,0.08,0.00,0.06,0.35,0.22,0.69,0.98],
-      borderColor:"#20C09A",borderWidth:2.5,pointRadius:6,
-      pointBackgroundColor:[.25,.08,0,.06,.35,.22,.69,.98].map(v=>v>=.8?"#E03C3C":v>=.5?"#D48B00":"#20C09A"),
-      pointBorderColor:"#0F170F",pointBorderWidth:1.5,
-      fill:true,backgroundColor:"rgba(32,192,154,.07)",tension:.3}]
-  },options:{...cBase,scales:{x:{...cBase.scales.x},y:{...cBase.scales.y,min:0,max:1.1}},
-    plugins:{...cBase.plugins}}});
+  const gc=DB.ronron||[];
 
-  // Presupuesto
-  const pZ=["Z·1","Z·3","Z·4","Z·5","Z·8"],pR=[3643,1782,2312,6570,1315],pE=[726,998,1860,2722,1315];
-  const pcts=[20,56,80,41,100];
-  const pCols=["var(--r5)","var(--a5)","var(--g6)","var(--a5)","var(--t5)"];
+  /* IPR */
+  const iprDates=gc.length?[]:["21 oct 25","29 ene","30 ene","31 ene","21 feb","27 feb","2 mar","3 mar"];
+  const iprData=[0.25,0.08,0.00,0.06,0.35,0.22,0.69,0.98];
+  MK("c-ipr",{type:"line",data:{
+    labels:iprDates.length?iprDates:iprDates,
+    datasets:[{label:"IPR",data:iprData,
+      borderColor:"#1EC09A",borderWidth:2.5,
+      pointRadius:6,pointBorderColor:"#0C1410",pointBorderWidth:1.5,
+      pointBackgroundColor:iprData.map(v=>v>=.8?"#E03838":v>=.5?"#D48A00":"#1EC09A"),
+      fill:true,backgroundColor:"rgba(30,192,154,.07)",tension:.3
+    }]
+  },options:{...BASE,scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,max:1.1}},
+    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` IPR: ${ctx.raw}`}}}
+  }});
+
+  /* Presupuesto */
+  const pZ=["Z·1","Z·3","Z·4","Z·5","Z·8"];
+  const pR=[3643,1782,2312,6570,1315],pE=[726,998,1860,2722,1315];
+  const pPct=[20,56,80,41,100];
+  const pCol=["var(--r5)","var(--a5)","var(--g6)","var(--a5)","var(--t5)"];
   document.getElementById("pres-prog").innerHTML=pZ.map((z,i)=>`
-    <div class="prog-row">
-      <span class="prog-label">${z}</span>
-      <div class="prog-track"><div class="prog-fill" style="background:${pCols[i]};width:${pcts[i]}%"></div></div>
-      <span class="prog-value" style="color:${pCols[i]}">${pcts[i]}%</span>
+    <div class="pr">
+      <span class="pr-lbl">${z}</span>
+      <div class="pr-track"><div class="pr-fill" style="background:${pCol[i]};width:${pPct[i]}%"></div></div>
+      <span class="pr-val" style="color:${pCol[i]}">${pPct[i]}%</span>
     </div>`).join("");
-  MK("ch-pres",{type:"bar",data:{labels:pZ,datasets:[
-    {label:"1er Rev.",data:pR,backgroundColor:"rgba(61,155,61,.25)",borderRadius:2},
-    {label:"Entregado",data:pE,backgroundColor:"rgba(61,155,61,.8)",borderRadius:2},
-  ]},options:{...cBase,plugins:{...cBase.plugins}}});
+  MK("c-pres",{type:"bar",data:{labels:pZ,datasets:[
+    {label:"1er Rev.",data:pR,backgroundColor:"rgba(58,155,61,.25)",borderRadius:3},
+    {label:"Entregado",data:pE,backgroundColor:"rgba(58,155,61,.82)",borderRadius:3},
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
 
-  // GC tendencia
-  const rc=DB.ronron||[], gcByDate={};
-  rc.forEach(x=>{const d=dstr(x.Fecha);gcByDate[d]=(gcByDate[d]||0)+nv(x.TotalCaptura);});
+  /* GC Tendencia */
+  const gcByDate={};
+  gc.forEach(x=>{const d=ds(x.Fecha);gcByDate[d]=(gcByDate[d]||0)+nv(x.TotalCaptura);});
   const gcDates=Object.keys(gcByDate);
-  MK("ch-gct",{type:"line",data:{
+  MK("c-gct",{type:"line",data:{
     labels:gcDates.length?gcDates:["27 feb","1 mar","3 mar","5 mar","7 mar","9 mar","11 mar","13 mar","15 mar","17 mar"],
     datasets:[{label:"Adultos",data:gcDates.length?Object.values(gcByDate):[0,0,7,0,0,0,0,0,6347,6825],
-      borderColor:"#E03C3C",borderWidth:2.5,pointRadius:4,pointBackgroundColor:"#C42828",
-      fill:true,backgroundColor:"rgba(192,40,40,.07)",tension:.2}]
-  },options:{...cBase,plugins:{...cBase.plugins}}});
+      borderColor:"#E03838",borderWidth:2.5,pointRadius:4.5,pointBackgroundColor:"#C42424",
+      fill:true,backgroundColor:"rgba(196,36,36,.07)",tension:.2
+    }]
+  },options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw.toLocaleString("es-GT")} adultos`}}}}});
 
-  // GC especie por finca
-  const fincas=[...new Set(rc.map(x=>x.Nombre_finca).filter(Boolean))];
-  MK("ch-gcf",{type:"bar",data:{labels:fincas.length?fincas:["CAÑAVERALES","MIXQUEÑO","SANTA ISABEL"],datasets:[
-    {label:"Phyllophaga",data:fincas.length?fincas.map(f=>rc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Phyllophaga),0)):[11260,987,215],backgroundColor:"rgba(56,152,216,.85)",borderRadius:2,stack:"s"},
-    {label:"Anomala",    data:fincas.length?fincas.map(f=>rc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Anomala),0)):[626,0,0],    backgroundColor:"rgba(32,192,154,.85)",borderRadius:2,stack:"s"},
-    {label:"Diplotaxis", data:fincas.length?fincas.map(f=>rc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Diplotaxis),0)):[0,0,84],  backgroundColor:"rgba(128,212,134,.85)",borderRadius:2,stack:"s"},
-  ]},options:{...cBase,plugins:{...cBase.plugins},scales:{x:{...cBase.scales.x,stacked:true},y:{...cBase.scales.y,stacked:true}}}});
+  /* GC Especie por Finca */
+  const fincas=[...new Set(gc.map(x=>x.Nombre_finca).filter(Boolean))];
+  MK("c-gcf",{type:"bar",data:{labels:fincas.length?fincas:["CAÑAVERALES","MIXQUEÑO","SANTA ISABEL"],datasets:[
+    {label:"Phyllophaga",data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Phyllophaga),0)):[11260,987,215],backgroundColor:"rgba(56,152,216,.85)",borderRadius:3,stack:"s"},
+    {label:"Anomala",    data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Anomala),0)):[626,0,0],    backgroundColor:"rgba(30,192,154,.85)",borderRadius:3,stack:"s"},
+    {label:"Diplotaxis", data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Diplotaxis),0)):[0,0,84],  backgroundColor:"rgba(112,204,115,.85)",borderRadius:3,stack:"s"},
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
 
-  // GC lotes críticos
-  const gcTop=[...rc].sort((a,b)=>nv(b.TotalCaptura)-nv(a.TotalCaptura)).slice(0,10);
-  MK("ch-gcl",{type:"bar",data:{
+  /* GC Lotes Críticos (clickable) */
+  const gcTop=[...gc].sort((a,b)=>nv(b.TotalCaptura)-nv(a.TotalCaptura)).slice(0,10);
+  MK("c-gcl",{type:"bar",data:{
     labels:gcTop.length?gcTop.map(x=>String(x.ID_Lote||"").slice(-7)):["0043601","0043602","0043502","0043501","0082603","0082403","0850101","0081801","0850309","0850402"],
-    datasets:[{label:"Adultos",data:gcTop.length?gcTop.map(x=>nv(x.TotalCaptura)):[3836,3513,2429,2108,699,158,158,130,55,36],backgroundColor:"rgba(192,40,40,.85)",borderRadius:2}]
-  },options:{...cBase,scales:{x:{...cBase.scales.x,ticks:{font:{size:8}}},y:{...cBase.scales.y}},plugins:{...cBase.plugins}}});
+    datasets:[{label:"Adultos",data:gcTop.length?gcTop.map(x=>nv(x.TotalCaptura)):[3836,3513,2429,2108,699,158,158,130,55,36],
+      backgroundColor:"rgba(196,36,36,.82)",borderRadius:3
+    }]
+  },options:{...BASE,scales:{x:{...BASE.scales.x,ticks:{font:{size:9}}},y:{...BASE.scales.y}},plugins:{...BASE.plugins,tooltip:TT}}});
 }
 
-/* ═════════════════════════════════════════════════════
-   TABLES
-═════════════════════════════════════════════════════ */
-function badge(txt){
+/* ══════════════════════════════════════════════
+   BADGE
+══════════════════════════════════════════════ */
+function bdg(txt){
   const t=(txt||"").replace(/🟢|🔴|🟠/g,"").trim().toUpperCase();
   const ok=t==="REPRESENTATIVO"||t.includes("TIEMPO");
   const warn=t.includes("ACEPTABLE")||t.includes("VENTANA");
   const col=ok?"var(--g5)":warn?"var(--a5)":"var(--r5)";
-  return `<span class="badge" style="color:${col};border-color:${col}30;background:${col}10"><span class="badge-dot" style="background:${col}"></span>${txt||""}</span>`;
+  return `<span class="bdg" style="color:${col};border-color:${col}28;background:${col}0E"><span class="bdg-pip" style="background:${col}"></span>${txt||""}</span>`;
 }
 
+/* ══════════════════════════════════════════════
+   TABLES
+══════════════════════════════════════════════ */
 function renderTables(){
-  const m=filtered("muestreo"), c=filtered("control"), e=filtered("ejecutados");
-  const d=filtered("dano"), gc=F.zona!==null?(DB.ronron||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.ronron||[]);
+  const m=FD("muestreo"), c=FD("control"), e=FD("ejecutados"), d=FD("dano");
+  const gc=F.zona!==null?(DB.ronron||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.ronron||[]);
 
-  // Muestreo
+  /* Muestreo */
   document.getElementById("tb-m").innerHTML=m.slice(0,400).map(r=>{
     const pc=nv(r.Porcentaje_Captura);
-    return `<tr><td class="mono">${r.ID_Zona||""}</td><td class="mono">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td><td>${dstr(r.Fecha)}</td><td>${badge(r.Estado_Muestreo)}</td>
-    <td class="r">${r.ID_Catorcena||""}</td><td class="r">${nv(r.Area||r.Area_lote_ha).toFixed(1)}</td>
-    <td class="r">${nv(r.Total_de_trampas||r.Trampas_colocadas||0)}</td>
-    <td class="r" style="${nv(r.Diferencia_Trampas)<0?"color:var(--r5)":""}">${r.Diferencia_Trampas||""}</td>
-    <td class="r" style="${pc>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${pc}</td>
-    <td class="r">${r.Porcentaje_Captura_Ajustado||""}</td>
-    <td class="r" style="${nv(r.Kg_a_aplicar)>0?"color:var(--a5);font-weight:600":""}">${nv(r.Kg_a_aplicar).toFixed(1)}</td></tr>`;
+    return `<tr>
+      <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
+      <td>${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td>
+      <td>${bdg(r.Estado_Muestreo)}</td>
+      <td class="r">${r.ID_Catorcena||""}</td>
+      <td class="r">${nv(r.Area||r.Area_lote_ha).toFixed(1)}</td>
+      <td class="r">${nv(r.Total_de_trampas||r.Trampas_colocadas||0)}</td>
+      <td class="r" style="${nv(r.Diferencia_Trampas)<0?"color:var(--r5)":""}">${r.Diferencia_Trampas||""}</td>
+      <td class="r" style="${pc>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${pc}</td>
+      <td class="r">${r.Porcentaje_Captura_Ajustado||""}</td>
+      <td class="r" style="${nv(r.Kg_a_aplicar)>0?"color:var(--a5);font-weight:600":""}">${nv(r.Kg_a_aplicar).toFixed(1)}</td>
+    </tr>`;
   }).join("");
-  $("ti-m",m.length>400?`Mostrando 400 de ${m.length} registros`:"");
+  $("ti-m", m.length>400?`Mostrando 400 de ${m.length} registros`:"");
 
-  // Control
+  /* Control */
   document.getElementById("tb-c").innerHTML=c.slice(0,400).map(r=>{
     const pc=nv(r.Porcentaje_Captura), idx=nv(r.Indice_Cumplimiento);
-    return `<tr><td class="mono">${r.ID_Zona||""}</td><td class="mono">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td>
-    <td class="r">${r.ID_Catorcena||""}</td><td class="r" style="color:var(--tx3)">${r.Catorcena_Control||"-"}</td>
-    <td>${badge((r.Estado_Control||"").replace(/🟢|🔴|🟠/g,"").trim())}</td>
-    <td class="r" style="${pc>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${pc}</td>
-    <td class="r" style="color:var(--a6)">${nv(r.Kg_Recomendados).toFixed(1)}</td>
-    <td class="r" style="${nv(r.Kg_Ejecutados)>0?"color:var(--g6);font-weight:600":"color:var(--tx4)"}">${nv(r.Kg_Ejecutados).toFixed(1)}</td>
-    <td class="r" style="${idx>=1?"color:var(--g6)":idx>0?"color:var(--a5)":"color:var(--tx4)"}">${idx>0?idx.toFixed(2):"-"}</td>
-    <td class="r" style="${nv(r.Retraso_Catorcenas)>0?"color:var(--a5)":""}">${r.Retraso_Catorcenas||"-"}</td>
-    <td class="r"><span style="color:${nv(r.Avance_de_ejecucion)>=100?"var(--g6)":nv(r.Avance_de_ejecucion)>0?"var(--a5)":"var(--tx4)"};font-weight:600">${r.Avance_de_ejecucion||0}%</span></td></tr>`;
+    return `<tr>
+      <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
+      <td>${r.Nombre_finca||""}</td>
+      <td class="r">${r.ID_Catorcena||""}</td>
+      <td class="r" style="color:var(--tx3)">${r.Catorcena_Control||"—"}</td>
+      <td>${bdg((r.Estado_Control||"").replace(/🟢|🔴|🟠/g,"").trim())}</td>
+      <td class="r" style="${pc>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${pc}</td>
+      <td class="r" style="color:var(--a5)">${nv(r.Kg_Recomendados).toFixed(1)}</td>
+      <td class="r" style="${nv(r.Kg_Ejecutados)>0?"color:var(--g6);font-weight:600":"color:var(--tx4)"}">${nv(r.Kg_Ejecutados).toFixed(1)}</td>
+      <td class="r" style="${idx>=1?"color:var(--g6)":idx>0?"color:var(--a5)":"color:var(--tx4)"}">${idx>0?idx.toFixed(2):"—"}</td>
+      <td class="r" style="${nv(r.Retraso_Catorcenas)>0?"color:var(--a5)":""}">${r.Retraso_Catorcenas||"—"}</td>
+      <td class="r"><span style="color:${nv(r.Avance_de_ejecucion)>=100?"var(--g6)":nv(r.Avance_de_ejecucion)>0?"var(--a5)":"var(--tx4)"};font-weight:600">${r.Avance_de_ejecucion||0}%</span></td>
+    </tr>`;
   }).join("");
-  $("ti-c",c.length>400?`Mostrando 400 de ${c.length}`:"");
+  $("ti-c", c.length>400?`Mostrando 400 de ${c.length}`:"");
 
-  // Ejecutados
+  /* Ejecutados */
   document.getElementById("tb-e").innerHTML=e.slice(0,400).map(r=>`<tr>
-    <td class="mono">${r.ID_Zona||""}</td><td class="mono">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td><td>${dstr(r.Fecha)}</td>
+    <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
+    <td>${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td>
     <td class="r">${r.ID_Catorcena||""}</td>
-    <td class="r">${r.Porcentaje_Captura_referencia||"-"}</td>
+    <td class="r">${r.Porcentaje_Captura_referencia||"—"}</td>
     <td class="r" style="color:var(--g6);font-weight:600">${nv(r.Kg_Aplicados).toFixed(1)}</td>
-    <td>${r.Producto||""}</td><td>${r.Condicion_Cañal||""}</td></tr>`).join("");
-  $("ti-e",e.length>400?`Mostrando 400 de ${e.length}`:"");
+    <td>${r.Producto||""}</td><td>${r.Condicion_Cañal||""}</td>
+  </tr>`).join("");
+  $("ti-e", e.length>400?`Mostrando 400 de ${e.length}`:"");
 
-  // Daño
+  /* Daño */
   document.getElementById("tb-d").innerHTML=d.slice(0,400).map(r=>`<tr>
-    <td class="mono">${r.ID_Zona||""}</td><td class="mono">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td><td>${r.Variedad||""}</td><td>${dstr(r.Fecha)}</td>
+    <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
+    <td>${r.Nombre_finca||""}</td><td>${r.Variedad||""}</td><td>${ds(r.Fecha)}</td>
     <td class="r">${r.ID_Catorcena||""}</td>
     <td class="r" style="${nv(r.Porc_Infest_Barrenador)>20?"color:var(--a6)":""}">${nv(r.Porc_Infest_Barrenador).toFixed(1)}</td>
     <td class="r" style="${nv(r.Porc_Infest_Rata)>5?"color:var(--a5)":""}">${nv(r.Porc_Infest_Rata).toFixed(1)}</td>
     <td class="r" style="${nv(r.Porc_Inten_Infest_Barrenador)>3?"color:var(--a6);font-weight:600":""}">${nv(r.Porc_Inten_Infest_Barrenador).toFixed(2)}</td>
-    <td class="r" style="${nv(r.Porc_Inten_Infest_Rata)>1?"color:var(--t5)":""}">${nv(r.Porc_Inten_Infest_Rata).toFixed(2)}</td></tr>`).join("");
-  $("ti-d",d.length>400?`Mostrando 400 de ${d.length}`:"");
+    <td class="r" style="${nv(r.Porc_Inten_Infest_Rata)>1?"color:var(--t5)":""}">${nv(r.Porc_Inten_Infest_Rata).toFixed(2)}</td>
+  </tr>`).join("");
+  $("ti-d", d.length>400?`Mostrando 400 de ${d.length}`:"");
 
-  // GC
+  /* Gallina Ciega */
   document.getElementById("tb-gc").innerHTML=gc.map(r=>`<tr>
-    <td class="mono">${r.ID_Zona||""}</td><td class="mono">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td><td class="r">${r.ID_Catorcena||""}</td><td>${dstr(r.Fecha)}</td>
+    <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
+    <td>${r.Nombre_finca||""}</td><td class="r">${r.ID_Catorcena||""}</td><td>${ds(r.Fecha)}</td>
     <td>${r.Tipo_trampa||""}</td><td class="r">${r.No_Trampas||""}</td>
-    <td class="r" style="${nv(r.Phyllophaga)>500?"color:var(--a6);font-weight:600":""}">${fmtD(nv(r.Phyllophaga))}</td>
-    <td class="r">${fmtD(nv(r.Diplotaxis))}</td><td class="r">${fmtD(nv(r.Anomala))}</td>
-    <td class="r" style="${nv(r.TotalCaptura)>500?"color:var(--r5);font-weight:600":"color:var(--g6)"}">${fmtD(nv(r.TotalCaptura))}</td></tr>`).join("");
+    <td class="r" style="${nv(r.Phyllophaga)>500?"color:var(--a6);font-weight:600":""}">${fmtN(nv(r.Phyllophaga))}</td>
+    <td class="r">${fmtN(nv(r.Diplotaxis))}</td>
+    <td class="r">${fmtN(nv(r.Anomala))}</td>
+    <td class="r" style="${nv(r.TotalCaptura)>500?"color:var(--r5);font-weight:600":"color:var(--g6)"}">${fmtN(nv(r.TotalCaptura))}</td>
+  </tr>`).join("");
 
-  // Dinámica
-  const dpStatic=[{z:5,l:"0600605",f:"PETÉN",fe:"3 mar 2026",n:"MEDIO - Riesgo",pc:5,s:7,hg:4,e:21,i:0.98},{z:5,l:"0600603",f:"PETÉN",fe:"2 mar 2026",n:"MEDIO - Riesgo",pc:9,s:12,hg:4,e:19,i:0.69},{z:5,l:"0600604",f:"PETÉN",fe:"27 feb 2026",n:"BAJO - Estable",pc:4,s:6,hg:2,e:8,i:0.22},{z:4,l:"0690109",f:"SAN LORENZO",fe:"21 feb 2026",n:"BAJO - Estable",pc:7,s:8,hg:3,e:9,i:0.35},{z:5,l:"0600605",f:"PETÉN",fe:"31 ene 2026",n:"BAJO - Estable",pc:4,s:6,hg:1,e:2,i:0.06},{z:5,l:"0600603",f:"PETÉN",fe:"30 ene 2026",n:"BAJO - Estable",pc:4,s:5,hg:0,e:0,i:0.00},{z:5,l:"0600604",f:"PETÉN",fe:"29 ene 2026",n:"BAJO - Estable",pc:2,s:3,hg:1,e:3,i:0.08},{z:5,l:"0600605",f:"PETÉN",fe:"21 oct 2025",n:"BAJO - Estable",pc:3,s:3,hg:1,e:3,i:0.25}];
-  const dpRows=DB.dinamica||dpStatic;
-  document.getElementById("tb-dp").innerHTML=dpRows.map(r=>{
-    const ipr=nv(r.IPR||r.i);
-    const nivel=(r.Nivel_IPR||r.n||"").toUpperCase();
+  /* Dinámica */
+  const dpS=[{z:5,l:"0600605",f:"PETÉN",fe:"3 mar 2026",n:"MEDIO - Riesgo",pc:5,s:7,hg:4,e:21,i:0.98},{z:5,l:"0600603",f:"PETÉN",fe:"2 mar 2026",n:"MEDIO - Riesgo",pc:9,s:12,hg:4,e:19,i:0.69},{z:5,l:"0600604",f:"PETÉN",fe:"27 feb 2026",n:"BAJO - Estable",pc:4,s:6,hg:2,e:8,i:0.22},{z:4,l:"0690109",f:"SAN LORENZO",fe:"21 feb 2026",n:"BAJO - Estable",pc:7,s:8,hg:3,e:9,i:0.35},{z:5,l:"0600605",f:"PETÉN",fe:"31 ene 2026",n:"BAJO - Estable",pc:4,s:6,hg:1,e:2,i:0.06},{z:5,l:"0600603",f:"PETÉN",fe:"30 ene 2026",n:"BAJO - Estable",pc:4,s:5,hg:0,e:0,i:0.00},{z:5,l:"0600604",f:"PETÉN",fe:"29 ene 2026",n:"BAJO - Estable",pc:2,s:3,hg:1,e:3,i:0.08},{z:5,l:"0600605",f:"PETÉN",fe:"21 oct 2025",n:"BAJO - Estable",pc:3,s:3,hg:1,e:3,i:0.25}];
+  const dpR=DB.dinamica||dpS;
+  document.getElementById("tb-dp").innerHTML=dpR.map(r=>{
+    const ipr=nv(r.IPR||r.i), nivel=(r.Nivel_IPR||r.n||"").toUpperCase();
     const col=nivel.includes("MEDIO")||ipr>=.5&&ipr<1?"var(--a5)":ipr>=1?"var(--r5)":"var(--g5)";
     return `<tr>
-    <td class="mono">${r.ID_Zona||r.z||""}</td><td class="mono">${r.ID_Lote||r.l||""}</td>
-    <td>${r.Nombre_finca||r.f||""}</td><td>${dstr(r.Fecha||r.fe)}</td>
-    <td><span class="badge" style="color:${col};border-color:${col}30;background:${col}10">${r.Nivel_IPR||r.n||""}</span></td>
-    <td class="r">${r.Porcentaje_Captura||r.pc||""}</td>
-    <td class="r">${r.Sigmodon||r.s||""}</td>
-    <td class="r">${r.Hembras_Gestantes||r.hg||""}</td>
-    <td class="r">${r.Hembriones||r.Total_Embriones||r.e||""}</td>
-    <td class="r" style="color:${col};font-weight:600">${(r.IPR||r.i||0).toFixed(2)}</td></tr>`;
+      <td class="m">${r.ID_Zona||r.z||""}</td><td class="m">${r.ID_Lote||r.l||""}</td>
+      <td>${r.Nombre_finca||r.f||""}</td><td>${ds(r.Fecha||r.fe)}</td>
+      <td>${bdg(r.Nivel_IPR||r.n||"")}</td>
+      <td class="r">${r.Porcentaje_Captura||r.pc||""}</td>
+      <td class="r">${r.Sigmodon||r.s||""}</td>
+      <td class="r">${r.Hembras_Gestantes||r.hg||""}</td>
+      <td class="r">${r.Hembriones||r.Total_Embriones||r.e||""}</td>
+      <td class="r" style="color:${col};font-weight:600">${(r.IPR||r.i||0).toFixed(2)}</td>
+    </tr>`;
   }).join("");
 
-  // Resumen table (overview)
+  /* Resumen overview */
   buildResumen();
 }
 
 function buildResumen(){
-  const m=filtered("muestreo"), c=filtered("control");
+  const m=FD("muestreo"), c=FD("control");
   const label=F.cat?`Cat. ${F.cat}`:F.zona?`Z·${F.zona}`:F.finca?F.finca.slice(0,14):"Todos";
-  $("resumen-chip",label+" · "+m.length+" lotes");
+  $("res-chip", label+" · "+m.length+" lotes");
   const fincas=[...new Set([...m,...c].map(r=>r.Nombre_finca).filter(Boolean))].sort();
   const rows=fincas.map(fn=>{
     const mF=m.filter(r=>r.Nombre_finca===fn), cF=c.filter(r=>r.Nombre_finca===fn);
@@ -1482,8 +1545,8 @@ function buildResumen(){
     const pnd=cF.filter(r=>(r.Estado_Control||"").includes("PENDIENTE")).length;
     return {zona,fn,lotes:mF.length,pp,l8,kgR,kgE,at,pnd};
   }).filter(r=>r.lotes>0);
-  document.getElementById("tb-resumen").innerHTML=rows.map(r=>`<tr>
-    <td class="mono" style="color:var(--g7)">${r.zona}</td>
+  document.getElementById("tb-res").innerHTML=rows.map(r=>`<tr>
+    <td class="m" style="color:var(--g7)">${r.zona}</td>
     <td style="font-weight:500">${r.fn}</td>
     <td class="r">${r.lotes}</td>
     <td class="r" style="${nv(r.pp)>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${r.pp}%</td>
@@ -1491,37 +1554,29 @@ function buildResumen(){
     <td class="r" style="color:var(--a5)">${fmt(r.kgR)}</td>
     <td class="r" style="${r.kgE>0?"color:var(--g6)":""}">${fmt(r.kgE)}</td>
     <td class="r" style="${r.at>0?"color:var(--g6)":""}">${r.at}</td>
-    <td class="r" style="${r.pnd>0?"color:var(--r5)":""}">${r.pnd}</td></tr>`).join("");
+    <td class="r" style="${r.pnd>0?"color:var(--r5)":""}">${r.pnd}</td>
+  </tr>`).join("");
 }
 
-/* ═════════════════════════════════════════════════════
-   MASTER REFRESH
-═════════════════════════════════════════════════════ */
-function refreshAll(){
-  updateKPIs();
-  buildAllCharts();
-  renderTables();
-}
-
-/* ═════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    NAVIGATION
-═════════════════════════════════════════════════════ */
-function navTo(id,btn,color){
-  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".nav-btn").forEach(b=>{b.classList.remove("active");b.style.color="";});
-  document.getElementById("tab-"+id).classList.add("active");
-  btn.classList.add("active"); btn.style.color=color;
+══════════════════════════════════════════════ */
+function NAV(id, btn, color){
+  document.querySelectorAll(".tab").forEach(p=>p.classList.remove("on"));
+  document.querySelectorAll(".nv").forEach(b=>{b.classList.remove("on");b.style.color="";});
+  document.getElementById("tab-"+id).classList.add("on");
+  btn.classList.add("on"); btn.style.color=color;
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function modTab(mod,view,btn){
-  document.querySelectorAll(`[id^="${mod}-"]`).forEach(el=>el.classList.remove("active"));
-  const el=document.getElementById(`${mod}-${view}`); if(el)el.classList.add("active");
-  btn.closest(".mod-tabs").querySelectorAll(".mod-tab").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
+function MT(mod, view, btn){
+  document.querySelectorAll(`[id^="${mod}-"]`).forEach(el=>el.classList.remove("on"));
+  const el=document.getElementById(`${mod}-${view}`); if(el) el.classList.add("on");
+  btn.closest(".mtabs").querySelectorAll(".mt").forEach(b=>b.classList.remove("on"));
+  btn.classList.add("on");
 }
 
-/* ═════ BOOT ═════ */
+/* ══ BOOT ══ */
 boot();
 </script>
 </body>
