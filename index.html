@@ -3,1539 +3,1212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GeoMIP · Ingenio Madre Tierra</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@400;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<title>GeoMIP · Dashboard · Ingenio Madre Tierra</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════════
-   TOKENS
-══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   TOKENS — Estilo claro profesional
+══════════════════════════════════════════ */
 :root{
-  --bg:   #0C1410;
-  --s1:   #111A15;
-  --s2:   #162019;
-  --s3:   #1C2920;
-  --s4:   #233227;
-  --s5:   #2B3D2F;
- 
-  --g4:#2D7A30; --g5:#3A9B3D; --g6:#4EBD52; --g7:#70CC73; --g8:#9ADEA0;
-  --a3:#A86800; --a4:#D48A00; --a5:#F0A800; --a6:#F5BC2E; --a7:#F9CE60;
-  --r3:#991A1A; --r4:#C42424; --r5:#E03838; --r6:#F06060;
-  --t3:#007860; --t4:#009B78; --t5:#1EC09A; --t6:#4DCEA8;
-  --n1:#D4E8D6; --n2:#A8C8AC; --n3:#7AA080; --n4:#4E6C52;
- 
-  --bdr-xs:rgba(255,255,255,.04);
-  --bdr-sm:rgba(255,255,255,.07);
-  --bdr-md:rgba(255,255,255,.11);
-  --bdr-lg:rgba(255,255,255,.18);
- 
-  --tx1:#ECF5EE; --tx2:#B8D0BC; --tx3:#7D9E82; --tx4:#4D6650;
- 
-  --font-ui:'Inter',sans-serif;
-  --font-data:'JetBrains Mono',monospace;
-  --font-display:'Barlow Condensed',sans-serif;
- 
-  --radius:4px;
-  --shadow:0 4px 24px rgba(0,0,0,.4);
+  --bg:         #F4F6FA;
+  --white:      #FFFFFF;
+  --surface:    #FFFFFF;
+  --surface2:   #F8F9FC;
+  --surface3:   #EEF1F8;
+
+  /* Azul principal */
+  --blue1:#2C3E8C; --blue2:#3B52B0; --blue3:#4E6AD4; --blue4:#6B84E0; --blue5:#9EB0EE;
+  /* Púrpura */
+  --pur1:#5A2D82; --pur2:#7B4BA8; --pur3:#9B68CC; --pur4:#BF96E0;
+  /* Gradiente header */
+  --grad: linear-gradient(135deg,#3B52B0 0%,#5A2D82 60%,#7B4BA8 100%);
+  --grad-light:linear-gradient(135deg,#EEF1FB 0%,#F3EEFF 100%);
+  /* Verde éxito */
+  --ok1:#1B6B35; --ok2:#28A854; --ok3:#48C870; --ok4:#A8ECC0;
+  /* Ámbar advertencia */
+  --wa1:#7A4400; --wa2:#C07000; --wa3:#F0A000; --wa4:#FFD580;
+  /* Rojo alerta */
+  --er1:#7A1515; --er2:#B82020; --er3:#E03838; --er4:#FFBBBB;
+  /* Teal info */
+  --in1:#00526A; --in2:#007A9E; --in3:#00A8D8; --in4:#B0E8F8;
+
+  /* Texto */
+  --t1:#111827; --t2:#374151; --t3:#6B7280; --t4:#9CA3AF; --t5:#D1D5DB;
+
+  /* Bordes */
+  --b1:rgba(59,82,176,.12); --b2:rgba(59,82,176,.2); --b3:rgba(59,82,176,.35);
+
+  /* Sombras */
+  --sh1:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+  --sh2:0 4px 16px rgba(59,82,176,.1),0 1px 4px rgba(0,0,0,.06);
+  --sh3:0 8px 32px rgba(59,82,176,.15),0 2px 8px rgba(0,0,0,.08);
+  --sh-blue:0 4px 20px rgba(59,82,176,.25);
+
+  --radius:12px; --radius-sm:8px; --radius-xs:6px;
+  --font:'Inter',sans-serif; --font-d:'Barlow Condensed',sans-serif;
 }
- 
-/* ══════════════════════════════════════════════
-   BASE
-══════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--tx1);font-family:var(--font-ui);min-height:100vh;overflow-x:hidden}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:var(--s1)}
-::-webkit-scrollbar-thumb{background:var(--g5);border-radius:2px}
-a{color:var(--g6);text-decoration:none}
- 
-/* ══════════════════════════════════════════════
-   ANIMATIONS
-══════════════════════════════════════════════ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 currentColor}50%{opacity:.4;box-shadow:0 0 0 4px transparent}}
+html{font-size:14px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--font);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#F0F2F8}
+::-webkit-scrollbar-thumb{background:var(--blue4);border-radius:3px}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes kpiIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
-@keyframes barGrow{from{transform:scaleY(0);transform-origin:bottom}to{transform:scaleY(1)}}
- 
-/* ══════════════════════════════════════════════
-   LOADING
-══════════════════════════════════════════════ */
+@keyframes shimmer{0%{background-position:-300px 0}100%{background-position:300px 0}}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
+
+/* ══ LOADING ══ */
 #loading{
-  position:fixed;inset:0;background:var(--bg);z-index:2000;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
-  transition:opacity .7s ease
+  position:fixed;inset:0;z-index:9999;
+  background:var(--grad);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  transition:opacity .6s ease
 }
 #loading.out{opacity:0;pointer-events:none}
-.l-icon{width:60px;height:60px}
-.l-title{font-family:var(--font-display);font-size:34px;font-weight:900;letter-spacing:5px;color:var(--tx1)}
-.l-sub{font-family:var(--font-data);font-size:10px;color:var(--g6);letter-spacing:3px;text-align:center;line-height:1.8}
-.l-bar{width:300px;height:2px;background:var(--bdr-sm);overflow:hidden;border-radius:1px}
-.l-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--g4),var(--g7));transition:width .35s}
-.l-msg{font-family:var(--font-data);font-size:9px;color:var(--tx4);letter-spacing:2px}
-.l-dots{display:flex;gap:10px}
-.l-dot{width:8px;height:8px;border-radius:50%;background:var(--s4);transition:background .3s}
-.l-dot.ok{background:var(--g6)}
-.l-dot.er{background:var(--r5)}
- 
-/* ══════════════════════════════════════════════
-   HEADER
-══════════════════════════════════════════════ */
-.hdr{
-  position:sticky;top:0;z-index:200;
-  background:rgba(12,20,16,.97);
-  border-bottom:1px solid var(--bdr-sm);
-  backdrop-filter:blur(24px)
+.l-logo{
+  width:64px;height:64px;background:rgba(255,255,255,.15);
+  border-radius:16px;display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25)
 }
-.hdr-stripe{
-  height:3px;
-  background:linear-gradient(90deg,var(--g4) 0%,var(--g6) 38%,var(--g7) 58%,var(--a5) 82%,var(--a4) 100%)
-}
-.hdr-row{
-  max-width:1540px;margin:0 auto;padding:0 22px;
-  display:flex;align-items:stretch;height:56px
-}
-.brand{
-  display:flex;align-items:center;gap:12px;
-  padding-right:22px;border-right:1px solid var(--bdr-xs);
-  margin-right:6px;flex-shrink:0;cursor:default
-}
-.brand-icon{width:34px;height:34px;flex-shrink:0}
-.brand-name{font-family:var(--font-display);font-weight:800;font-size:16px;letter-spacing:3px;color:var(--tx1);text-transform:uppercase;line-height:1}
-.brand-tagline{font-family:var(--font-data);font-size:8px;color:var(--g6);letter-spacing:2.5px;margin-top:2px}
- 
+.l-logo svg{width:36px;height:36px}
+.l-title{font-family:var(--font-d);font-size:36px;font-weight:900;color:#fff;letter-spacing:2px}
+.l-sub{font-size:13px;color:rgba(255,255,255,.75);letter-spacing:.5px;text-align:center;line-height:1.7}
+.l-bar{width:300px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
+.l-fill{height:100%;width:0%;background:rgba(255,255,255,.9);transition:width .35s ease;border-radius:2px}
+.l-msg{font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.5px}
+.l-dots{display:flex;gap:8px}
+.l-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .3s}
+.l-dot.ok{background:rgba(255,255,255,.9)}
+.l-dot.er{background:#FF8080}
+
+/* ══ HEADER ══ */
+.hdr{background:var(--grad);position:sticky;top:0;z-index:200}
+.hdr-inner{max-width:1560px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:60px;gap:0}
+.brand{display:flex;align-items:center;gap:10px;padding-right:20px;border-right:1px solid rgba(255,255,255,.15);margin-right:8px;flex-shrink:0;cursor:default}
+.brand-box{width:34px;height:34px;background:rgba(255,255,255,.18);border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px)}
+.brand-box svg{width:20px;height:20px}
+.brand-name{font-family:var(--font-d);font-size:18px;font-weight:800;color:#fff;letter-spacing:2px}
+.brand-sub{font-size:10px;color:rgba(255,255,255,.65);letter-spacing:.5px;line-height:1}
+
 /* NAV */
-.nav{display:flex;align-items:stretch;overflow-x:auto;gap:0;flex:1}
+.nav{display:flex;align-items:center;overflow-x:auto;gap:2px;flex:1}
 .nav::-webkit-scrollbar{display:none}
 .nv{
-  font-family:var(--font-display);font-weight:700;font-size:12px;
-  letter-spacing:1.5px;text-transform:uppercase;
-  padding:0 14px;background:transparent;border:none;
-  color:var(--tx4);cursor:pointer;
-  border-bottom:2.5px solid transparent;margin-bottom:-1px;
-  transition:color .15s,border-color .15s;white-space:nowrap;
-  display:flex;align-items:center;gap:6px;position:relative
+  font-family:var(--font-d);font-size:12px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;padding:7px 14px;background:transparent;border:none;
+  color:rgba(255,255,255,.65);cursor:pointer;border-radius:var(--radius-xs);
+  transition:all .15s;white-space:nowrap
 }
-.nv:hover{color:var(--tx2)}
-.nv.on{color:var(--tx1);border-bottom-color:currentColor}
-.nv.on::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,currentColor 0%,transparent 60%);
-  opacity:.06;pointer-events:none
-}
- 
-/* SYNC BTN */
-.sync-wrap{display:flex;align-items:center;gap:10px;margin-left:auto;padding-left:16px;flex-shrink:0}
+.nv:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.9)}
+.nv.on{background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(8px)}
+
+/* SYNC */
+.hdr-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0;padding-left:12px}
+.live-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.7);background:rgba(255,255,255,.1);padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.15)}
+.live-pip{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4)}
+.live-pip.on{background:#68EF9C;animation:pulse 2.5s infinite}
+.live-pip.err{background:#FF8080}
 .sync-btn{
-  font-family:var(--font-data);font-size:10px;letter-spacing:.5px;
-  padding:6px 14px;background:transparent;
-  border:1px solid var(--bdr-md);color:var(--tx3);cursor:pointer;
-  transition:all .15s;border-radius:var(--radius);
-  display:flex;align-items:center;gap:6px
+  font-size:12px;font-weight:500;padding:7px 16px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  color:#fff;cursor:pointer;border-radius:20px;transition:all .15s;
+  display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px)
 }
-.sync-btn:hover{border-color:var(--g5);color:var(--g6);background:rgba(61,155,61,.08)}
-.spin{width:10px;height:10px;border:1.5px solid var(--bdr-md);border-top-color:var(--g5);border-radius:50%;animation:spin .7s linear infinite;display:none}
-.live-badge{
-  display:flex;align-items:center;gap:5px;
-  font-family:var(--font-data);font-size:9px;color:var(--tx4)
-}
-.live-pip{width:7px;height:7px;border-radius:50%;background:var(--s4)}
-.live-pip.on{background:var(--g6);box-shadow:0 0 0 3px rgba(78,189,82,.18);animation:pulse 2.5s infinite}
-.live-pip.err{background:var(--r5)}
- 
-/* ══════════════════════════════════════════════
-   FILTER BAR
-══════════════════════════════════════════════ */
-.fbar{
-  position:sticky;top:56px;z-index:190;
-  background:var(--s1);border-bottom:1px solid var(--bdr-xs)
-}
-.fbar-inner{
-  max-width:1540px;margin:0 auto;padding:8px 22px;
-  display:flex;align-items:center;gap:0;flex-wrap:wrap;min-height:46px
-}
-.fbar-sep{width:1px;height:22px;background:var(--bdr-xs);margin:0 14px;flex-shrink:0}
-.flbl{
-  font-family:var(--font-data);font-size:9px;letter-spacing:2.5px;
-  color:var(--tx4);text-transform:uppercase;margin-right:8px;flex-shrink:0;white-space:nowrap
-}
-.pills{display:flex;flex-wrap:wrap;gap:4px}
+.sync-btn:hover{background:rgba(255,255,255,.25)}
+.spin{width:11px;height:11px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+
+/* ══ FILTER BAR ══ */
+.fbar{background:var(--white);border-bottom:1px solid var(--b1);position:sticky;top:60px;z-index:190;box-shadow:var(--sh1)}
+.fbar-inner{max-width:1560px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:0;flex-wrap:wrap;min-height:50px}
+.fsep{width:1px;height:24px;background:var(--b1);margin:0 16px;flex-shrink:0}
+.flbl{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-right:8px;flex-shrink:0}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
 .pill{
-  font-family:var(--font-data);font-size:9px;padding:4px 11px;
-  background:transparent;border:1px solid var(--bdr-xs);color:var(--tx4);
-  cursor:pointer;transition:all .13s;border-radius:var(--radius);white-space:nowrap;
-  letter-spacing:.3px
+  font-size:11px;font-weight:500;padding:5px 12px;
+  background:var(--surface3);border:1.5px solid var(--b1);color:var(--t3);
+  cursor:pointer;transition:all .13s;border-radius:20px;white-space:nowrap;letter-spacing:.3px
 }
-.pill:hover{border-color:var(--bdr-md);color:var(--tx2);background:rgba(255,255,255,.03)}
-.pill.on{background:var(--g4);border-color:var(--g5);color:var(--n1)}
-.active-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.pill:hover{border-color:var(--blue3);color:var(--blue2);background:#EEF1FB}
+.pill.on{background:var(--blue3);border-color:var(--blue3);color:#fff;font-weight:600;box-shadow:0 2px 8px rgba(78,106,212,.35)}
+.atags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
 .atag{
-  display:flex;align-items:center;gap:5px;
-  font-family:var(--font-data);font-size:9px;
-  padding:3px 9px;border-radius:var(--radius);
-  background:rgba(240,168,0,.1);border:1px solid rgba(240,168,0,.25);color:var(--a6)
+  display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;
+  padding:4px 10px;border-radius:20px;
+  background:#FFF3E0;border:1.5px solid #F0A000;color:var(--wa2)
 }
-.atag-x{cursor:pointer;opacity:.6;font-size:11px;line-height:1;transition:opacity .1s}
+.atag-x{cursor:pointer;opacity:.7;font-size:12px;line-height:1;margin-left:1px;transition:opacity .1s}
 .atag-x:hover{opacity:1}
 .clear-btn{
-  font-family:var(--font-data);font-size:9px;padding:3px 10px;
-  background:transparent;border:1px solid rgba(224,56,56,.25);
-  color:var(--r5);cursor:pointer;border-radius:var(--radius);
-  transition:all .13s;display:none
+  font-size:11px;font-weight:600;padding:4px 12px;
+  background:#FFF0F0;border:1.5px solid #E03838;color:var(--er2);
+  cursor:pointer;border-radius:20px;transition:all .13s;display:none
 }
-.clear-btn:hover{background:rgba(224,56,56,.08)}
- 
-/* ══════════════════════════════════════════════
-   MAIN LAYOUT
-══════════════════════════════════════════════ */
-.wrap{max-width:1540px;margin:0 auto;padding:20px 22px 60px;position:relative;z-index:1}
+.clear-btn:hover{background:#FFE0E0}
+
+/* ══ WRAP ══ */
+.wrap{max-width:1560px;margin:0 auto;padding:24px 24px 64px}
 .tab{display:none;animation:fadeUp .32s ease both}
 .tab.on{display:block}
- 
-/* ══════════════════════════════════════════════
-   PAGE HEADER
-══════════════════════════════════════════════ */
-.ph{margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--bdr-xs)}
-.ph-eye{font-family:var(--font-data);font-size:10px;color:var(--g6);letter-spacing:3px;text-transform:uppercase;margin-bottom:9px}
-.ph-h1{font-family:var(--font-display);font-weight:900;font-size:46px;line-height:.88;color:var(--tx1);text-transform:uppercase;letter-spacing:-2px}
-.ph-h1 b{color:var(--g6);font-weight:900}
- 
-/* ══════════════════════════════════════════════
-   KPI CARDS
-══════════════════════════════════════════════ */
-.kpi-row{display:grid;gap:1px;background:var(--bdr-xs);border:1px solid var(--bdr-sm);margin-bottom:16px;border-radius:var(--radius);overflow:hidden}
+
+/* ══ PAGE HEADER ══ */
+.ph{
+  background:var(--grad);border-radius:var(--radius);
+  padding:28px 32px 24px;margin-bottom:20px;
+  position:relative;overflow:hidden
+}
+.ph::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='28'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  pointer-events:none
+}
+.ph-eye{font-size:11px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ph-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.7);animation:pulse 2s infinite}
+.ph-title{font-family:var(--font-d);font-size:42px;font-weight:900;color:#fff;line-height:.9;letter-spacing:-1px;margin-bottom:6px}
+.ph-title b{font-style:italic;opacity:.9}
+.ph-meta{font-size:12px;color:rgba(255,255,255,.65);letter-spacing:.3px}
+.ph-right{position:absolute;right:32px;top:50%;transform:translateY(-50%);display:flex;gap:12px}
+.ph-stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 16px;text-align:center;backdrop-filter:blur(8px)}
+.ph-sv{font-family:var(--font-d);font-size:28px;font-weight:800;color:#fff;line-height:1}
+.ph-sl{font-size:10px;color:rgba(255,255,255,.7);letter-spacing:.5px;margin-top:2px}
+
+/* ══ KPI CARDS ══ */
+.krow{display:grid;gap:14px;margin-bottom:16px}
 .kc{
-  background:var(--s1);padding:16px 20px;position:relative;overflow:hidden;
-  transition:background .18s;cursor:default
+  background:var(--white);border-radius:var(--radius);
+  padding:16px 20px;box-shadow:var(--sh1);
+  border:1.5px solid var(--b1);position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s
 }
-.kc:hover{background:var(--s2)}
-.kc-bar{position:absolute;top:0;left:0;right:0;height:2.5px}
-.kc-lbl{font-family:var(--font-data);font-size:9.5px;letter-spacing:1.5px;color:var(--tx3);text-transform:uppercase;margin-bottom:9px;line-height:1}
-.kc-val{font-family:var(--font-display);font-size:38px;font-weight:800;line-height:.85;letter-spacing:-1.5px;animation:kpiIn .4s ease}
-.kc-unit{font-size:16px;font-weight:400;color:var(--tx3);margin-left:2px}
-.kc-sub{font-family:var(--font-data);font-size:9px;color:var(--tx4);margin-top:7px;line-height:1.5}
-.kc-sub.ok{color:var(--g6)} .kc-sub.warn{color:var(--a5)} .kc-sub.danger{color:var(--r5)}
-.kc-prog{height:2px;background:var(--bdr-xs);margin-top:9px;overflow:hidden;border-radius:1px}
-.kc-prog-fill{height:100%;transition:width 1.3s cubic-bezier(.16,1,.3,1);border-radius:1px}
- 
-/* MINI STATS */
-.ms-row{display:grid;gap:1px;background:var(--bdr-xs);border:1px solid var(--bdr-sm);margin-bottom:16px;border-radius:var(--radius);overflow:hidden}
-.ms{background:var(--s1);padding:14px 18px}
-.ms-lbl{font-family:var(--font-data);font-size:9.5px;letter-spacing:1.5px;color:var(--tx3);text-transform:uppercase;margin-bottom:6px}
-.ms-val{font-family:var(--font-display);font-size:28px;font-weight:700;line-height:1}
- 
-/* ══════════════════════════════════════════════
-   GRID
-══════════════════════════════════════════════ */
-.g{display:grid;gap:14px;margin-bottom:14px}
-.g2{grid-template-columns:1fr 1fr}
-.g3{grid-template-columns:1.7fr 1fr}
-.g4{grid-template-columns:repeat(4,1fr)}
-.g32{grid-template-columns:3fr 2fr}
-.g23{grid-template-columns:2fr 3fr}
-.g211{grid-template-columns:2fr 1fr 1.2fr}
- 
-/* ══════════════════════════════════════════════
-   CARDS
-══════════════════════════════════════════════ */
-.card{
-  background:var(--s1);border:1px solid var(--bdr-xs);
-  padding:18px 20px;border-radius:var(--radius);position:relative;
-  transition:border-color .18s
+.kc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.kc-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
+.kc-icon{
+  width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:10px
 }
-.card:hover{border-color:var(--bdr-sm)}
-.card.hl{border-color:var(--a4)!important;box-shadow:0 0 0 1px rgba(240,168,0,.12)}
- 
-/* Clickable cards */
-.card.cl{cursor:pointer}
-.card.cl:hover{border-color:var(--bdr-md);background:var(--s2)}
+.kc-lbl{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
+.kc-val{font-family:var(--font-d);font-size:36px;font-weight:800;line-height:.9;letter-spacing:-1px;margin-bottom:4px}
+.kc-unit{font-size:16px;font-weight:500;color:var(--t3);margin-left:1px}
+.kc-sub{font-size:11px;color:var(--t3);line-height:1.4}
+.kc-sub.ok{color:var(--ok2)} .kc-sub.warn{color:var(--wa2)} .kc-sub.danger{color:var(--er2)}
+.kc-prog{height:4px;background:var(--surface3);border-radius:2px;margin-top:10px;overflow:hidden}
+.kc-bar{height:100%;border-radius:2px;transition:width 1.3s cubic-bezier(.16,1,.3,1)}
+
+/* MINI STAT ROW */
+.msr{display:grid;gap:14px;margin-bottom:16px}
+.ms{background:var(--white);border-radius:var(--radius-sm);padding:14px 18px;box-shadow:var(--sh1);border:1.5px solid var(--b1);display:flex;align-items:center;gap:12px}
+.ms-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ms-lbl{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase}
+.ms-val{font-family:var(--font-d);font-size:26px;font-weight:800;line-height:1;margin-top:2px}
+
+/* ══ CARDS ══ */
+.card{background:var(--white);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--sh1);border:1.5px solid var(--b1);position:relative;transition:box-shadow .2s}
+.card:hover{box-shadow:var(--sh2)}
+.card.cl{cursor:pointer;transition:all .18s}
+.card.cl:hover{border-color:var(--blue3);box-shadow:var(--sh-blue);transform:translateY(-1px)}
+.card.hl{border-color:var(--wa3)!important;box-shadow:0 0 0 3px rgba(240,160,0,.12)!important}
 .card.cl::after{
-  content:'↑ clic para filtrar';position:absolute;
-  top:11px;right:14px;font-family:var(--font-data);font-size:8.5px;
-  color:var(--tx4);letter-spacing:.3px;opacity:0;transition:opacity .15s
+  content:'↑ Clic para filtrar';position:absolute;
+  top:12px;right:14px;font-size:10px;font-weight:500;
+  color:var(--blue3);opacity:0;transition:opacity .15s;
+  background:rgba(78,106,212,.08);padding:3px 8px;border-radius:12px
 }
 .card.cl:hover::after{opacity:1}
- 
+
 /* Section header */
-.sh{display:flex;align-items:center;gap:9px;margin-bottom:12px}
-.sh-stripe{width:3px;border-radius:1px;flex-shrink:0;align-self:stretch;min-height:18px}
-.sh-title{font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:2.5px;text-transform:uppercase;color:var(--tx1)}
-.sh-chip{font-family:var(--font-data);font-size:9px;padding:3px 9px;border:1px solid;letter-spacing:.5px;border-radius:3px;flex-shrink:0}
-.sh-line{flex:1;height:1px;background:var(--bdr-xs)}
- 
-/* Chart hints */
-.ch-hint{font-family:var(--font-data);font-size:9px;color:var(--tx4);margin-bottom:10px;letter-spacing:.3px}
- 
-/* ══════════════════════════════════════════════
-   CHART WRAPPER
-══════════════════════════════════════════════ */
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sh-icon{font-size:16px}
+.sh-title{font-size:14px;font-weight:700;color:var(--t1);letter-spacing:.2px}
+.sh-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:12px;letter-spacing:.5px;flex-shrink:0}
+.sh-line{flex:1;height:1px;background:var(--surface3)}
+
+/* Chart wrapper */
 .cw{position:relative;width:100%}
-.cw-center{display:flex;align-items:center;justify-content:center}
-.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-family:var(--font-data);font-size:10px;color:var(--tx3)}
-.l-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
-.l-sq{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
- 
-/* ══════════════════════════════════════════════
-   TABLES
-══════════════════════════════════════════════ */
-.tw{overflow-x:auto;border:1px solid var(--bdr-sm);border-radius:var(--radius)}
+.cw-c{display:flex;align-items:center;justify-content:center}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;font-size:11px;color:var(--t3);font-weight:500}
+.l-c{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
+.l-s{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
+.ch-hint{font-size:10px;color:var(--t4);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+
+/* ══ GRID ══ */
+.g{display:grid;gap:16px;margin-bottom:16px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g32{grid-template-columns:3fr 2fr}
+.g23{grid-template-columns:2fr 3fr}
+.g211{grid-template-columns:2.2fr 1fr 1.3fr}
+.g4{grid-template-columns:repeat(4,1fr)}
+
+/* ══ TABLES ══ */
+.tw{overflow-x:auto;border-radius:var(--radius-sm);border:1.5px solid var(--b1)}
 .dt{width:100%;border-collapse:collapse;font-size:12px}
 .dt th{
-  font-family:var(--font-data);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--tx3);padding:9px 12px;text-align:left;white-space:nowrap;font-weight:400;
-  background:var(--s2);border-bottom:1px solid var(--bdr-md);position:sticky;top:0
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--t3);padding:10px 13px;text-align:left;white-space:nowrap;
+  background:var(--surface2);border-bottom:1.5px solid var(--b1);position:sticky;top:0
 }
 .dt th.r{text-align:right}
-.dt td{padding:7px 12px;border-bottom:1px solid var(--bdr-xs);color:var(--tx1);white-space:nowrap}
-.dt td.r{text-align:right;font-family:var(--font-data);font-size:11px}
-.dt td.m{font-family:var(--font-data);font-size:11px;color:var(--tx2)}
-.dt tr:hover td{background:rgba(255,255,255,.022)}
-.dt tr.tot td{background:var(--s2);font-weight:600;color:var(--g7);font-size:12px}
-.ti{font-family:var(--font-data);font-size:9.5px;color:var(--tx4);text-align:center;padding:8px}
- 
-/* ══════════════════════════════════════════════
-   BADGES
-══════════════════════════════════════════════ */
-.bdg{
-  display:inline-flex;align-items:center;gap:4px;
-  font-family:var(--font-data);font-size:9px;
-  padding:3px 8px;border:1px solid;border-radius:3px;letter-spacing:.3px;white-space:nowrap
-}
-.bdg-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0}
- 
-/* ══════════════════════════════════════════════
-   MODULE TABS
-══════════════════════════════════════════════ */
-.mtabs{display:flex;border-bottom:1px solid var(--bdr-sm);margin-bottom:14px;gap:0}
-.mt{
-  font-family:var(--font-data);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  padding:9px 16px;background:transparent;border:none;color:var(--tx4);cursor:pointer;
-  border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .13s
-}
-.mt:hover{color:var(--tx2)}
-.mt.on{color:var(--g6);border-bottom-color:var(--g5)}
+.dt td{padding:8px 13px;border-bottom:1px solid var(--surface3);color:var(--t1);white-space:nowrap}
+.dt td.r{text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px}
+.dt td.m{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t2)}
+.dt tr:hover td{background:#F8F9FF}
+.dt tr.tot td{background:var(--grad-light);font-weight:700;color:var(--blue2)}
+.ti{font-size:11px;color:var(--t4);text-align:center;padding:9px}
+
+/* ══ BADGES ══ */
+.bdg{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:12px;white-space:nowrap}
+
+/* ══ MOD TABS ══ */
+.mtabs{display:flex;gap:4px;margin-bottom:16px;background:var(--surface3);padding:4px;border-radius:10px;width:fit-content}
+.mt{font-size:12px;font-weight:600;padding:7px 16px;background:transparent;border:none;color:var(--t3);cursor:pointer;border-radius:8px;transition:all .15s;letter-spacing:.2px}
+.mt:hover{color:var(--t1);background:rgba(255,255,255,.6)}
+.mt.on{background:var(--white);color:var(--blue2);box-shadow:var(--sh1)}
 .mv{display:none}
-.mv.on{display:block;animation:fadeUp .25s ease both}
- 
-/* ══════════════════════════════════════════════
-   ALERT CARDS
-══════════════════════════════════════════════ */
-.alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
-.alert{padding:13px 16px;border-left:3px solid;border-radius:0 var(--radius) var(--radius) 0}
-.alert-t{font-family:var(--font-data);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
-.alert-b{font-size:12px;color:var(--tx2);line-height:1.6}
- 
-/* ══════════════════════════════════════════════
-   PROGRESS BARS
-══════════════════════════════════════════════ */
-.pr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.pr-lbl{font-family:var(--font-data);font-size:10px;color:var(--tx2);width:44px;flex-shrink:0}
-.pr-track{flex:1;height:6px;background:var(--bdr-xs);overflow:hidden;border-radius:3px}
-.pr-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-.pr-val{font-family:var(--font-data);font-size:10px;width:36px;text-align:right;flex-shrink:0}
- 
-/* ══════════════════════════════════════════════
-   SEPARATOR
-══════════════════════════════════════════════ */
-.sep{height:1px;background:var(--bdr-xs);margin:14px 0}
-.slbl{font-family:var(--font-data);font-size:9px;color:var(--r5);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.mv.on{display:block;animation:fadeUp .22s ease both}
+
+/* ══ ALERT CARDS ══ */
+.alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+.alert{padding:14px 16px;border-radius:var(--radius-sm);border-left:4px solid}
+.at{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
+.ab{font-size:12px;line-height:1.6;color:var(--t2)}
+
+/* ══ PROGRESS ══ */
+.pr{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.pr-lbl{font-size:11px;font-weight:600;color:var(--t2);width:44px;flex-shrink:0}
+.pr-track{flex:1;height:7px;background:var(--surface3);overflow:hidden;border-radius:4px}
+.pr-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.pr-val{font-size:11px;font-weight:700;width:36px;text-align:right;flex-shrink:0}
+
+/* ══ SEP ══ */
+.sep{height:1px;background:var(--surface3);margin:16px 0}
+.sec-lbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--er2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+
+/* ══ INFO BOXES ══ */
+.ipr-box{padding:14px 18px;border-radius:var(--radius-sm);border-left:4px solid;background:var(--surface2)}
+.ipr-val{font-family:var(--font-d);font-size:24px;font-weight:800;line-height:1;margin-bottom:4px}
+.ipr-lbl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.ipr-desc{font-size:11px;color:var(--t3);line-height:1.5}
 </style>
 </head>
 <body>
- 
+
 <!-- ══ LOADING ══ -->
 <div id="loading">
-  <svg class="l-icon" viewBox="0 0 60 60" fill="none">
-    <polygon points="30,3 57,17 57,43 30,57 3,43 3,17" fill="#1C2920" stroke="#3A9B3D" stroke-width="1.5"/>
-    <text x="30" y="38" font-family="Barlow Condensed" font-weight="900" font-size="24" fill="#70CC73" text-anchor="middle">G</text>
-  </svg>
-  <div class="l-title">GEOMIP</div>
+  <div class="l-logo">
+    <svg viewBox="0 0 36 36" fill="none">
+      <path d="M18 3L33 11V25L18 33L3 25V11L18 3Z" fill="white" opacity=".2" stroke="white" stroke-width="1"/>
+      <text x="18" y="23" font-family="Barlow Condensed" font-weight="900" font-size="16" fill="white" text-anchor="middle">G</text>
+    </svg>
+  </div>
+  <div class="l-title">GeoMIP</div>
   <div class="l-sub">Sistema de Monitoreo de Plagas<br>Ingenio Madre Tierra · Zafra 2025–26</div>
-  <div class="l-bar"><div class="l-bar-fill" id="lf"></div></div>
-  <div class="l-msg" id="lm">Iniciando...</div>
+  <div class="l-bar"><div class="l-fill" id="lf"></div></div>
+  <div class="l-msg" id="lm">Conectando a Google Sheets...</div>
   <div class="l-dots">
     <div class="l-dot" id="ld-m" title="Muestreos"></div>
     <div class="l-dot" id="ld-c" title="Control"></div>
     <div class="l-dot" id="ld-e" title="Ejecutados"></div>
     <div class="l-dot" id="ld-r" title="Gallina Ciega"></div>
-    <div class="l-dot" id="ld-d" title="Daño"></div>
+    <div class="l-dot" id="ld-d" title="Daño Cosecha"></div>
     <div class="l-dot" id="ld-l" title="Lote Cosecha"></div>
   </div>
 </div>
- 
+
 <!-- ══ HEADER ══ -->
 <header class="hdr">
-  <div class="hdr-stripe"></div>
-  <div class="hdr-row">
+  <div class="hdr-inner">
     <div class="brand">
-      <svg class="brand-icon" viewBox="0 0 34 34" fill="none">
-        <polygon points="17,1 33,9 33,25 17,33 1,25 1,9" fill="#1C2920" stroke="#3A9B3D" stroke-width="1.2"/>
-        <text x="17" y="22" font-family="Barlow Condensed" font-weight="900" font-size="16" fill="#70CC73" text-anchor="middle">G</text>
-      </svg>
+      <div class="brand-box">
+        <svg viewBox="0 0 20 20" fill="none">
+          <path d="M10 1L19 5.5V14.5L10 19L1 14.5V5.5L10 1Z" fill="white" opacity=".9"/>
+          <text x="10" y="13.5" font-family="Barlow Condensed" font-weight="900" font-size="9" fill="#4E6AD4" text-anchor="middle">G</text>
+        </svg>
+      </div>
       <div>
         <div class="brand-name">GeoMIP</div>
-        <div class="brand-tagline">Madre Tierra · 2025–26</div>
+        <div class="brand-sub">Madre Tierra · 2025–26</div>
       </div>
     </div>
     <nav class="nav">
-      <button class="nv on" style="color:var(--g6)"    onclick="NAV('overview',this,'var(--g6)')">Overview</button>
-      <button class="nv"                                onclick="NAV('muestreo',this,'var(--a5)')">Muestreos</button>
-      <button class="nv"                                onclick="NAV('control',this,'var(--a4)')">Control</button>
-      <button class="nv"                                onclick="NAV('ejecutados',this,'var(--g5)')">Ejecutados</button>
-      <button class="nv"                                onclick="NAV('dano',this,'var(--a5)')">Daño Cosecha</button>
-      <button class="nv"                                onclick="NAV('dinamica',this,'var(--t5)')">Dinámica Pob.</button>
-      <button class="nv"                                onclick="NAV('presupuesto',this,'var(--a6)')">Presupuesto</button>
-      <button class="nv"                                onclick="NAV('gallinaCiega',this,'var(--r5)')">Gallina Ciega</button>
+      <button class="nv on" onclick="NAV('overview',this)">📊 Overview</button>
+      <button class="nv"    onclick="NAV('muestreo',this)">🌿 Muestreos</button>
+      <button class="nv"    onclick="NAV('control',this)">🎯 Control</button>
+      <button class="nv"    onclick="NAV('ejecutados',this)">✅ Ejecutados</button>
+      <button class="nv"    onclick="NAV('dano',this)">🌾 Daño Cosecha</button>
+      <button class="nv"    onclick="NAV('dinamica',this)">🔬 Dinámica</button>
+      <button class="nv"    onclick="NAV('presupuesto',this)">💰 Presupuesto</button>
+      <button class="nv"    onclick="NAV('gallinaCiega',this)">🪲 Gallina Ciega</button>
     </nav>
-    <div class="sync-wrap">
+    <div class="hdr-right">
       <div class="live-badge">
         <div class="live-pip" id="live-pip"></div>
-        <span id="live-ts" style="font-size:9px"></span>
+        <span id="live-ts">conectando...</span>
       </div>
       <button class="sync-btn" onclick="doSync()"><span class="spin" id="sp"></span>↻ Sincronizar</button>
     </div>
   </div>
 </header>
- 
+
 <!-- ══ FILTER BAR ══ -->
 <div class="fbar">
   <div class="fbar-inner">
     <span class="flbl">Catorcena</span>
     <div class="pills" id="p-cat"></div>
-    <div class="fbar-sep"></div>
+    <div class="fsep"></div>
     <span class="flbl">Zona</span>
     <div class="pills" id="p-zona"></div>
-    <div class="fbar-sep" id="tag-sep" style="display:none"></div>
-    <div class="active-tags" id="atags"></div>
-    <button class="clear-btn" id="clear-btn" onclick="clearF()">✕ Limpiar</button>
+    <div class="fsep" id="f-sep" style="display:none"></div>
+    <div class="atags" id="atags"></div>
+    <button class="clear-btn" id="clear-btn" onclick="clearF()">✕ Limpiar filtros</button>
   </div>
 </div>
- 
-<!-- ══ MAIN CONTENT ══ -->
+
 <div class="wrap">
- 
-<!-- ═══════════════════════════════════
+
+<!-- ══════════════════════════════════════════
      OVERVIEW
-═══════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <div id="tab-overview" class="tab on">
+
+  <!-- Page header -->
   <div class="ph">
-    <div class="ph-eye">◆ Resumen Ejecutivo · Sistema de Monitoreo</div>
-    <div class="ph-h1">Manejo de <b>Plagas</b><br>Ingenio Madre Tierra</div>
+    <div class="ph-eye"><div class="ph-dot"></div>Sistema de Monitoreo · Catorcena Activa</div>
+    <div class="ph-title">Manejo de <b>Plagas</b><br>Ingenio Madre Tierra</div>
+    <div class="ph-meta">Datos en tiempo real · Google Sheets · Zafra 2025–26</div>
+    <div class="ph-right">
+      <div class="ph-stat"><div class="ph-sv" id="ph-cat">—</div><div class="ph-sl">Catorcena activa</div></div>
+      <div class="ph-stat"><div class="ph-sv" id="ph-lotes">—</div><div class="ph-sl">Lotes muestreados</div></div>
+      <div class="ph-stat"><div class="ph-sv" id="ph-av">—</div><div class="ph-sl">% Avance control</div></div>
+    </div>
   </div>
- 
-  <!-- KPIs Row 1 -->
-  <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div>
+
+  <!-- KPIs -->
+  <div class="krow" style="grid-template-columns:repeat(6,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#3B52B0,#6B84E0)"></div>
+      <div class="kc-icon" style="background:#EEF1FB">🌱</div>
       <div class="kc-lbl">Área Muestreada</div>
-      <div class="kc-val" style="color:var(--g7)" id="o-am">—</div>
-      <div class="kc-sub" id="o-ams">ha totales</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div>
+      <div class="kc-val" style="color:var(--blue2)" id="o-am">—</div>
+      <div class="kc-sub" id="o-ams">hectáreas</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#C42424,#E03838)"></div>
+      <div class="kc-icon" style="background:#FFF0F0">⚠️</div>
       <div class="kc-lbl">Área Infestada</div>
-      <div class="kc-val" style="color:var(--r5)" id="o-ai">—</div>
-      <div class="kc-sub danger" id="o-ais">ha · cap ≥8%</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div>
+      <div class="kc-val" style="color:var(--er2)" id="o-ai">—</div>
+      <div class="kc-sub danger" id="o-ais">ha cap ≥8%</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#C07000,#F0A000)"></div>
+      <div class="kc-icon" style="background:#FFF8E0">📊</div>
       <div class="kc-lbl">% Captura Prom.</div>
-      <div class="kc-val" style="color:var(--a5)" id="o-pc">—</div>
+      <div class="kc-val" style="color:var(--wa2)" id="o-pc">—</div>
       <div class="kc-sub" id="o-pcs">umbral 8%</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#374151,#6B7280)"></div>
+      <div class="kc-icon" style="background:#F4F4F6">📦</div>
       <div class="kc-lbl">Kg Requerido</div>
-      <div class="kc-val" style="color:var(--n1)" id="o-kr">—</div>
+      <div class="kc-val" style="color:var(--t2)" id="o-kr">—</div>
       <div class="kc-sub">rodenticida</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--g4)"></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#1B6B35,#28A854)"></div>
+      <div class="kc-icon" style="background:#EAFAF1">✅</div>
       <div class="kc-lbl">Kg Ejecutado</div>
-      <div class="kc-val" style="color:var(--g6)" id="o-ke">—</div>
+      <div class="kc-val" style="color:var(--ok1)" id="o-ke">—</div>
       <div class="kc-sub ok" id="o-kes">aplicado</div>
-      <div class="kc-prog"><div class="kc-prog-fill" id="o-kep" style="background:var(--g5)"></div></div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div>
+      <div class="kc-prog"><div class="kc-bar" id="o-kep" style="background:linear-gradient(90deg,#28A854,#48C870)"></div></div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#7A4400,#C07000)"></div>
+      <div class="kc-icon" style="background:#FFF5E0">🎯</div>
       <div class="kc-lbl">% Avance Control</div>
-      <div class="kc-val" style="color:var(--a6)" id="o-av">—</div>
-      <div class="kc-sub warn">zafra</div>
-      <div class="kc-prog"><div class="kc-prog-fill" id="o-avp" style="background:var(--a4)"></div></div></div>
+      <div class="kc-val" style="color:var(--wa1)" id="o-av">—</div>
+      <div class="kc-sub warn">zafra completa</div>
+      <div class="kc-prog"><div class="kc-bar" id="o-avp" style="background:linear-gradient(90deg,#C07000,#F0A000)"></div></div></div>
   </div>
- 
+
   <!-- Mini stats -->
-  <div class="ms-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="ms"><div class="ms-lbl">Lotes Muestreados</div><div class="ms-val" style="color:var(--g6)" id="o-lm">—</div></div>
-    <div class="ms"><div class="ms-lbl">A Tiempo</div><div class="ms-val" style="color:var(--g5)" id="o-at">—</div></div>
-    <div class="ms"><div class="ms-lbl">Pendiente</div><div class="ms-val" style="color:var(--r5)" id="o-pnd">—</div></div>
-    <div class="ms"><div class="ms-lbl">Fuera Ventana</div><div class="ms-val" style="color:var(--a5)" id="o-fv">—</div></div>
+  <div class="msr" style="grid-template-columns:repeat(4,1fr)">
+    <div class="ms"><div class="ms-icon" style="background:#EEF1FB">📋</div><div><div class="ms-lbl">Lotes Muestreados</div><div class="ms-val" style="color:var(--blue2)" id="o-lm">—</div></div></div>
+    <div class="ms"><div class="ms-icon" style="background:#EAFAF1">✓</div><div><div class="ms-lbl">A Tiempo</div><div class="ms-val" style="color:var(--ok1)" id="o-at">—</div></div></div>
+    <div class="ms"><div class="ms-icon" style="background:#FFF0F0">⏳</div><div><div class="ms-lbl">Pendiente</div><div class="ms-val" style="color:var(--er2)" id="o-pnd">—</div></div></div>
+    <div class="ms"><div class="ms-icon" style="background:#FFF8E0">⚡</div><div><div class="ms-lbl">Fuera Ventana</div><div class="ms-val" style="color:var(--wa2)" id="o-fv">—</div></div></div>
   </div>
- 
+
   <!-- Charts Row 1 -->
   <div class="g g211">
     <div class="card cl" id="cd-cat">
-      <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">% Captura por Catorcena</div><div class="sh-chip" style="color:var(--g5);border-color:var(--g4)">Umbral 8%</div><div class="sh-line"></div></div>
-      <div class="ch-hint">Clic en barra → filtrar por catorcena</div>
-      <div class="cw" style="height:200px"><canvas id="c-cat"></canvas></div>
+      <div class="sh"><span class="sh-icon">📈</span><span class="sh-title">% Captura por Catorcena</span><span class="sh-badge" style="background:#EEF1FB;color:var(--blue2);border:1px solid #B0BEF0">Umbral 8%</span><div class="sh-line"></div></div>
+      <div class="ch-hint">🖱️ Clic en barra → filtrar por catorcena</div>
+      <div class="cw" style="height:196px"><canvas id="c-cat"></canvas></div>
     </div>
     <div class="card">
-      <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">Estado Control</div><div class="sh-line"></div></div>
-      <div class="cw-center" style="height:158px"><canvas id="c-est" style="max-width:155px;max-height:155px"></canvas></div>
+      <div class="sh"><span class="sh-icon">🍩</span><span class="sh-title">Estado Control</span><div class="sh-line"></div></div>
+      <div class="cw-c" style="height:155px"><canvas id="c-est" style="max-width:155px;max-height:155px"></canvas></div>
       <div class="legend" style="justify-content:center;margin-top:8px;margin-bottom:0">
-        <span><span class="l-dot" style="background:var(--g5)"></span>A Tiempo (<b id="leg-at">—</b>)</span>
-        <span><span class="l-dot" style="background:var(--r5)"></span>Pend. (<b id="leg-pnd">—</b>)</span>
-        <span><span class="l-dot" style="background:var(--a5)"></span>Fuera (<b id="leg-fv">—</b>)</span>
+        <span><span class="l-c" style="background:var(--ok2)"></span>A Tiempo (<b id="leg-at">—</b>)</span>
+        <span><span class="l-c" style="background:var(--er3)"></span>Pend. (<b id="leg-pnd">—</b>)</span>
+        <span><span class="l-c" style="background:var(--wa3)"></span>Fuera (<b id="leg-fv">—</b>)</span>
       </div>
     </div>
     <div class="card cl" id="cd-zpct">
-      <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">% Captura / Zona</div><div class="sh-line"></div></div>
-      <div class="ch-hint">Clic → filtrar zona</div>
-      <div class="cw" style="height:168px"><canvas id="c-zpct"></canvas></div>
+      <div class="sh"><span class="sh-icon">🗺️</span><span class="sh-title">% Captura por Zona</span><div class="sh-line"></div></div>
+      <div class="ch-hint">🖱️ Clic → filtrar zona</div>
+      <div class="cw" style="height:165px"><canvas id="c-zpct"></canvas></div>
     </div>
   </div>
- 
+
   <!-- Charts Row 2 -->
   <div class="g g2">
     <div class="card">
-      <div class="sh"><div class="sh-stripe" style="background:var(--g4)"></div><div class="sh-title">Rodenticida Rec. vs Ejecutado</div><div class="sh-line"></div></div>
-      <div class="legend">
-        <span><span class="l-sq" style="background:rgba(58,155,61,.28)"></span>Recomendado</span>
-        <span><span class="l-sq" style="background:var(--g5)"></span>Ejecutado</span>
-      </div>
+      <div class="sh"><span class="sh-icon">⚖️</span><span class="sh-title">Rodenticida Recomendado vs Ejecutado</span><div class="sh-line"></div></div>
+      <div class="legend"><span><span class="l-s" style="background:#B0BEF0"></span>Recomendado</span><span><span class="l-s" style="background:var(--blue3)"></span>Ejecutado</span></div>
       <div class="cw" style="height:155px"><canvas id="c-rod"></canvas></div>
     </div>
     <div class="card cl" id="cd-ez">
-      <div class="sh"><div class="sh-stripe" style="background:var(--g3)"></div><div class="sh-title">Estado Control por Zona</div><div class="sh-line"></div></div>
-      <div class="legend">
-        <span><span class="l-sq" style="background:var(--g5)"></span>A Tiempo</span>
-        <span><span class="l-sq" style="background:var(--r5)"></span>Pendiente</span>
-        <span><span class="l-sq" style="background:var(--a5)"></span>Fuera</span>
-      </div>
+      <div class="sh"><span class="sh-icon">📍</span><span class="sh-title">Estado Control por Zona</span><div class="sh-line"></div></div>
+      <div class="ch-hint">🖱️ Clic en zona → filtrar</div>
+      <div class="legend"><span><span class="l-s" style="background:var(--ok2)"></span>A Tiempo</span><span><span class="l-s" style="background:var(--er3)"></span>Pendiente</span><span><span class="l-s" style="background:var(--wa3)"></span>Fuera Ventana</span></div>
       <div class="cw" style="height:155px"><canvas id="c-ez"></canvas></div>
     </div>
   </div>
- 
+
   <!-- Resumen table -->
-  <div class="card" style="margin-bottom:14px">
-    <div class="sh"><div class="sh-stripe" style="background:var(--n3)"></div><div class="sh-title">Resumen por Finca</div><div class="sh-chip" id="res-chip" style="color:var(--tx4);border-color:var(--bdr-sm)">Todos</div><div class="sh-line"></div></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="sh"><span class="sh-icon">📑</span><span class="sh-title">Resumen por Finca</span><span class="sh-badge" id="res-chip" style="background:var(--surface3);color:var(--t3);border:1px solid var(--b1)">Todos</span><div class="sh-line"></div></div>
     <div class="tw" style="max-height:280px;overflow-y:auto">
-      <table class="dt">
-        <thead><tr>
-          <th>Zona</th><th>Finca</th><th class="r">Lotes</th>
-          <th class="r">% Cap.Prom.</th><th class="r">≥ 8%</th>
-          <th class="r">Kg Req.</th><th class="r">Kg Eje.</th>
-          <th class="r">A Tiempo</th><th class="r">Pendiente</th>
-        </tr></thead>
-        <tbody id="tb-res"></tbody>
-      </table>
+      <table class="dt"><thead><tr>
+        <th>Zona</th><th>Finca</th><th class="r">Lotes</th>
+        <th class="r">% Cap.Prom.</th><th class="r">≥ 8%</th>
+        <th class="r">Kg Req.</th><th class="r">Kg Eje.</th>
+        <th class="r">A Tiempo</th><th class="r">Pendiente</th>
+      </tr></thead>
+      <tbody id="tb-res"></tbody></table>
     </div>
   </div>
- 
+
   <div class="sep"></div>
-  <div class="slbl">⚠ Alertas Activas del Sistema</div>
+  <div class="sec-lbl">⚠ Alertas Activas del Sistema</div>
   <div class="alerts">
-    <div class="alert" style="background:rgba(58,10,10,.4);border-color:var(--r4)">
-      <div class="alert-t" style="color:var(--r5)">⚠ Rata — Z·4 El Retiro / Horizontes</div>
-      <div class="alert-b">Captura hasta 20% cat.11. Múltiples lotes pendientes. Acción inmediata.</div>
+    <div class="alert" style="background:#FFF0F0;border-color:var(--er3)">
+      <div class="at" style="color:var(--er2)">⚠ Rata — Z·4 El Retiro / Horizontes</div>
+      <div class="ab">Captura hasta 20% cat.11. Múltiples lotes pendientes. Requiere acción inmediata.</div>
     </div>
-    <div class="alert" style="background:rgba(74,46,0,.3);border-color:var(--a4)">
-      <div class="alert-t" style="color:var(--a6)">⚠ Gallina Ciega — Explosión Cat.11 Z·3</div>
-      <div class="alert-b">3,836 adultos/noche en lote 0043601 CAÑAVERALES. Monitoreo urgente.</div>
+    <div class="alert" style="background:#FFF8E0;border-color:var(--wa3)">
+      <div class="at" style="color:var(--wa2)">⚠ Gallina Ciega — Explosión Cat.11 Z·3</div>
+      <div class="ab">3,836 adultos/noche · lote 0043601 CAÑAVERALES. Monitoreo urgente requerido.</div>
     </div>
-    <div class="alert" style="background:rgba(0,58,46,.3);border-color:var(--t4)">
-      <div class="alert-t" style="color:var(--t5)">⚠ IPR Dinámica — PETÉN Z·5 Escalando</div>
-      <div class="alert-b">IPR 0.98 en lote 0600605. Umbral crítico 1.0 inminente. Intervenir.</div>
+    <div class="alert" style="background:#E8F8FF;border-color:var(--in3)">
+      <div class="at" style="color:var(--in2)">⚠ IPR Dinámica — PETÉN Z·5</div>
+      <div class="ab">IPR 0.98 · lote 0600605. Umbral crítico 1.0 próximo. Intervención urgente.</div>
     </div>
   </div>
 </div>
- 
-<!-- ═══════════════════════════════════
-     MUESTREOS
-═══════════════════════════════════ -->
+
+<!-- ══ MUESTREOS ══ -->
 <div id="tab-muestreo" class="tab">
   <div class="ph">
-    <div class="ph-eye">Sigmodon hispidus · Muestreo y Captura</div>
-    <div class="ph-h1">Muestreos <b>Captura</b></div>
+    <div class="ph-eye"><div class="ph-dot"></div>Sigmodon hispidus · Captura de rata cañera</div>
+    <div class="ph-title">Muestreos <b>Captura</b></div>
+    <div class="ph-meta">Trampas de captura viva · Índice de captura vs umbral crítico</div>
   </div>
-  <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--g7)" id="m-nl">—</div><div class="kc-sub">muestreados</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">% Captura</div><div class="kc-val" style="color:var(--a5)" id="m-pc">—</div><div class="kc-sub" id="m-pcs">promedio</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Lotes ≥ 8%</div><div class="kc-val" style="color:var(--r5)" id="m-l8">—</div><div class="kc-sub">requieren control</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">Área (ha)</div><div class="kc-val" style="color:var(--n1)" id="m-at">—</div><div class="kc-sub">hectáreas</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Kg Requerido</div><div class="kc-val" style="color:var(--a6)" id="m-kr">—</div><div class="kc-sub">rodenticida</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--r3)"></div><div class="kc-lbl">% Área Infestada</div><div class="kc-val" style="color:var(--r5)" id="m-ai">—</div><div class="kc-sub">del total</div></div>
+  <div class="krow" style="grid-template-columns:repeat(6,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--blue2),var(--blue4))"></div><div class="kc-icon" style="background:#EEF1FB">📋</div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--blue2)" id="m-nl">—</div><div class="kc-sub">muestreados</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0">📊</div><div class="kc-lbl">% Captura Prom.</div><div class="kc-val" style="color:var(--wa2)" id="m-pc">—</div><div class="kc-sub" id="m-pcs">promedio</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0">⚠️</div><div class="kc-lbl">Lotes ≥ 8%</div><div class="kc-val" style="color:var(--er2)" id="m-l8">—</div><div class="kc-sub">requieren control</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6">🗺️</div><div class="kc-lbl">Área (ha)</div><div class="kc-val" style="color:var(--t2)" id="m-at">—</div><div class="kc-sub">hectáreas</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0">📦</div><div class="kc-lbl">Kg Requerido</div><div class="kc-val" style="color:var(--wa1)" id="m-kr">—</div><div class="kc-sub">rodenticida</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0">🔴</div><div class="kc-lbl">% Área Infestada</div><div class="kc-val" style="color:var(--er2)" id="m-ai">—</div><div class="kc-sub">del total</div></div>
   </div>
-  <div class="mtabs">
-    <button class="mt on" onclick="MT('mue','g',this)">📊 Gráficas</button>
-    <button class="mt" onclick="MT('mue','t',this)">📋 Tabla Detalle</button>
-  </div>
+  <div class="mtabs"><button class="mt on" onclick="MT('mue','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('mue','t',this)">📋 Tabla Detalle</button></div>
   <div id="mue-g" class="mv on">
     <div class="g g2">
       <div class="card cl" id="cd-comp">
-        <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">Composición Captura por Catorcena</div><div class="sh-line"></div></div>
-        <div class="ch-hint">Clic en catorcena → filtrar</div>
-        <div class="legend">
-          <span><span class="l-sq" style="background:#3898D8"></span>Machos</span>
-          <span><span class="l-sq" style="background:#D4537E"></span>Hembras</span>
-          <span><span class="l-sq" style="background:var(--g7)"></span>Jóvenes</span>
-          <span><span class="l-sq" style="background:var(--a6)"></span>Adultas</span>
-        </div>
+        <div class="sh"><span class="sh-icon">📊</span><span class="sh-title">Composición Captura por Catorcena</span><div class="sh-line"></div></div>
+        <div class="ch-hint">🖱️ Clic en catorcena → filtrar</div>
+        <div class="legend"><span><span class="l-s" style="background:#3898D8"></span>Machos</span><span><span class="l-s" style="background:#D4537E"></span>Hembras</span><span><span class="l-s" style="background:var(--ok3)"></span>Jóvenes</span><span><span class="l-s" style="background:var(--wa3)"></span>Adultas</span></div>
         <div class="cw" style="height:190px"><canvas id="c-comp"></canvas></div>
       </div>
       <div class="card cl" id="cd-top">
-        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Top Lotes Mayor % Captura</div><div class="sh-line"></div></div>
-        <div class="ch-hint">Clic en lote → filtrar por finca</div>
+        <div class="sh"><span class="sh-icon">🏆</span><span class="sh-title">Top Lotes Mayor % Captura</span><div class="sh-line"></div></div>
+        <div class="ch-hint">🖱️ Clic en lote → filtrar por finca</div>
         <div class="cw" style="height:200px"><canvas id="c-top"></canvas></div>
       </div>
     </div>
   </div>
   <div id="mue-t" class="mv">
-    <div class="tw"><table class="dt">
-      <thead><tr>
-        <th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Estado</th>
-        <th class="r">Cat.</th><th class="r">Área ha</th><th class="r">Trampas</th>
-        <th class="r">Var.Tr.</th><th class="r">% Cap.</th><th class="r">% Adj.</th><th class="r">Kg Req.</th>
-      </tr></thead>
-      <tbody id="tb-m"></tbody>
-    </table></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Estado</th><th class="r">Cat.</th><th class="r">Área ha</th><th class="r">Trampas</th><th class="r">Var.Tr.</th><th class="r">% Cap.</th><th class="r">% Adj.</th><th class="r">Kg Req.</th></tr></thead><tbody id="tb-m"></tbody></table></div>
     <div class="ti" id="ti-m"></div>
   </div>
 </div>
- 
-<!-- ═══════════════════════════════════
-     CONTROL
-═══════════════════════════════════ -->
+
+<!-- ══ CONTROL ══ -->
 <div id="tab-control" class="tab">
   <div class="ph">
-    <div class="ph-eye">Lotes que requieren aplicación de rodenticida</div>
-    <div class="ph-h1">Seguimiento <b>Control</b></div>
+    <div class="ph-eye"><div class="ph-dot"></div>Lotes con requerimiento de rodenticida</div>
+    <div class="ph-title">Seguimiento <b>Control</b></div>
+    <div class="ph-meta">Estado de aplicación de rodenticida por lote · Cebo Cañamip</div>
   </div>
-  <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--n1)" id="c-nl">—</div><div class="kc-sub">con requerimiento</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">A Tiempo</div><div class="kc-val" style="color:var(--g6)" id="c-at">—</div><div class="kc-sub ok">ejecutados</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Fuera de Tiempo</div><div class="kc-val" style="color:var(--a6)" id="c-ft">—</div><div class="kc-sub warn">con retraso</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Pendiente</div><div class="kc-val" style="color:var(--r5)" id="c-pnd">—</div><div class="kc-sub danger">sin ejecutar</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Kg Requeridos</div><div class="kc-val" style="color:var(--a6)" id="c-kr">—</div><div class="kc-sub">necesario</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--g4)"></div><div class="kc-lbl">Kg Ejecutados</div><div class="kc-val" style="color:var(--g6)" id="c-ke">—</div><div class="kc-sub ok">aplicado</div></div>
+  <div class="krow" style="grid-template-columns:repeat(6,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6">📋</div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--t2)" id="c-nl">—</div><div class="kc-sub">con requerimiento</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1">✅</div><div class="kc-lbl">A Tiempo</div><div class="kc-val" style="color:var(--ok1)" id="c-at">—</div><div class="kc-sub ok">ejecutados</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0">⏰</div><div class="kc-lbl">Fuera de Tiempo</div><div class="kc-val" style="color:var(--wa2)" id="c-ft">—</div><div class="kc-sub warn">con retraso</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0">⏳</div><div class="kc-lbl">Pendiente</div><div class="kc-val" style="color:var(--er2)" id="c-pnd">—</div><div class="kc-sub danger">sin ejecutar</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0">📦</div><div class="kc-lbl">Kg Requeridos</div><div class="kc-val" style="color:var(--wa1)" id="c-kr">—</div><div class="kc-sub">necesario</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1">💊</div><div class="kc-lbl">Kg Ejecutados</div><div class="kc-val" style="color:var(--ok1)" id="c-ke">—</div><div class="kc-sub ok">aplicado</div></div>
   </div>
-  <div class="mtabs">
-    <button class="mt on" onclick="MT('ctrl','g',this)">📊 Gráficas</button>
-    <button class="mt" onclick="MT('ctrl','t',this)">📋 Tabla Control</button>
-  </div>
+  <div class="mtabs"><button class="mt on" onclick="MT('ctrl','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('ctrl','t',this)">📋 Tabla Control</button></div>
   <div id="ctrl-g" class="mv on">
     <div class="g g2">
       <div class="card cl" id="cd-ez2">
-        <div class="sh"><div class="sh-stripe" style="background:var(--g4)"></div><div class="sh-title">Estado Control por Zona</div><div class="sh-line"></div></div>
-        <div class="ch-hint">Clic → filtrar zona</div>
-        <div class="legend">
-          <span><span class="l-sq" style="background:var(--g5)"></span>A Tiempo</span>
-          <span><span class="l-sq" style="background:var(--r5)"></span>Pendiente</span>
-          <span><span class="l-sq" style="background:var(--a5)"></span>Fuera Ventana</span>
-        </div>
+        <div class="sh"><span class="sh-icon">📍</span><span class="sh-title">Estado Control por Zona</span><div class="sh-line"></div></div>
+        <div class="ch-hint">🖱️ Clic → filtrar zona</div>
+        <div class="legend"><span><span class="l-s" style="background:var(--ok2)"></span>A Tiempo</span><span><span class="l-s" style="background:var(--er3)"></span>Pendiente</span><span><span class="l-s" style="background:var(--wa3)"></span>Fuera Ventana</span></div>
         <div class="cw" style="height:175px"><canvas id="c-ez2"></canvas></div>
       </div>
       <div class="card">
-        <div class="sh"><div class="sh-stripe" style="background:var(--a4)"></div><div class="sh-title">Rodenticida Rec. vs Ejecutado</div><div class="sh-line"></div></div>
-        <div class="legend">
-          <span><span class="l-sq" style="background:rgba(58,155,61,.28)"></span>Recomendado</span>
-          <span><span class="l-sq" style="background:var(--g5)"></span>Ejecutado</span>
-        </div>
+        <div class="sh"><span class="sh-icon">⚖️</span><span class="sh-title">Rodenticida Rec. vs Ejecutado</span><div class="sh-line"></div></div>
+        <div class="legend"><span><span class="l-s" style="background:#B0BEF0"></span>Recomendado</span><span><span class="l-s" style="background:var(--blue3)"></span>Ejecutado</span></div>
         <div class="cw" style="height:175px"><canvas id="c-rod2"></canvas></div>
       </div>
     </div>
   </div>
   <div id="ctrl-t" class="mv">
-    <div class="tw"><table class="dt">
-      <thead><tr>
-        <th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.M.</th><th class="r">Cat.C.</th>
-        <th>Estado</th><th class="r">% Cap.</th><th class="r">Kg Req.</th><th class="r">Kg Eje.</th>
-        <th class="r">Índice</th><th class="r">Retraso</th><th class="r">Avance%</th>
-      </tr></thead>
-      <tbody id="tb-c"></tbody>
-    </table></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.M.</th><th class="r">Cat.C.</th><th>Estado</th><th class="r">% Cap.</th><th class="r">Kg Req.</th><th class="r">Kg Eje.</th><th class="r">Índice</th><th class="r">Retraso</th><th class="r">Avance%</th></tr></thead><tbody id="tb-c"></tbody></table></div>
     <div class="ti" id="ti-c"></div>
   </div>
 </div>
- 
-<!-- ═══════════════════════════════════
-     EJECUTADOS
-═══════════════════════════════════ -->
+
+<!-- ══ EJECUTADOS ══ -->
 <div id="tab-ejecutados" class="tab">
   <div class="ph">
-    <div class="ph-eye">Rodenticida Ejecutado · Detalle de aplicaciones</div>
-    <div class="ph-h1">Rodenticida <b>Ejecutado</b></div>
+    <div class="ph-eye"><div class="ph-dot"></div>Rodenticida aplicado en campo</div>
+    <div class="ph-title">Rodenticida <b>Ejecutado</b></div>
+    <div class="ph-meta">Detalle de aplicaciones · Producto Cebo Cañamip</div>
   </div>
-  <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--g6)" id="e-nl">—</div><div class="kc-sub">con aplicación</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--g4)"></div><div class="kc-lbl">Kg Ejecutado</div><div class="kc-val" style="color:var(--g7)" id="e-kg">—</div><div class="kc-sub ok">total</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Fincas</div><div class="kc-val" style="color:var(--a6)" id="e-fn">—</div><div class="kc-sub">con aplicación</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--t4)"></div><div class="kc-lbl">Zonas</div><div class="kc-val" style="color:var(--t5)" id="e-zn">—</div><div class="kc-sub">activas</div></div>
+  <div class="krow" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1">📋</div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--ok1)" id="e-nl">—</div><div class="kc-sub">con aplicación</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--ok1),var(--ok3))"></div><div class="kc-icon" style="background:#EAFAF1">💊</div><div class="kc-lbl">Kg Ejecutado</div><div class="kc-val" style="color:var(--ok1)" id="e-kg">—</div><div class="kc-sub ok">total aplicado</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--blue2),var(--blue4))"></div><div class="kc-icon" style="background:#EEF1FB">🏡</div><div class="kc-lbl">Fincas</div><div class="kc-val" style="color:var(--blue2)" id="e-fn">—</div><div class="kc-sub">con aplicación</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--in2),var(--in3))"></div><div class="kc-icon" style="background:#E8F8FF">🗺️</div><div class="kc-lbl">Zonas</div><div class="kc-val" style="color:var(--in2)" id="e-zn">—</div><div class="kc-sub">activas</div></div>
   </div>
-  <div class="mtabs">
-    <button class="mt on" onclick="MT('eje','g',this)">📊 Kg por Finca</button>
-    <button class="mt" onclick="MT('eje','t',this)">📋 Tabla Detalle</button>
-  </div>
+  <div class="mtabs"><button class="mt on" onclick="MT('eje','g',this)">📊 Kg por Finca</button><button class="mt" onclick="MT('eje','t',this)">📋 Tabla Detalle</button></div>
   <div id="eje-g" class="mv on">
     <div class="card cl" id="cd-efinca">
-      <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">Kg Ejecutados por Finca</div><div class="sh-line"></div></div>
-      <div class="ch-hint">Clic en finca → filtrar tabla</div>
+      <div class="sh"><span class="sh-icon">🏭</span><span class="sh-title">Kg Ejecutados por Finca</span><div class="sh-line"></div></div>
+      <div class="ch-hint">🖱️ Clic en finca → filtrar</div>
       <div class="cw" style="height:200px"><canvas id="c-efinca"></canvas></div>
     </div>
   </div>
   <div id="eje-t" class="mv">
-    <div class="tw"><table class="dt">
-      <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Cap.Ref.</th><th class="r">Kg Aplicados</th><th>Producto</th><th>Condición</th></tr></thead>
-      <tbody id="tb-e"></tbody>
-    </table></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Cap.Ref.</th><th class="r">Kg Aplicados</th><th>Producto</th><th>Condición</th></tr></thead><tbody id="tb-e"></tbody></table></div>
     <div class="ti" id="ti-e"></div>
   </div>
 </div>
- 
-<!-- ═══════════════════════════════════
-     DAÑO COSECHA
-═══════════════════════════════════ -->
+
+<!-- ══ DAÑO COSECHA ══ -->
 <div id="tab-dano" class="tab">
   <div class="ph">
-    <div class="ph-eye">Barrenador & Rata · Intensidad de daño en campo</div>
-    <div class="ph-h1">Daño en <b>Cosecha</b></div>
+    <div class="ph-eye"><div class="ph-dot"></div>Barrenador & Rata · Intensidad de daño</div>
+    <div class="ph-title">Daño en <b>Cosecha</b></div>
+    <div class="ph-meta">Evaluación de infestación e intensidad de daño por lote</div>
   </div>
-  <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Muestras</div><div class="kc-val" style="color:var(--a6)" id="d-tot">—</div><div class="kc-sub">registros</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">% Int. Barrenador</div><div class="kc-val" style="color:var(--a5)" id="d-barr">—</div><div class="kc-sub">promedio</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--t4)"></div><div class="kc-lbl">% Int. Rata</div><div class="kc-val" style="color:var(--t5)" id="d-rata">—</div><div class="kc-sub">promedio</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Lotes Evaluados</div><div class="kc-val" style="color:var(--r5)" id="d-lotes">—</div><div class="kc-sub">lote cosecha</div></div>
+  <div class="krow" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa1),var(--wa3))"></div><div class="kc-icon" style="background:#FFF5E0">📊</div><div class="kc-lbl">Muestras</div><div class="kc-val" style="color:var(--wa2)" id="d-tot">—</div><div class="kc-sub">registros</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0">🌿</div><div class="kc-lbl">% Int. Barrenador</div><div class="kc-val" style="color:var(--wa2)" id="d-barr">—</div><div class="kc-sub">promedio</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--in2),var(--in3))"></div><div class="kc-icon" style="background:#E8F8FF">🐀</div><div class="kc-lbl">% Int. Rata</div><div class="kc-val" style="color:var(--in2)" id="d-rata">—</div><div class="kc-sub">promedio</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0">📋</div><div class="kc-lbl">Lotes Evaluados</div><div class="kc-val" style="color:var(--er2)" id="d-lotes">—</div><div class="kc-sub">lote cosecha</div></div>
   </div>
-  <div class="mtabs">
-    <button class="mt on" onclick="MT('dano','g',this)">📊 Gráficas</button>
-    <button class="mt" onclick="MT('dano','t',this)">📋 Tabla Detalle</button>
-  </div>
+  <div class="mtabs"><button class="mt on" onclick="MT('dano','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('dano','t',this)">📋 Tabla Detalle</button></div>
   <div id="dano-g" class="mv on">
     <div class="g g2">
-      <div class="card">
-        <div class="sh"><div class="sh-stripe" style="background:var(--a4)"></div><div class="sh-title">Tendencia Daño por Catorcena</div><div class="sh-line"></div></div>
-        <div class="legend"><span><span class="l-dot" style="background:var(--a5)"></span>Barrenador %</span><span><span class="l-dot" style="background:var(--r5)"></span>Rata %</span></div>
-        <div class="cw" style="height:180px"><canvas id="c-dano-trend"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Severidad Barrenador</div><div class="sh-line"></div></div>
-        <div class="cw-center" style="height:180px"><canvas id="c-sev-barr" style="max-width:165px;max-height:165px"></canvas></div>
-      </div>
+      <div class="card"><div class="sh"><span class="sh-icon">📉</span><span class="sh-title">Tendencia Daño por Catorcena</span><div class="sh-line"></div></div><div class="legend"><span><span class="l-c" style="background:var(--wa3)"></span>Barrenador %</span><span><span class="l-c" style="background:var(--er3)"></span>Rata %</span></div><div class="cw" style="height:180px"><canvas id="c-dano-trend"></canvas></div></div>
+      <div class="card"><div class="sh"><span class="sh-icon">🔴</span><span class="sh-title">Severidad Barrenador</span><div class="sh-line"></div></div><div class="cw-c" style="height:180px"><canvas id="c-sev-barr" style="max-width:165px;max-height:165px"></canvas></div></div>
     </div>
     <div class="g g2">
-      <div class="card cl" id="cd-dano-zona">
-        <div class="sh"><div class="sh-stripe" style="background:var(--t4)"></div><div class="sh-title">Intensidad por Zona</div><div class="sh-line"></div></div>
-        <div class="ch-hint">Clic → filtrar zona</div>
-        <div class="legend"><span><span class="l-sq" style="background:var(--a5)"></span>Barrenador</span><span><span class="l-sq" style="background:var(--r5)"></span>Rata</span></div>
-        <div class="cw" style="height:150px"><canvas id="c-dano-zona"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="sh"><div class="sh-stripe" style="background:var(--g4)"></div><div class="sh-title">Severidad Rata</div><div class="sh-line"></div></div>
-        <div class="cw-center" style="height:150px"><canvas id="c-sev-rata" style="max-width:140px;max-height:140px"></canvas></div>
-      </div>
+      <div class="card cl" id="cd-dano-zona"><div class="sh"><span class="sh-icon">🗺️</span><span class="sh-title">Intensidad por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar zona</div><div class="legend"><span><span class="l-s" style="background:var(--wa3)"></span>Barrenador</span><span><span class="l-s" style="background:var(--er3)"></span>Rata</span></div><div class="cw" style="height:150px"><canvas id="c-dano-zona"></canvas></div></div>
+      <div class="card"><div class="sh"><span class="sh-icon">🐀</span><span class="sh-title">Severidad Rata</span><div class="sh-line"></div></div><div class="cw-c" style="height:150px"><canvas id="c-sev-rata" style="max-width:138px;max-height:138px"></canvas></div></div>
     </div>
   </div>
   <div id="dano-t" class="mv">
-    <div class="tw"><table class="dt">
-      <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Inf.Barr.</th><th class="r">% Inf.Rata</th><th class="r">% Int.Barr.</th><th class="r">% Int.Rata</th></tr></thead>
-      <tbody id="tb-d"></tbody>
-    </table></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Inf.Barr.</th><th class="r">% Inf.Rata</th><th class="r">% Int.Barr.</th><th class="r">% Int.Rata</th></tr></thead><tbody id="tb-d"></tbody></table></div>
     <div class="ti" id="ti-d"></div>
   </div>
 </div>
- 
-<!-- ═══════════════════════════════════
-     DINÁMICA POBLACIONAL
-═══════════════════════════════════ -->
+
+<!-- ══ DINÁMICA ══ -->
 <div id="tab-dinamica" class="tab">
   <div class="ph">
-    <div class="ph-eye">Índice Potencial Reproductivo (IPR) · Sigmodon hispidus</div>
-    <div class="ph-h1">Dinámica <b>Poblacional</b></div>
+    <div class="ph-eye"><div class="ph-dot"></div>Índice Potencial Reproductivo (IPR) · Sigmodon hispidus</div>
+    <div class="ph-title">Dinámica <b>Poblacional</b></div>
+    <div class="ph-meta">Evaluación reproductiva · Hembras gestantes · Embriones por hembra</div>
   </div>
-  <div class="kpi-row" style="grid-template-columns:repeat(6,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--t4)"></div><div class="kc-lbl">Muestreos</div><div class="kc-val" style="color:var(--t5)" id="dp-ms">8</div><div class="kc-sub">analizados</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">Total Sigmodon</div><div class="kc-val" style="color:var(--n1)" id="dp-ts">50</div><div class="kc-sub">individuos</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">H. Gestantes</div><div class="kc-val" style="color:var(--a6)" id="dp-hg">16</div><div class="kc-sub warn">activas</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Total Embriones</div><div class="kc-val" style="color:var(--a5)" id="dp-te">65</div><div class="kc-sub">detectados</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">IPR Máximo</div><div class="kc-val" style="color:var(--r5)" id="dp-ipr">0.98</div><div class="kc-sub danger">umbral: 1.0</div>
-      <div class="kc-prog"><div class="kc-prog-fill" style="background:var(--r4);width:98%"></div></div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">Lotes Riesgo</div><div class="kc-val" style="color:var(--a6)" id="dp-rm">2</div><div class="kc-sub warn">IPR ≥ 0.5</div></div>
+  <div class="krow" style="grid-template-columns:repeat(6,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--in2),var(--in3))"></div><div class="kc-icon" style="background:#E8F8FF">🔬</div><div class="kc-lbl">Muestreos</div><div class="kc-val" style="color:var(--in2)" id="dp-ms">8</div><div class="kc-sub">analizados</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6">🐀</div><div class="kc-lbl">Total Sigmodon</div><div class="kc-val" style="color:var(--t2)" id="dp-ts">50</div><div class="kc-sub">individuos</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0">🤰</div><div class="kc-lbl">H. Gestantes</div><div class="kc-val" style="color:var(--wa1)" id="dp-hg">16</div><div class="kc-sub warn">activas</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0">🥚</div><div class="kc-lbl">Total Embriones</div><div class="kc-val" style="color:var(--wa2)" id="dp-te">65</div><div class="kc-sub">detectados</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0">📈</div><div class="kc-lbl">IPR Máximo</div><div class="kc-val" style="color:var(--er2)" id="dp-ipr">0.98</div><div class="kc-sub danger">umbral: 1.0</div><div class="kc-prog"><div class="kc-bar" style="background:linear-gradient(90deg,var(--er2),var(--er3));width:98%"></div></div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0">⚠️</div><div class="kc-lbl">Lotes Riesgo</div><div class="kc-val" style="color:var(--wa2)" id="dp-rm">2</div><div class="kc-sub warn">IPR ≥ 0.5</div></div>
   </div>
-  <div class="mtabs">
-    <button class="mt on" onclick="MT('dp','g',this)">📊 Gráfica IPR</button>
-    <button class="mt" onclick="MT('dp','t',this)">📋 Tabla Detalle</button>
-  </div>
+  <div class="mtabs"><button class="mt on" onclick="MT('dp','g',this)">📊 Gráfica IPR</button><button class="mt" onclick="MT('dp','t',this)">📋 Tabla Detalle</button></div>
   <div id="dp-g" class="mv on">
-    <div class="card" style="margin-bottom:10px">
-      <div class="sh"><div class="sh-stripe" style="background:var(--t4)"></div><div class="sh-title">Tendencia IPR por Fecha</div><div class="sh-chip" style="color:var(--r5);border-color:rgba(224,56,56,.35)">Umbral Crítico: 1.0</div><div class="sh-line"></div></div>
+    <div class="card" style="margin-bottom:14px">
+      <div class="sh"><span class="sh-icon">📈</span><span class="sh-title">Tendencia IPR por Fecha</span><span class="sh-badge" style="background:#FFF0F0;color:var(--er2);border:1px solid #FFBBBB">Umbral Crítico: 1.0</span><div class="sh-line"></div></div>
       <div class="ch-hint">IPR &lt; 0.5 = Bajo · 0.5–1.0 = Riesgo Medio · ≥ 1.0 = ⚠ Acción Inmediata</div>
       <div class="cw" style="height:210px"><canvas id="c-ipr"></canvas></div>
     </div>
-    <div class="g" style="grid-template-columns:repeat(3,1fr)">
-      <div style="padding:14px 16px;background:var(--s1);border:1px solid var(--bdr-xs);border-left:3px solid var(--g5);border-radius:var(--radius)">
-        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--g6)">IPR &lt; 0.5</div>
-        <div style="font-family:var(--font-data);font-size:9.5px;color:var(--tx3);margin-top:5px;line-height:1.6">BAJO — Estable<br>Bajo potencial de crecimiento.</div>
-      </div>
-      <div style="padding:14px 16px;background:var(--s1);border:1px solid var(--bdr-xs);border-left:3px solid var(--a5);border-radius:var(--radius)">
-        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--a6)">IPR 0.5–1.0</div>
-        <div style="font-family:var(--font-data);font-size:9.5px;color:var(--tx3);margin-top:5px;line-height:1.6">MEDIO — Riesgo<br>Monitoreo continuo requerido.</div>
-      </div>
-      <div style="padding:14px 16px;background:var(--s1);border:1px solid var(--bdr-xs);border-left:3px solid var(--r4);border-radius:var(--radius)">
-        <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--r5)">IPR ≥ 1.0</div>
-        <div style="font-family:var(--font-data);font-size:9.5px;color:var(--tx3);margin-top:5px;line-height:1.6">ALTO — Crítico<br>Implementar control inmediato.</div>
-      </div>
+    <div class="g g3">
+      <div class="ipr-box" style="border-color:var(--ok2)"><div class="ipr-lbl" style="color:var(--ok2)">IPR &lt; 0.5</div><div class="ipr-val" style="color:var(--ok1)">BAJO</div><div class="ipr-desc">Estable. Bajo potencial de crecimiento poblacional.</div></div>
+      <div class="ipr-box" style="border-color:var(--wa3)"><div class="ipr-lbl" style="color:var(--wa2)">IPR 0.5–1.0</div><div class="ipr-val" style="color:var(--wa1)">RIESGO</div><div class="ipr-desc">Monitoreo continuo. Potencial de crecimiento moderado.</div></div>
+      <div class="ipr-box" style="border-color:var(--er3)"><div class="ipr-lbl" style="color:var(--er2)">IPR ≥ 1.0</div><div class="ipr-val" style="color:var(--er2)">CRÍTICO</div><div class="ipr-desc">Implementar control inmediato. Alto potencial reproductivo.</div></div>
     </div>
   </div>
   <div id="dp-t" class="mv">
-    <div class="tw"><table class="dt">
-      <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Nivel IPR</th><th class="r">% Cap.</th><th class="r">Sigmodon</th><th class="r">H.Gest.</th><th class="r">Embriones</th><th class="r">IPR</th></tr></thead>
-      <tbody id="tb-dp"></tbody>
-    </table></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Nivel IPR</th><th class="r">% Cap.</th><th class="r">Sigmodon</th><th class="r">H.Gest.</th><th class="r">Embriones</th><th class="r">IPR</th></tr></thead><tbody id="tb-dp"></tbody></table></div>
   </div>
 </div>
- 
-<!-- ═══════════════════════════════════
-     PRESUPUESTO
-═══════════════════════════════════ -->
+
+<!-- ══ PRESUPUESTO ══ -->
 <div id="tab-presupuesto" class="tab">
   <div class="ph">
-    <div class="ph-eye">Presupuesto Control Rata Cañera · Zafra 2025–26</div>
-    <div class="ph-h1">Presupuesto <b>Rodenticida</b></div>
+    <div class="ph-eye"><div class="ph-dot"></div>Presupuesto Control Rata Cañera · Zafra 2025–26</div>
+    <div class="ph-title">Presupuesto <b>Rodenticida</b></div>
+    <div class="ph-meta">Kg asignados vs entregados vs disponibles por zona</div>
   </div>
-  <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">Kg 1er Revisado</div><div class="kc-val" style="color:var(--n1)">15,622</div><div class="kc-sub">presupuesto zafra</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">Kg Entregados</div><div class="kc-val" style="color:var(--g6)">7,620</div><div class="kc-sub ok">despachados</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Kg Disponibles</div><div class="kc-val" style="color:var(--a6)">8,002</div><div class="kc-sub warn">por entregar</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">% Avance</div><div class="kc-val" style="color:var(--a5)">49<span class="kc-unit">%</span></div><div class="kc-sub">vs presupuesto</div><div class="kc-prog"><div class="kc-prog-fill" style="background:var(--a4);width:49%"></div></div></div>
+  <div class="krow" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6">📊</div><div class="kc-lbl">Kg 1er Revisado</div><div class="kc-val" style="color:var(--t2)">15,622</div><div class="kc-sub">presupuesto zafra</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1">✅</div><div class="kc-lbl">Kg Entregados</div><div class="kc-val" style="color:var(--ok1)">7,620</div><div class="kc-sub ok">despachados</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0">⏳</div><div class="kc-lbl">Kg Disponibles</div><div class="kc-val" style="color:var(--wa1)">8,002</div><div class="kc-sub warn">por entregar</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--blue2),var(--blue4))"></div><div class="kc-icon" style="background:#EEF1FB">🎯</div><div class="kc-lbl">% Avance</div><div class="kc-val" style="color:var(--blue2)">49<span class="kc-unit">%</span></div><div class="kc-sub">vs presupuesto</div><div class="kc-prog"><div class="kc-bar" style="background:linear-gradient(90deg,var(--blue2),var(--blue4));width:49%"></div></div></div>
   </div>
   <div class="g g2">
     <div class="card">
-      <div class="sh"><div class="sh-stripe" style="background:var(--g5)"></div><div class="sh-title">Avance por Zona</div><div class="sh-line"></div></div>
+      <div class="sh"><span class="sh-icon">📊</span><span class="sh-title">Avance por Zona</span><div class="sh-line"></div></div>
       <div id="pres-prog" style="margin-top:6px"></div>
     </div>
     <div class="card">
-      <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">Kg Revisado vs Entregado</div><div class="sh-line"></div></div>
-      <div class="legend"><span><span class="l-sq" style="background:rgba(58,155,61,.28)"></span>1er Revisado</span><span><span class="l-sq" style="background:var(--g5)"></span>Entregado</span></div>
+      <div class="sh"><span class="sh-icon">⚖️</span><span class="sh-title">Kg Revisado vs Entregado</span><div class="sh-line"></div></div>
+      <div class="legend"><span><span class="l-s" style="background:#B0BEF0"></span>1er Revisado</span><span><span class="l-s" style="background:var(--blue3)"></span>Entregado</span></div>
       <div class="cw" style="height:195px"><canvas id="c-pres"></canvas></div>
     </div>
   </div>
-  <div class="card" style="margin-top:12px">
-    <div class="sh"><div class="sh-stripe" style="background:var(--n3)"></div><div class="sh-title">Detalle por Zona</div><div class="sh-line"></div></div>
-    <div class="tw"><table class="dt">
-      <thead><tr><th>Zona</th><th>Plaga</th><th class="r">Kg 1er Revisado</th><th class="r">Kg Entregados</th><th class="r">Kg Disponibles</th><th class="r">% Avance</th></tr></thead>
-      <tbody>
-        <tr><td class="m">Z·1</td><td>RATA</td><td class="r">3,643</td><td class="r" style="color:var(--g6)">726</td><td class="r" style="color:var(--a6)">2,917</td><td class="r"><span style="color:var(--r5)">20%</span></td></tr>
-        <tr><td class="m">Z·3</td><td>RATA</td><td class="r">1,782</td><td class="r" style="color:var(--g6)">998</td><td class="r" style="color:var(--a6)">784</td><td class="r"><span style="color:var(--a5)">56%</span></td></tr>
-        <tr><td class="m">Z·4</td><td>RATA</td><td class="r">2,312</td><td class="r" style="color:var(--g6)">1,860</td><td class="r" style="color:var(--a6)">452</td><td class="r"><span style="color:var(--g6)">80%</span></td></tr>
-        <tr><td class="m">Z·5</td><td>RATA</td><td class="r">6,570</td><td class="r" style="color:var(--g6)">2,722</td><td class="r" style="color:var(--a6)">3,848</td><td class="r"><span style="color:var(--r5)">41%</span></td></tr>
-        <tr><td class="m">Z·8</td><td>RATA</td><td class="r">1,315</td><td class="r" style="color:var(--g6)">1,315</td><td class="r">0</td><td class="r"><span style="color:var(--g7)">100% ✓</span></td></tr>
-        <tr class="tot"><td colspan="2">TOTAL</td><td class="r">15,622</td><td class="r">7,620</td><td class="r">8,002</td><td class="r">49%</td></tr>
-      </tbody>
-    </table></div>
+  <div class="card" style="margin-top:14px">
+    <div class="sh"><span class="sh-icon">📋</span><span class="sh-title">Detalle por Zona</span><div class="sh-line"></div></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Plaga</th><th class="r">Kg 1er Revisado</th><th class="r">Kg Entregados</th><th class="r">Kg Disponibles</th><th class="r">% Avance</th></tr></thead>
+    <tbody>
+      <tr><td class="m">Z·1</td><td>RATA</td><td class="r">3,643</td><td class="r" style="color:var(--ok1)">726</td><td class="r" style="color:var(--wa2)">2,917</td><td class="r"><span class="bdg" style="background:#FFF0F0;color:var(--er2)">20%</span></td></tr>
+      <tr><td class="m">Z·3</td><td>RATA</td><td class="r">1,782</td><td class="r" style="color:var(--ok1)">998</td><td class="r" style="color:var(--wa2)">784</td><td class="r"><span class="bdg" style="background:#FFF8E0;color:var(--wa2)">56%</span></td></tr>
+      <tr><td class="m">Z·4</td><td>RATA</td><td class="r">2,312</td><td class="r" style="color:var(--ok1)">1,860</td><td class="r" style="color:var(--wa2)">452</td><td class="r"><span class="bdg" style="background:#EAFAF1;color:var(--ok1)">80%</span></td></tr>
+      <tr><td class="m">Z·5</td><td>RATA</td><td class="r">6,570</td><td class="r" style="color:var(--ok1)">2,722</td><td class="r" style="color:var(--wa2)">3,848</td><td class="r"><span class="bdg" style="background:#FFF0F0;color:var(--er2)">41%</span></td></tr>
+      <tr><td class="m">Z·8</td><td>RATA</td><td class="r">1,315</td><td class="r" style="color:var(--ok1)">1,315</td><td class="r">0</td><td class="r"><span class="bdg" style="background:#EAFAF1;color:var(--ok1)">100% ✓</span></td></tr>
+      <tr class="tot"><td colspan="2">TOTAL</td><td class="r">15,622</td><td class="r">7,620</td><td class="r">8,002</td><td class="r">49%</td></tr>
+    </tbody></table></div>
   </div>
 </div>
- 
-<!-- ═══════════════════════════════════
-     GALLINA CIEGA
-═══════════════════════════════════ -->
+
+<!-- ══ GALLINA CIEGA ══ -->
 <div id="tab-gallinaCiega" class="tab">
   <div class="ph">
-    <div class="ph-eye">Trampa de Luz · Phyllophaga · Anomala · Diplotaxis</div>
-    <div class="ph-h1">Gallina <b>Ciega</b></div>
+    <div class="ph-eye"><div class="ph-dot"></div>Trampa de Luz · Phyllophaga · Anomala · Diplotaxis</div>
+    <div class="ph-title">Gallina <b>Ciega</b></div>
+    <div class="ph-meta">Captura de adultos mediante trampa de luz · Catorcenas activas</div>
   </div>
-  <div class="kpi-row" style="grid-template-columns:repeat(5,1fr)">
-    <div class="kc"><div class="kc-bar" style="background:var(--n3)"></div><div class="kc-lbl">No. Trampas</div><div class="kc-val" style="color:var(--n1)" id="gc-nt">—</div><div class="kc-sub">instaladas</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--r4)"></div><div class="kc-lbl">Total Captura</div><div class="kc-val" style="color:var(--r5)" id="gc-tc">—</div><div class="kc-sub danger">adultos</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a3)"></div><div class="kc-lbl">Captura Máxima</div><div class="kc-val" style="color:var(--a6)" id="gc-cm">—</div><div class="kc-sub">en un lote</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--a4)"></div><div class="kc-lbl">% Phyllophaga</div><div class="kc-val" style="color:var(--a5)" id="gc-ph">—</div><div class="kc-sub">especie dominante</div></div>
-    <div class="kc"><div class="kc-bar" style="background:var(--g5)"></div><div class="kc-lbl">Lotes Muestreados</div><div class="kc-val" style="color:var(--g6)" id="gc-lm">—</div><div class="kc-sub">con trampa</div></div>
+  <div class="krow" style="grid-template-columns:repeat(5,1fr)">
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6">💡</div><div class="kc-lbl">No. Trampas</div><div class="kc-val" style="color:var(--t2)" id="gc-nt">—</div><div class="kc-sub">instaladas</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0">🪲</div><div class="kc-lbl">Total Captura</div><div class="kc-val" style="color:var(--er2)" id="gc-tc">—</div><div class="kc-sub danger">adultos</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0">🏆</div><div class="kc-lbl">Captura Máxima</div><div class="kc-val" style="color:var(--wa1)" id="gc-cm">—</div><div class="kc-sub">un solo lote</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0">📊</div><div class="kc-lbl">% Phyllophaga</div><div class="kc-val" style="color:var(--wa2)" id="gc-ph">—</div><div class="kc-sub">especie dominante</div></div>
+    <div class="kc"><div class="kc-accent" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1">📋</div><div class="kc-lbl">Lotes Muestreados</div><div class="kc-val" style="color:var(--ok1)" id="gc-lm">—</div><div class="kc-sub">con trampa</div></div>
   </div>
-  <div class="mtabs">
-    <button class="mt on" onclick="MT('gc','g',this)">📊 Gráficas</button>
-    <button class="mt" onclick="MT('gc','t',this)">📋 Tabla Detalle</button>
-  </div>
+  <div class="mtabs"><button class="mt on" onclick="MT('gc','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('gc','t',this)">📋 Tabla Detalle</button></div>
   <div id="gc-g" class="mv on">
     <div class="g g2">
-      <div class="card cl" id="cd-gcz">
-        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Captura por Zona</div><div class="sh-line"></div></div>
-        <div class="ch-hint">Clic → filtrar zona</div>
-        <div class="cw" style="height:175px"><canvas id="c-gcz"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="sh"><div class="sh-stripe" style="background:var(--a4)"></div><div class="sh-title">Tendencia de Captura</div><div class="sh-line"></div></div>
-        <div class="cw" style="height:175px"><canvas id="c-gct"></canvas></div>
-      </div>
+      <div class="card cl" id="cd-gcz"><div class="sh"><span class="sh-icon">🗺️</span><span class="sh-title">Captura por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar zona</div><div class="cw" style="height:175px"><canvas id="c-gcz"></canvas></div></div>
+      <div class="card"><div class="sh"><span class="sh-icon">📉</span><span class="sh-title">Tendencia de Captura</span><div class="sh-line"></div></div><div class="cw" style="height:175px"><canvas id="c-gct"></canvas></div></div>
     </div>
     <div class="g g2">
-      <div class="card">
-        <div class="sh"><div class="sh-stripe" style="background:var(--a5)"></div><div class="sh-title">Especie por Finca</div><div class="sh-line"></div></div>
-        <div class="legend">
-          <span><span class="l-sq" style="background:#3898D8"></span>Phyllophaga</span>
-          <span><span class="l-sq" style="background:var(--t5)"></span>Anomala</span>
-          <span><span class="l-sq" style="background:var(--g7)"></span>Diplotaxis</span>
-        </div>
-        <div class="cw" style="height:160px"><canvas id="c-gcf"></canvas></div>
-      </div>
-      <div class="card cl" id="cd-gcl">
-        <div class="sh"><div class="sh-stripe" style="background:var(--r4)"></div><div class="sh-title">Lotes Críticos</div><div class="sh-line"></div></div>
-        <div class="cw" style="height:160px"><canvas id="c-gcl"></canvas></div>
-      </div>
+      <div class="card"><div class="sh"><span class="sh-icon">🔬</span><span class="sh-title">Especie por Finca</span><div class="sh-line"></div></div><div class="legend"><span><span class="l-s" style="background:#3898D8"></span>Phyllophaga</span><span><span class="l-s" style="background:var(--in3)"></span>Anomala</span><span><span class="l-s" style="background:var(--ok3)"></span>Diplotaxis</span></div><div class="cw" style="height:160px"><canvas id="c-gcf"></canvas></div></div>
+      <div class="card"><div class="sh"><span class="sh-icon">🔴</span><span class="sh-title">Lotes Críticos</span><div class="sh-line"></div></div><div class="cw" style="height:160px"><canvas id="c-gcl"></canvas></div></div>
     </div>
   </div>
   <div id="gc-t" class="mv">
-    <div class="tw"><table class="dt">
-      <thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.</th><th>Fecha</th><th>Trampa</th><th class="r">N°Tr.</th><th class="r">Phyllophaga</th><th class="r">Diplotaxis</th><th class="r">Anomala</th><th class="r">Total</th></tr></thead>
-      <tbody id="tb-gc"></tbody>
-    </table></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.</th><th>Fecha</th><th>Trampa</th><th class="r">N°Tr.</th><th class="r">Phyllophaga</th><th class="r">Diplotaxis</th><th class="r">Anomala</th><th class="r">Total</th></tr></thead><tbody id="tb-gc"></tbody></table></div>
   </div>
 </div>
- 
+
 </div><!-- end .wrap -->
- 
-<footer style="border-top:1px solid var(--bdr-xs);padding:12px 22px;display:flex;justify-content:space-between;align-items:center;background:var(--s1)">
-  <div style="display:flex;align-items:center;gap:9px">
-    <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,2.5 10,7.5 5,10 0,7.5 0,2.5" fill="var(--g4)"/></svg>
-    <span style="font-family:var(--font-data);font-size:9px;color:var(--tx4);letter-spacing:2px;text-transform:uppercase">GeoMIP · Loker Estudio · Ingenio Madre Tierra · Zafra 2025–26</span>
+
+<footer style="background:var(--white);border-top:1.5px solid var(--b1);padding:14px 24px;display:flex;justify-content:space-between;align-items:center">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="width:28px;height:28px;background:var(--grad);border-radius:8px;display:flex;align-items:center;justify-content:center">
+      <span style="font-family:var(--font-d);font-size:13px;font-weight:900;color:#fff">G</span>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--t2)">GeoMIP · Sistema de Monitoreo de Plagas</div>
+      <div style="font-size:10px;color:var(--t4)">Loker Estudio · Ingenio Madre Tierra · Zafra 2025–26</div>
+    </div>
   </div>
-  <span id="foot-ts" style="font-family:var(--font-data);font-size:9px;color:var(--tx4)">Live · Google Sheets</span>
+  <span id="foot-ts" style="font-size:11px;color:var(--t4)">Live · Google Sheets</span>
 </footer>
- 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-/* ══════════════════════════════════════════════
-   CONFIG
-══════════════════════════════════════════════ */
-const API      = "https://script.google.com/macros/s/AKfycbwLU1w40rUpRSjhsAXV2bZ3GPNbP5dppd8KHSWcHW54FUpFAr1K9cO97FZLXxTQ-Zga/exec";
-const CACHE_K  = "geomip_v9";
-const CACHE_M  = 10;
-const ZONAS    = [1,3,4,5,8];
- 
+const API    = "https://script.google.com/macros/s/AKfycbwLU1w40rUpRSjhsAXV2bZ3GPNbP5dppd8KHSWcHW54FUpFAr1K9cO97FZLXxTQ-Zga/exec";
+const CK     = "geomip_v10";
+const CM     = 10;
+const ZONAS  = [1,3,4,5,8];
+
 /* ══ Helpers ══ */
-const nv  = v => { const x=parseFloat(String(v||0).replace(/,/g,"")); return isNaN(x)?0:x; };
-const fmt = v => { const n=Math.round(v); return n>=1000?n.toLocaleString("es-GT"):String(n); };
-const fmtN= v => v>=1000?Number(v).toLocaleString("es-GT"):v;
-const pct = (a,b) => b>0?Math.round(a/b*100):0;
-const avg = (arr,k) => arr.length?(arr.reduce((s,r)=>s+nv(r[k]),0)/arr.length).toFixed(1):0;
-const ds  = v => { try{return new Date(v).toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"});}catch{return v||"";} };
-const $   = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
-const W   = (id,p) => { const e=document.getElementById(id); if(e) e.style.width=Math.min(p,100)+"%"; };
- 
-/* ══ Chart Defaults ══ */
-Chart.defaults.font.family = "'JetBrains Mono',monospace";
-Chart.defaults.font.size   = 11;
-Chart.defaults.color       = "#7D9E82";
-const CG = "rgba(255,255,255,.04)", CT = "#7D9E82";
-const TT = {
-  backgroundColor:"#121A17",borderColor:"rgba(255,255,255,.1)",borderWidth:1,
-  titleFont:{family:"JetBrains Mono",size:10},bodyFont:{family:"JetBrains Mono",size:11},
-  titleColor:"#A8C8AC",bodyColor:"#ECF5EE",padding:12,cornerRadius:var=>3,
-  displayColors:true,boxWidth:9,boxHeight:9,boxPadding:4
+const nv  = v=>{const x=parseFloat(String(v||0).replace(/,/g,""));return isNaN(x)?0:x;};
+const fmt = v=>{const n=Math.round(v);return n>=1000?n.toLocaleString("es-GT"):String(n);};
+const fmtN= v=>v>=1000?Number(v).toLocaleString("es-GT"):v;
+const pct = (a,b)=>b>0?Math.round(a/b*100):0;
+const avg = (arr,k)=>arr.length?(arr.reduce((s,r)=>s+nv(r[k]),0)/arr.length).toFixed(1):0;
+const ds  = v=>{try{return new Date(v).toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"});}catch{return v||"";}};
+const $   = (id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+const W   = (id,p)=>{const e=document.getElementById(id);if(e)e.style.width=Math.min(p,100)+"%";};
+
+/* ══ Chart defaults ══ */
+Chart.defaults.font.family="'Inter',sans-serif";
+Chart.defaults.font.size=11;
+Chart.defaults.color="#6B7280";
+const CG="rgba(107,114,128,.08)",CT="#9CA3AF";
+const TT={
+  backgroundColor:"#1F2937",borderColor:"rgba(255,255,255,.1)",borderWidth:1,
+  titleColor:"#E5E7EB",bodyColor:"#F9FAFB",
+  titleFont:{family:"Inter",size:11,weight:"600"},
+  bodyFont:{family:"Inter",size:12},
+  padding:12,cornerRadius:8,displayColors:true,boxWidth:10,boxHeight:10,boxPadding:4
 };
-const BASE = {
-  responsive:true, maintainAspectRatio:false,
-  plugins:{ legend:{display:false}, tooltip:TT },
+const BASE={
+  responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{display:false},tooltip:TT},
   scales:{
-    x:{ grid:{color:CG,lineWidth:.5}, ticks:{color:CT,font:{size:11}} },
-    y:{ grid:{color:CG,lineWidth:.5}, ticks:{color:CT,font:{size:11}} }
+    x:{grid:{color:CG,lineWidth:.5},ticks:{color:CT,font:{size:11}}},
+    y:{grid:{color:CG,lineWidth:.5},ticks:{color:CT,font:{size:11}}}
   }
 };
- 
-const CH = {};
-function MK(id, cfg) {
-  const el = document.getElementById(id); if(!el) return;
-  if(CH[id]) CH[id].destroy();
-  CH[id] = new Chart(el, cfg);
-}
- 
+const CH={};
+function MK(id,cfg){const el=document.getElementById(id);if(!el)return;if(CH[id])CH[id].destroy();CH[id]=new Chart(el,cfg);}
+
 /* ══ State ══ */
-let DB = {};
-const F = { cat:null, zona:null, finca:null };
- 
-/* ══════════════════════════════════════════════
-   FILTER ENGINE
-══════════════════════════════════════════════ */
-function FD(key) {
-  return (DB[key]||[]).filter(r => {
-    if(F.cat  !==null && nv(r.ID_Catorcena)!==F.cat)   return false;
-    if(F.zona !==null && nv(r.ID_Zona)     !==F.zona)  return false;
-    if(F.finca!==null && (r.Nombre_finca||"").trim()!==F.finca) return false;
+let DB={};
+const F={cat:null,zona:null,finca:null};
+
+/* ══ Filter Engine ══ */
+function FD(key){
+  return(DB[key]||[]).filter(r=>{
+    if(F.cat!==null&&nv(r.ID_Catorcena)!==F.cat)return false;
+    if(F.zona!==null&&nv(r.ID_Zona)!==F.zona)return false;
+    if(F.finca!==null&&(r.Nombre_finca||"").trim()!==F.finca)return false;
     return true;
   });
 }
- 
-function SF(key, val) {
-  F[key] = val;
-  updatePills();
-  updateTags();
-  refreshAll();
+function SF(key,val){F[key]=val;syncPills();updateTags();refreshAll();}
+function clearF(){F.cat=null;F.zona=null;F.finca=null;syncPills();updateTags();refreshAll();}
+
+function syncPills(){
+  document.querySelectorAll("#p-cat .pill").forEach(p=>p.classList.toggle("on",p.dataset.v===(F.cat===null?"all":String(F.cat))));
+  document.querySelectorAll("#p-zona .pill").forEach(p=>p.classList.toggle("on",p.dataset.v===(F.zona===null?"all":String(F.zona))));
 }
- 
-function clearF() {
-  F.cat=null; F.zona=null; F.finca=null;
-  updatePills();
-  updateTags();
-  refreshAll();
-}
- 
-function updatePills() {
-  document.querySelectorAll("#p-cat .pill").forEach(p =>
-    p.classList.toggle("on", p.dataset.v===(F.cat===null?"all":String(F.cat))));
-  document.querySelectorAll("#p-zona .pill").forEach(p =>
-    p.classList.toggle("on", p.dataset.v===(F.zona===null?"all":String(F.zona))));
-}
- 
-function updateTags() {
-  const wrap = document.getElementById("atags");
-  const sep  = document.getElementById("tag-sep");
-  const cb   = document.getElementById("clear-btn");
-  const tags = [];
-  if(F.cat  !==null) tags.push({lbl:`Cat. ${F.cat}`,   clr:()=>SF("cat",null)});
-  if(F.zona !==null) tags.push({lbl:`Zona ${F.zona}`,  clr:()=>SF("zona",null)});
-  if(F.finca!==null) tags.push({lbl:F.finca.slice(0,14),clr:()=>SF("finca",null)});
-  wrap.innerHTML = tags.map(t =>
-    `<div class="atag">${t.lbl}<span class="atag-x" onclick="(${t.clr})()">✕</span></div>`
-  ).join("");
-  sep.style.display = tags.length ? "block" : "none";
-  cb.style.display  = tags.length ? "block" : "none";
- 
-  // Highlight active chart cards
-  ["cd-cat","cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-comp","cd-top","cd-efinca","cd-dano-zona","cd-gcl"].forEach(id => {
-    document.getElementById(id)?.classList.remove("hl");
-  });
-  if(F.cat!==null)  document.getElementById("cd-cat")?.classList.add("hl");
-  if(F.zona!==null) ["cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-dano-zona"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
+function updateTags(){
+  const tags=[];
+  if(F.cat!==null)   tags.push({l:`Cat. ${F.cat}`,   c:()=>SF("cat",null)});
+  if(F.zona!==null)  tags.push({l:`Zona ${F.zona}`,  c:()=>SF("zona",null)});
+  if(F.finca!==null) tags.push({l:F.finca.slice(0,14),c:()=>SF("finca",null)});
+  const w=document.getElementById("atags"),s=document.getElementById("f-sep"),cb=document.getElementById("clear-btn");
+  w.innerHTML=tags.map(t=>`<div class="atag">${t.l}<span class="atag-x" onclick="(${t.c})()">✕</span></div>`).join("");
+  s.style.display=tags.length?"block":"none";
+  cb.style.display=tags.length?"block":"none";
+  // highlight cards
+  ["cd-cat","cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-comp","cd-top","cd-efinca","cd-dano-zona"].forEach(id=>document.getElementById(id)?.classList.remove("hl"));
+  if(F.cat!==null) document.getElementById("cd-cat")?.classList.add("hl");
+  if(F.zona!==null)["cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-dano-zona"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
   if(F.finca!==null)["cd-top","cd-efinca"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
 }
- 
-/* ══════════════════════════════════════════════
-   CACHE
-══════════════════════════════════════════════ */
-const saveC = d => { try{localStorage.setItem(CACHE_K,JSON.stringify({ts:Date.now(),d}));}catch{} };
-const loadC = () => {
-  try{
-    const r=JSON.parse(localStorage.getItem(CACHE_K)||"null");
-    if(!r) return null;
-    const age=(Date.now()-r.ts)/60000;
-    return age>CACHE_M?null:{d:r.d,age:Math.round(age)};
-  }catch{return null;}
-};
-const clearC=()=>{try{localStorage.removeItem(CACHE_K);}catch{}};
- 
-/* ══════════════════════════════════════════════
-   LOADING UI
-══════════════════════════════════════════════ */
-const LP = (p,msg) => {
-  document.getElementById("lf").style.width=p+"%";
-  document.getElementById("lm").textContent=msg;
-};
-const LDot = (k,ok) => { const e=document.getElementById("ld-"+k); if(e)e.classList.add(ok?"ok":"er"); };
-const SD   = (k,s) => {
-  // status dots are removed from header - nothing to update
-};
- 
-function setLive(ok, ts) {
-  const pip = document.getElementById("live-pip");
-  const ltx = document.getElementById("live-ts");
-  pip.className = "live-pip "+(ok?"on":"err");
-  ltx.textContent = ok ? (ts||new Date().toLocaleTimeString("es-GT")) : "sin conexión";
-  ltx.style.color = ok?"var(--g6)":"var(--r5)";
-  $("foot-ts", ok?"Actualizado: "+(ts||new Date().toLocaleTimeString("es-GT")):"Error de conexión");
+
+/* ══ Cache ══ */
+const saveC=d=>{try{localStorage.setItem(CK,JSON.stringify({ts:Date.now(),d}));}catch{}};
+const loadC=()=>{try{const r=JSON.parse(localStorage.getItem(CK)||"null");if(!r)return null;const a=(Date.now()-r.ts)/60000;return a>CM?null:{d:r.d,age:Math.round(a)};}catch{return null;}};
+const clearC=()=>{try{localStorage.removeItem(CK);}catch{}};
+
+/* ══ Loading UI ══ */
+const LP=(p,msg)=>{document.getElementById("lf").style.width=p+"%";document.getElementById("lm").textContent=msg;};
+const LDot=(k,ok)=>{const e=document.getElementById("ld-"+k);if(e)e.classList.add(ok?"ok":"er");};
+function setLive(ok){
+  const pip=document.getElementById("live-pip"),ts=document.getElementById("live-ts");
+  pip.className="live-pip "+(ok?"on":"err");
+  const t=new Date().toLocaleTimeString("es-GT");
+  ts.textContent=ok?t:"sin conexión";
+  ts.style.color=ok?"#68EF9C":"#FF8080";
+  $("foot-ts",ok?"Actualizado: "+t:"Error");
 }
- 
-/* ══════════════════════════════════════════════
-   DATA LOADING
-══════════════════════════════════════════════ */
-async function boot() {
-  const cached = loadC();
-  if (cached) {
+
+/* ══ Boot ══ */
+async function boot(){
+  const c=loadC();
+  if(c){
     LP(100,"Datos en caché...");
-    DB = cached.d;
-    buildPills(); buildAllCharts(); buildStaticCharts(); refreshAll();
-    setLive(true);
-    setTimeout(hideLoad, 200);
-    fetchFresh(true);
-  } else {
-    LP(15,"Conectando a Google Sheets...");
-    await fetchFresh(false);
-  }
+    DB=c.d; buildPills();buildAllCharts();buildStaticCharts();refreshAll();setLive(true);
+    setTimeout(hideLoad,200); fetchFresh(true);
+  }else{LP(15,"Conectando a Google Sheets...");await fetchFresh(false);}
 }
- 
-async function fetchFresh(bg) {
-  document.getElementById("sp").style.display = "block";
-  try {
-    if(!bg) LP(30,"Descargando datos...");
-    const ctrl=new AbortController(), tout=setTimeout(()=>ctrl.abort(),50000);
-    const res = await fetch(API,{signal:ctrl.signal});
-    clearTimeout(tout);
-    if(!res.ok) throw new Error("HTTP "+res.status);
-    const j = await res.json();
-    if(!bg) LP(75,"Procesando datos...");
-    DB = j; saveC(j);
-    markDots();
-    buildPills();
-    buildAllCharts();
-    buildStaticCharts();
-    refreshAll();
-    setLive(true);
+async function fetchFresh(bg){
+  document.getElementById("sp").style.display="block";
+  try{
+    if(!bg)LP(30,"Descargando datos...");
+    const ctrl=new AbortController(),tout=setTimeout(()=>ctrl.abort(),50000);
+    const res=await fetch(API,{signal:ctrl.signal});clearTimeout(tout);
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const j=await res.json();
+    if(!bg)LP(72,"Procesando...");
+    DB=j;saveC(j);
+    [["m","muestreo"],["c","control"],["e","ejecutados"],["r","ronron"],["d","dano"],["l","lote"]].forEach(([k,key])=>{
+      LDot(k,Array.isArray(DB[key])&&DB[key].length>0);
+    });
+    buildPills();buildAllCharts();buildStaticCharts();refreshAll();setLive(true);
     if(!bg){LP(100,"¡Listo!");setTimeout(hideLoad,350);}
-  } catch(e) {
-    console.error(e);
-    if(!bg){
-      const c2=loadC();
-      if(c2){DB=c2.d;buildPills();buildAllCharts();buildStaticCharts();refreshAll();setLive(false);LP(100,"Sin conexión · datos guardados");setTimeout(hideLoad,800);}
-      else{LP(100,"Error: "+e.message);setLive(false);setTimeout(hideLoad,1800);}
-    } else {setLive(false);}
-  } finally {document.getElementById("sp").style.display="none";}
+  }catch(e){
+    if(!bg){const c2=loadC();if(c2){DB=c2.d;buildPills();buildAllCharts();buildStaticCharts();refreshAll();setLive(false);LP(100,"Sin conexión · datos guardados");setTimeout(hideLoad,800);}else{LP(100,"Error: "+e.message);setLive(false);setTimeout(hideLoad,1800);}}
+    else setLive(false);
+  }finally{document.getElementById("sp").style.display="none";}
 }
- 
-function hideLoad(){
-  const l=document.getElementById("loading");
-  if(!l)return; l.classList.add("out"); setTimeout(()=>{if(l.parentNode)l.remove();},700);
-}
- 
-async function doSync(){clearC();LP&&(document.getElementById("lf").style.width="0%");await fetchFresh(false);}
- 
-function markDots(){
-  [["m","muestreo"],["c","control"],["e","ejecutados"],["r","ronron"],["d","dano"],["l","lote"]].forEach(([k,key])=>{
-    LDot(k,Array.isArray(DB[key])&&DB[key].length>0);
-  });
-}
- 
-/* ══════════════════════════════════════════════
-   PILLS BUILDER
-══════════════════════════════════════════════ */
+function hideLoad(){const l=document.getElementById("loading");if(!l)return;l.classList.add("out");setTimeout(()=>{if(l.parentNode)l.remove();},700);}
+async function doSync(){clearC();await fetchFresh(false);}
+
+/* ══ Pills ══ */
 function buildPills(){
   const m=DB.muestreo||[];
   const cats=[...new Set(m.map(r=>nv(r.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
   const zones=[...new Set(m.map(r=>nv(r.ID_Zona)).filter(Boolean))].sort((a,b)=>a-b);
- 
-  document.getElementById("p-cat").innerHTML=
-    `<button class="pill on" data-v="all" onclick="SF('cat',null)">TODAS</button>`+
-    cats.map(c=>`<button class="pill" data-v="${c}" onclick="SF('cat',${c})">Cat.${c}</button>`).join("");
- 
-  document.getElementById("p-zona").innerHTML=
-    `<button class="pill on" data-v="all" onclick="SF('zona',null)">TODAS</button>`+
-    zones.map(z=>`<button class="pill" data-v="${z}" onclick="SF('zona',${z})">Z·${z}</button>`).join("");
+  document.getElementById("p-cat").innerHTML=`<button class="pill on" data-v="all" onclick="SF('cat',null)">TODAS</button>`+cats.map(c=>`<button class="pill" data-v="${c}" onclick="SF('cat',${c})">Cat.${c}</button>`).join("");
+  document.getElementById("p-zona").innerHTML=`<button class="pill on" data-v="all" onclick="SF('zona',null)">TODAS</button>`+zones.map(z=>`<button class="pill" data-v="${z}" onclick="SF('zona',${z})">Z·${z}</button>`).join("");
 }
- 
-/* ══════════════════════════════════════════════
-   MASTER REFRESH
-══════════════════════════════════════════════ */
-function refreshAll(){
-  updateKPIs();
-  buildAllCharts();
-  renderTables();
-}
- 
-/* ══════════════════════════════════════════════
-   KPIs
-══════════════════════════════════════════════ */
+
+/* ══ Refresh ══ */
+function refreshAll(){updateKPIs();buildAllCharts();renderTables();}
+
+/* ══ KPIs ══ */
 function updateKPIs(){
-  const m=FD("muestreo"), c=FD("control"), e=FD("ejecutados"), r=DB.ronron||[];
-  const d=FD("dano");
+  const m=FD("muestreo"),c=FD("control"),e=FD("ejecutados"),r=DB.ronron||[],d=FD("dano");
   const gcF=F.zona!==null?r.filter(x=>nv(x.ID_Zona)===F.zona):r;
- 
   const kgRec=c.reduce((s,x)=>s+nv(x.Kg_Recomendados),0);
   const kgEje=e.length?e.reduce((s,x)=>s+nv(x.Kg_Aplicados),0):c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0);
   const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length;
   const pnd=c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length;
   const fv=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length;
-  const pctP=m.length?(m.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/m.length).toFixed(1):0;
-  const areaTot=m.reduce((s,x)=>s+nv(x.Area||x.Area_lote_ha||0),0)||8037;
-  const areaInf=m.filter(x=>nv(x.Porcentaje_Captura)>=8).reduce((s,x)=>s+nv(x.Area||0),0);
+  const pp=m.length?(m.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/m.length).toFixed(1):0;
+  const aT=m.reduce((s,x)=>s+nv(x.Area||x.Area_lote_ha||0),0)||8037;
+  const aI=m.filter(x=>nv(x.Porcentaje_Captura)>=8).reduce((s,x)=>s+nv(x.Area||0),0);
   const avance=pct(kgEje,kgRec);
- 
+  const maxCat=Math.max(...m.map(x=>nv(x.ID_Catorcena)).filter(Boolean),0);
+
+  // PH
+  $("ph-cat",maxCat||"—"); $("ph-lotes",fmt(m.length)); $("ph-av",avance+"%");
   // Overview
-  $("o-am",fmt(areaTot)); $("o-ams",`${m.length} lotes muestreados`);
-  $("o-ai",fmt(areaInf)); $("o-ais",nv(areaInf)>0?`${pct(areaInf,areaTot)}% del área`:"—");
-  $("o-pc",pctP+"%"); $("o-pcs",nv(pctP)>=8?"⚠ Sobre umbral":"✓ Bajo umbral 8%");
-  $("o-kr",fmt(kgRec));
-  $("o-ke",fmt(kgEje)); $("o-kes",avance+"% del requerido");
-  W("o-kep",avance);
+  $("o-am",fmt(aT)); $("o-ams",m.length+" lotes muestreados");
+  $("o-ai",fmt(aI)); $("o-ais",aI>0?pct(aI,aT)+"% del área":"—");
+  $("o-pc",pp+"%"); $("o-pcs",nv(pp)>=8?"⚠ Sobre umbral 8%":"✓ Bajo umbral 8%");
+  $("o-kr",fmt(kgRec)); $("o-ke",fmt(kgEje));
+  $("o-kes",avance+"% del requerido"); W("o-kep",avance);
   $("o-av",avance+"%"); W("o-avp",avance);
   $("o-lm",fmt(m.length)); $("o-at",fmt(at)); $("o-pnd",fmt(pnd)); $("o-fv",fmt(fv));
   $("leg-at",at); $("leg-pnd",pnd); $("leg-fv",fv);
- 
   // Muestreo
-  $("m-nl",fmt(m.length)); $("m-pc",pctP+"%");
-  $("m-pcs",nv(pctP)>=8?"⚠ Sobre umbral":"✓ Bajo umbral");
-  $("m-l8",fmt(m.filter(x=>nv(x.Porcentaje_Captura)>=8).length));
-  $("m-at",fmt(areaTot)); $("m-kr",fmt(kgRec)); $("m-ai",pct(areaInf,areaTot)+"%");
- 
+  $("m-nl",fmt(m.length)); $("m-pc",pp+"%"); $("m-pcs",nv(pp)>=8?"⚠ Sobre umbral":"✓ Bajo umbral");
+  $("m-l8",fmt(m.filter(x=>nv(x.Porcentaje_Captura)>=8).length)); $("m-at",fmt(aT)); $("m-kr",fmt(kgRec)); $("m-ai",pct(aI,aT)+"%");
   // Control
-  $("c-nl",fmt(c.length)); $("c-at",fmt(at)); $("c-ft",fmt(fv)); $("c-pnd",fmt(pnd));
-  $("c-kr",fmt(kgRec)); $("c-ke",fmt(c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)));
- 
+  $("c-nl",fmt(c.length)); $("c-at",fmt(at)); $("c-ft",fmt(fv)); $("c-pnd",fmt(pnd)); $("c-kr",fmt(kgRec)); $("c-ke",fmt(c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)));
   // Ejecutados
   $("e-nl",fmt(e.length)); $("e-kg",fmt(kgEje));
   $("e-fn",fmt([...new Set(e.map(x=>x.Nombre_finca).filter(Boolean))].length));
   $("e-zn",fmt([...new Set(e.map(x=>x.ID_Zona).filter(Boolean))].length));
- 
   // Daño
-  $("d-tot",fmt(d.length));
-  $("d-barr",avg(d,"Porc_Inten_Infest_Barrenador")+"%");
-  $("d-rata",avg(d,"Porc_Inten_Infest_Rata")+"%");
-  $("d-lotes",fmt((DB.lote||[]).length));
- 
+  $("d-tot",fmt(FD("dano").length)); $("d-barr",avg(FD("dano"),"Porc_Inten_Infest_Barrenador")+"%");
+  $("d-rata",avg(FD("dano"),"Porc_Inten_Infest_Rata")+"%"); $("d-lotes",fmt((DB.lote||[]).length));
   // GC
   const gcTot=gcF.reduce((s,x)=>s+nv(x.TotalCaptura),0);
   const gcPh=gcF.reduce((s,x)=>s+nv(x.Phyllophaga),0);
   $("gc-nt",fmt(gcF.reduce((s,x)=>s+nv(x.No_Trampas),0)||48));
-  $("gc-tc",fmt(gcTot||13172));
-  $("gc-cm",fmt(Math.max(...gcF.map(x=>nv(x.TotalCaptura)),0)||3212));
-  $("gc-ph",(gcTot>0?Math.round(gcPh/gcTot*100):95)+"%");
-  $("gc-lm",fmt(gcF.length||17));
+  $("gc-tc",fmt(gcTot||13172)); $("gc-cm",fmt(Math.max(...gcF.map(x=>nv(x.TotalCaptura)),0)||3212));
+  $("gc-ph",(gcTot>0?Math.round(gcPh/gcTot*100):95)+"%"); $("gc-lm",fmt(gcF.length||17));
 }
- 
-/* ══════════════════════════════════════════════
-   DYNAMIC CHARTS (respond to all filters)
-══════════════════════════════════════════════ */
+
+/* ══ All Dynamic Charts ══ */
 function buildAllCharts(){
-  const m=FD("muestreo"), c=FD("control"), e=FD("ejecutados"), d=FD("dano");
- 
-  /* Catorcena aggregation */
-  const CM={};
-  m.forEach(r=>{
-    const cat=nv(r.ID_Catorcena); if(!CM[cat])CM[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0};
-    CM[cat].s+=nv(r.Porcentaje_Captura); CM[cat].n++;
-    CM[cat].mac+=nv(r.Machos); CM[cat].hem+=nv(r.Hembras);
-    CM[cat].jov+=nv(r.Jovenes); CM[cat].adu+=nv(r.Adultas);
-  });
-  const cats=Object.keys(CM).map(Number).sort((a,b)=>a-b);
-  const cPct=cats.length?cats.map(c=>+(CM[c].s/CM[c].n).toFixed(1)):[5,5,9,12,8,9,10,9,7,9,9];
+  const m=FD("muestreo"),c=FD("control"),e=FD("ejecutados"),d=FD("dano");
+  // Colors
+  const BLU="#4E6AD4", BLU_L="rgba(78,106,212,.18)",BLU_M="rgba(78,106,212,.8)";
+  const GRN="#28A854",GRN_L="rgba(40,168,84,.18)",GRN_M="rgba(40,168,84,.82)";
+  const RED="#E03838",RED_L="rgba(224,56,56,.15)",RED_M="rgba(224,56,56,.82)";
+  const AMB="#F0A000",AMB_L="rgba(240,160,0,.18)",AMB_M="rgba(240,160,0,.82)";
+
+  // Cat map
+  const CM2={};
+  m.forEach(r=>{const cat=nv(r.ID_Catorcena);if(!CM2[cat])CM2[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0};
+    CM2[cat].s+=nv(r.Porcentaje_Captura);CM2[cat].n++;
+    CM2[cat].mac+=nv(r.Machos);CM2[cat].hem+=nv(r.Hembras);
+    CM2[cat].jov+=nv(r.Jovenes);CM2[cat].adu+=nv(r.Adultas);});
+  const cats=Object.keys(CM2).map(Number).sort((a,b)=>a-b);
+  const cPct=cats.length?cats.map(c=>+(CM2[c].s/CM2[c].n).toFixed(1)):[5,5,9,12,8,9,10,9,7,9,9];
   const cLbl=cats.length?cats.map(String):["1","2","3","4","5","6","7","8","9","10","11"];
- 
-  /* ── % Captura Catorcena (bar, clickable) ── */
-  MK("c-cat",{type:"bar",data:{labels:cLbl,datasets:[{
-    label:"% Cap",data:cPct,
-    backgroundColor:cPct.map((v,i)=>F.cat!==null&&cats[i]!==F.cat?"rgba(61,155,61,.1)":(v>=8?"rgba(196,36,36,.82)":"rgba(58,155,61,.78)")),
-    borderColor:cPct.map((v,i)=>F.cat!==null&&cats[i]!==F.cat?"transparent":(v>=8?"rgba(224,56,56,.9)":"rgba(78,189,82,.9)")),
-    borderWidth:1,borderRadius:3
-  }]},options:{...BASE,
-    onClick:(e,els)=>{
-      if(!els.length){SF("cat",null);return;}
-      const c=cats.length?cats[els[0].index]:els[0].index+1;
-      F.cat===c?SF("cat",null):SF("cat",c);
-    },
-    scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,ticks:{callback:v=>v+"%"}}},
-    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}
-  }});
- 
-  /* ── Estado Donut ── */
+
+  /* % Captura Catorcena */
+  MK("c-cat",{type:"bar",data:{labels:cLbl,datasets:[{label:"% Captura",data:cPct,
+    backgroundColor:cPct.map((v,i)=>F.cat!==null&&cats[i]!==F.cat?"rgba(107,132,224,.12)":(v>=8?RED_M:GRN_M)),
+    borderRadius:6,borderSkipped:false}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("cat",null);return;} const c=cats.length?cats[els[0].index]:els[0].index+1; F.cat===c?SF("cat",null):SF("cat",c);},
+      scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,ticks:{callback:v=>v+"%"}}},
+      plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}}});
+
+  /* Estado donut */
   const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length||126;
   const pnd=c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length||85;
   const fv=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length||41;
-  const dnutCfg={type:"doughnut",data:{labels:["A Tiempo","Pendiente","Fuera Ventana"],datasets:[{
-    data:[at,pnd,fv],backgroundColor:["#3A9B3D","#C42424","#D48A00"],
-    borderColor:"rgba(255,255,255,.04)",borderWidth:2,hoverOffset:6
-  }]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"66%",layout:{padding:10}}};
-  MK("c-est",dnutCfg);
- 
-  /* ── % Cap Zona (bar, clickable) ── */
+  MK("c-est",{type:"doughnut",data:{labels:["A Tiempo","Pendiente","Fuera Ventana"],datasets:[{data:[at,pnd,fv],backgroundColor:[GRN,RED,AMB],borderWidth:3,borderColor:"#fff",hoverOffset:6}]},
+    options:{plugins:{legend:{display:false},tooltip:TT},cutout:"66%",layout:{padding:10}}});
+
+  /* % Captura por Zona */
   const zPct=ZONAS.map(z=>{const rw=m.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/rw.length).toFixed(1):0;});
-  const zBg=ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(61,155,61,.08)":(zPct[i]>=8?"rgba(196,36,36,.82)":"rgba(58,155,61,.78)"));
-  MK("c-zpct",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{
-    label:"% Cap",data:zPct,backgroundColor:zBg,borderRadius:3,borderWidth:0
-  }]},options:{...BASE,
-    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
-    scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,ticks:{callback:v=>v+"%"}}},
-    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}
-  }});
- 
-  /* ── Rodenticida ── */
-  const rodRec=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Recomendados),0))||[159,794,1707,1849,1002][ZONAS.indexOf(z)]);
-  const rodEje=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)))||[59,458,1049,1462,573];
+  MK("c-zpct",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"% Cap",data:zPct,
+    backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(78,106,212,.08)":(zPct[i]>=8?RED_M:GRN_M)),
+    borderRadius:6,borderSkipped:false}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
+      scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,ticks:{callback:v=>v+"%"}}},
+      plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}}});
+
+  /* Rodenticida */
+  const rRec=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Recomendados),0))||[159,794,1707,1849,1002][ZONAS.indexOf(z)]);
+  const rEje=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)))||[59,458,1049,1462,573];
   const rodCfg={type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
-    {label:"Recomendado",data:rodRec,backgroundColor:"rgba(58,155,61,.25)",borderRadius:3},
-    {label:"Ejecutado",  data:rodEje,backgroundColor:"rgba(58,155,61,.82)",borderRadius:3}
-  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT}}}};
+    {label:"Recomendado",data:rRec,backgroundColor:"rgba(107,132,224,.22)",borderRadius:5,borderSkipped:false},
+    {label:"Ejecutado",  data:rEje,backgroundColor:BLU_M,borderRadius:5,borderSkipped:false}
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}};
   MK("c-rod",rodCfg);
-  // Clone for control tab
-  setTimeout(()=>{
-    MK("c-rod2",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
-      {label:"Recomendado",data:rodRec.slice(),backgroundColor:"rgba(58,155,61,.25)",borderRadius:3},
-      {label:"Ejecutado",  data:rodEje.slice(),backgroundColor:"rgba(58,155,61,.82)",borderRadius:3}
-    ]},options:{...BASE,plugins:{...BASE.plugins}}});
-  },80);
- 
-  /* ── Estado por Zona (stacked, clickable) ── */
+  setTimeout(()=>{MK("c-rod2",{...rodCfg,data:{labels:rodCfg.data.labels,datasets:rodCfg.data.datasets.map(ds=>({...ds,data:[...ds.data]}))},options:{...rodCfg.options}});},80);
+
+  /* Estado por Zona stacked */
   const ezA=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("TIEMPO")).length);
   const ezP=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("PENDIENTE")).length);
   const ezF=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("VENTANA")).length);
   const ezCfg={type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
-    {label:"A Tiempo", data:ezA.some(v=>v>0)?ezA:[3,21,45,36,3], backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(58,155,61,.1)":"rgba(58,155,61,.82)"),borderRadius:2,stack:"s"},
-    {label:"Pendiente",data:ezP.some(v=>v>0)?ezP:[3,21,15,34,10],backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(196,36,36,.08)":"rgba(196,36,36,.82)"),borderRadius:2,stack:"s"},
-    {label:"Fuera",    data:ezF.some(v=>v>0)?ezF:[2,11,12,13,3], backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(212,138,0,.08)":"rgba(212,138,0,.78)"),borderRadius:2,stack:"s"},
-  ]},options:{...BASE,
-    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
-    plugins:{...BASE.plugins,tooltip:TT},
-    scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}
-  }};
+    {label:"A Tiempo", data:ezA.some(v=>v>0)?ezA:[3,21,45,36,3], backgroundColor:ZONAS.map((z)=>F.zona!==null&&z!==F.zona?"rgba(40,168,84,.1)":GRN_M),borderRadius:4,stack:"s"},
+    {label:"Pendiente",data:ezP.some(v=>v>0)?ezP:[3,21,15,34,10],backgroundColor:ZONAS.map((z)=>F.zona!==null&&z!==F.zona?"rgba(224,56,56,.07)":RED_M),borderRadius:4,stack:"s"},
+    {label:"Fuera",    data:ezF.some(v=>v>0)?ezF:[2,11,12,13,3], backgroundColor:ZONAS.map((z)=>F.zona!==null&&z!==F.zona?"rgba(240,160,0,.07)":AMB_M),borderRadius:4,stack:"s"},
+  ]},options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
+    plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}};
   MK("c-ez",ezCfg);
-  setTimeout(()=>{MK("c-ez2",{...ezCfg,data:{labels:ezCfg.data.labels,datasets:ezCfg.data.datasets.map(ds=>({...ds,data:[...ds.data]}))},options:{...ezCfg.options}});},80);
- 
-  /* ── Composición (stacked, clickable) ── */
+  setTimeout(()=>{MK("c-ez2",{...ezCfg,data:{labels:ezCfg.data.labels,datasets:ezCfg.data.datasets.map(ds=>({...ds,data:[...ds.data],backgroundColor:[...ds.backgroundColor]}))},options:{...ezCfg.options}});},80);
+
+  /* Composición captura */
   MK("c-comp",{type:"bar",data:{labels:cLbl,datasets:[
-    {label:"Machos", data:cats.length?cats.map(c=>CM[c].mac):[48,68,99,247,194,284,142,244,209,325,266],backgroundColor:"rgba(56,152,216,.82)",borderRadius:2,stack:"s"},
-    {label:"Hembras",data:cats.length?cats.map(c=>CM[c].hem):[40,65,101,180,190,361,120,200,157,244,229],backgroundColor:"rgba(212,83,126,.82)",borderRadius:2,stack:"s"},
-    {label:"Jóvenes",data:cats.length?cats.map(c=>CM[c].jov):[24,46,32,99,54,160,53,135,135,160,177],  backgroundColor:"rgba(112,204,115,.82)",borderRadius:2,stack:"s"},
-    {label:"Adultas",data:cats.length?cats.map(c=>CM[c].adu):[64,87,169,328,330,485,209,309,231,409,318],backgroundColor:"rgba(245,188,46,.82)",borderRadius:2,stack:"s"},
-  ]},options:{...BASE,
-    onClick:(e,els)=>{if(!els.length)return; const c=cats.length?cats[els[0].index]:els[0].index+1; F.cat===c?SF("cat",null):SF("cat",c);},
-    plugins:{...BASE.plugins,tooltip:TT},
-    scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}
-  }});
- 
-  /* ── Top Lotes (horizontal, clickable) ── */
+    {label:"Machos", data:cats.length?cats.map(c=>CM2[c].mac):[48,68,99,247,194,284,142,244,209,325,266],backgroundColor:"rgba(56,152,216,.82)",borderRadius:3,stack:"s"},
+    {label:"Hembras",data:cats.length?cats.map(c=>CM2[c].hem):[40,65,101,180,190,361,120,200,157,244,229],backgroundColor:"rgba(212,83,126,.82)",borderRadius:3,stack:"s"},
+    {label:"Jóvenes",data:cats.length?cats.map(c=>CM2[c].jov):[24,46,32,99,54,160,53,135,135,160,177],  backgroundColor:"rgba(72,200,112,.82)",borderRadius:3,stack:"s"},
+    {label:"Adultas",data:cats.length?cats.map(c=>CM2[c].adu):[64,87,169,328,330,485,209,309,231,409,318],backgroundColor:AMB_M,borderRadius:3,stack:"s"},
+  ]},options:{...BASE,onClick:(ev,els)=>{if(!els.length)return; const c=cats.length?cats[els[0].index]:els[0].index+1; F.cat===c?SF("cat",null):SF("cat",c);},
+    plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
+
+  /* Top lotes */
   const topR=[...m].sort((a,b)=>nv(b.Porcentaje_Captura)-nv(a.Porcentaje_Captura)).slice(0,10);
   const topFn=topR.map(r=>r.Nombre_finca||"");
-  MK("c-top",{type:"bar",data:{
-    labels:topR.map(r=>`${(r.Nombre_finca||"").slice(0,9)} ${String(r.ID_Lote||"").slice(-4)}`),
-    datasets:[{label:"%",data:topR.map(r=>nv(r.Porcentaje_Captura)),
-      backgroundColor:topR.map(r=>nv(r.Porcentaje_Captura)>=8?"rgba(196,36,36,.82)":"rgba(58,155,61,.78)"),borderRadius:3}]
-  },options:{...BASE,indexAxis:"y",
-    onClick:(e,els)=>{if(!els.length)return; const fn=topFn[els[0].index]; F.finca===fn?SF("finca",null):SF("finca",fn);},
-    scales:{x:{...BASE.scales.x,ticks:{callback:v=>v+"%"}},y:{...BASE.scales.y,ticks:{font:{size:10}}}},
-    plugins:{...BASE.plugins,tooltip:TT}
-  }});
- 
-  /* ── Kg por Finca Ejecutados (clickable) ── */
+  MK("c-top",{type:"bar",data:{labels:topR.map(r=>`${(r.Nombre_finca||"").slice(0,9)} ${String(r.ID_Lote||"").slice(-4)}`),datasets:[{label:"%",data:topR.map(r=>nv(r.Porcentaje_Captura)),
+    backgroundColor:topR.map(r=>nv(r.Porcentaje_Captura)>=8?RED_M:GRN_M),borderRadius:4}]},
+    options:{...BASE,indexAxis:"y",onClick:(ev,els)=>{if(!els.length)return; const fn=topFn[els[0].index]; F.finca===fn?SF("finca",null):SF("finca",fn);},
+      scales:{x:{...BASE.scales.x,ticks:{callback:v=>v+"%"}},y:{...BASE.scales.y,ticks:{font:{size:10}}}},
+      plugins:{...BASE.plugins,tooltip:TT}}});
+
+  /* Kg por Finca */
   const fMap={};
-  e.forEach(r=>{const f=(r.Nombre_finca||"").trim(); fMap[f]=(fMap[f]||0)+nv(r.Kg_Aplicados);});
-  const topF=Object.entries(Object.keys(fMap).length?fMap:{
-    "CONCEPCIÓN LA NORIA":2000,"MIXQUEÑO":588,"LA ENCANTADORA":512,
-    "CAÑAVERALES":383,"PATRICIA":314,"PALMIRA":225,"VICTORY":212,
-    "LAS FLORES":207,"MALAGA":194,"BARRANQUILLA":186
-  }).sort((a,b)=>b[1]-a[1]).slice(0,12);
-  MK("c-efinca",{type:"bar",data:{
-    labels:topF.map(f=>f[0].slice(0,14)),
-    datasets:[{label:"Kg",data:topF.map(f=>f[1]),
-      backgroundColor:topF.map(f=>F.finca===f[0]?"rgba(112,204,115,.95)":"rgba(58,155,61,.78)"),borderRadius:3}]
-  },options:{...BASE,
-    onClick:(e,els)=>{if(!els.length)return; const fn=topF[els[0].index][0]; F.finca===fn?SF("finca",null):SF("finca",fn);},
-    scales:{x:{...BASE.scales.x,ticks:{font:{size:10}}},y:{...BASE.scales.y}},
-    plugins:{...BASE.plugins,tooltip:TT}
-  }});
- 
-  /* ── Daño Tendencia ── */
+  e.forEach(r=>{const f=(r.Nombre_finca||"").trim();fMap[f]=(fMap[f]||0)+nv(r.Kg_Aplicados);});
+  const topF=Object.entries(Object.keys(fMap).length?fMap:{"CONCEPCIÓN LA NORIA":2000,"MIXQUEÑO":588,"LA ENCANTADORA":512,"CAÑAVERALES":383,"PATRICIA":314,"PALMIRA":225,"VICTORY":212,"LAS FLORES":207,"MALAGA":194,"BARRANQUILLA":186}).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  MK("c-efinca",{type:"bar",data:{labels:topF.map(f=>f[0].slice(0,14)),datasets:[{label:"Kg",data:topF.map(f=>f[1]),
+    backgroundColor:topF.map(f=>F.finca===f[0]?"rgba(40,168,84,.95)":BLU_M),borderRadius:5}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length)return; const fn=topF[els[0].index][0]; F.finca===fn?SF("finca",null):SF("finca",fn);},
+      scales:{x:{...BASE.scales.x,ticks:{font:{size:10}}},y:{...BASE.scales.y}},
+      plugins:{...BASE.plugins,tooltip:TT}}});
+
+  /* Daño tendencia */
   const catsDano=[...new Set(d.map(x=>nv(x.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
   MK("c-dano-trend",{type:"line",data:{labels:catsDano.map(String),datasets:[
     {label:"Barrenador %",data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(1):0;}),
-      borderColor:"#F0A800",borderWidth:2.5,pointRadius:4.5,pointBackgroundColor:"#D48A00",
-      fill:true,backgroundColor:"rgba(240,168,0,.08)",tension:.3},
+      borderColor:AMB,borderWidth:2.5,pointRadius:5,pointBackgroundColor:AMB,fill:true,backgroundColor:AMB_L,tension:.3},
     {label:"Rata %",data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(1):0;}),
-      borderColor:"#E03838",borderWidth:2,pointRadius:3.5,pointBackgroundColor:"#C42424",
-      fill:true,backgroundColor:"rgba(224,56,56,.06)",tension:.3},
+      borderColor:RED,borderWidth:2,pointRadius:4,pointBackgroundColor:RED,fill:true,backgroundColor:RED_L,tension:.3},
   ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
- 
-  /* ── Daño por Zona (grouped, clickable) ── */
+
+  /* Daño por Zona */
   const dZB=ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(2):0;});
   const dZR=ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(2):0;});
   MK("c-dano-zona",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
-    {label:"Barrenador",data:dZB,backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(240,168,0,.1)":"rgba(240,168,0,.82)"),borderRadius:3},
-    {label:"Rata",      data:dZR,backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(224,56,56,.08)":"rgba(224,56,56,.78)"),borderRadius:3},
-  ]},options:{...BASE,
-    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
-    plugins:{...BASE.plugins,tooltip:TT}
-  }});
- 
-  /* ── Severidades (donuts) ── */
+    {label:"Barrenador",data:dZB,backgroundColor:ZONAS.map((z)=>F.zona!==null&&z!==F.zona?AMB_L:AMB_M),borderRadius:5},
+    {label:"Rata",      data:dZR,backgroundColor:ZONAS.map((z)=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:5},
+  ]},options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT}}});
+
+  /* Severidades */
   const lote=DB.lote||[];
-  const sB={}, sR={};
-  lote.forEach(r=>{
-    const sb=(r["MUY SEVERO"]||"S/D").toString().trim();
-    const sr=(r["MUY SEVERO.1"]||"S/D").toString().trim();
-    sB[sb]=(sB[sb]||0)+1; sR[sr]=(sR[sr]||0)+1;
-  });
-  MK("c-sev-barr",{type:"doughnut",data:{labels:Object.keys(sB),datasets:[{data:Object.values(sB),backgroundColor:["#C42424","#3A9B3D","#D48A00","#4EBD52","#E03838","#007B60"],borderColor:"rgba(255,255,255,.04)",borderWidth:2,hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:10}}});
-  MK("c-sev-rata", {type:"doughnut",data:{labels:Object.keys(sR),datasets:[{data:Object.values(sR),backgroundColor:["#4EBD52","#D48A00","#E03838","#C42424","#3A9B3D","#1EC09A"],borderColor:"rgba(255,255,255,.04)",borderWidth:2,hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:8}}});
- 
-  /* ── GC Zona (clickable) ── */
+  const sB={},sR={};
+  lote.forEach(r=>{const sb=(r["MUY SEVERO"]||"S/D").toString().trim();const sr=(r["MUY SEVERO.1"]||"S/D").toString().trim();sB[sb]=(sB[sb]||0)+1;sR[sr]=(sR[sr]||0)+1;});
+  MK("c-sev-barr",{type:"doughnut",data:{labels:Object.keys(sB),datasets:[{data:Object.values(sB),backgroundColor:["#E03838","#28A854","#F0A000","#48C870","#FF6060","#00A8D8"],borderWidth:3,borderColor:"#fff",hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:10}}});
+  MK("c-sev-rata", {type:"doughnut",data:{labels:Object.keys(sR),datasets:[{data:Object.values(sR),backgroundColor:["#48C870","#F0A000","#E03838","#C42424","#28A854","#00A8D8"],borderWidth:3,borderColor:"#fff",hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:8}}});
+
+  /* GC Zona */
   const gcAll=DB.ronron||[];
   const gcZ=ZONAS.map(z=>gcAll.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.TotalCaptura),0));
-  MK("c-gcz",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{
-    label:"Adultos",data:gcZ.some(v=>v>0)?gcZ:[0,11886,987,0,299],
-    backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(196,36,36,.1)":"rgba(196,36,36,.82)"),borderRadius:3
-  }]},options:{...BASE,
-    onClick:(e,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},
-    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw.toLocaleString("es-GT")} adultos`}}}
-  }});
+  MK("c-gcz",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"Adultos",data:gcZ.some(v=>v>0)?gcZ:[0,11886,987,0,299],
+    backgroundColor:ZONAS.map((z)=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:5}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;} const z=ZONAS[els[0].index]; F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT}}});
 }
- 
-/* ══════════════════════════════════════════════
-   STATIC CHARTS (IPR, Presupuesto, GC extras)
-══════════════════════════════════════════════ */
+
+/* ══ Static Charts ══ */
 function buildStaticCharts(){
   const gc=DB.ronron||[];
- 
+  const BLU="#4E6AD4",GRN="#28A854",RED="#E03838",AMB="#F0A000";
+
   /* IPR */
-  const iprDates=gc.length?[]:["21 oct 25","29 ene","30 ene","31 ene","21 feb","27 feb","2 mar","3 mar"];
-  const iprData=[0.25,0.08,0.00,0.06,0.35,0.22,0.69,0.98];
-  MK("c-ipr",{type:"line",data:{
-    labels:iprDates.length?iprDates:iprDates,
-    datasets:[{label:"IPR",data:iprData,
-      borderColor:"#1EC09A",borderWidth:2.5,
-      pointRadius:6,pointBorderColor:"#0C1410",pointBorderWidth:1.5,
-      pointBackgroundColor:iprData.map(v=>v>=.8?"#E03838":v>=.5?"#D48A00":"#1EC09A"),
-      fill:true,backgroundColor:"rgba(30,192,154,.07)",tension:.3
-    }]
-  },options:{...BASE,scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,max:1.1}},
-    plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` IPR: ${ctx.raw}`}}}
-  }});
- 
+  MK("c-ipr",{type:"line",data:{labels:["21 oct 25","29 ene","30 ene","31 ene","21 feb","27 feb","2 mar","3 mar"],datasets:[{label:"IPR",data:[.25,.08,0,.06,.35,.22,.69,.98],
+    borderColor:"#00A8D8",borderWidth:2.5,pointRadius:6,pointBorderColor:"#fff",pointBorderWidth:2,
+    pointBackgroundColor:[.25,.08,0,.06,.35,.22,.69,.98].map(v=>v>=.8?"#E03838":v>=.5?"#F0A000":"#00A8D8"),
+    fill:true,backgroundColor:"rgba(0,168,216,.08)",tension:.35}]},
+    options:{...BASE,scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,max:1.1}},
+      plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` IPR: ${ctx.raw}`}}}}});
+
   /* Presupuesto */
-  const pZ=["Z·1","Z·3","Z·4","Z·5","Z·8"];
-  const pR=[3643,1782,2312,6570,1315],pE=[726,998,1860,2722,1315];
-  const pPct=[20,56,80,41,100];
-  const pCol=["var(--r5)","var(--a5)","var(--g6)","var(--a5)","var(--t5)"];
+  const pZ=["Z·1","Z·3","Z·4","Z·5","Z·8"],pR=[3643,1782,2312,6570,1315],pE=[726,998,1860,2722,1315];
+  const pPct=[20,56,80,41,100],pCols=["#E03838","#F0A000","#28A854","#F0A000","#00A8D8"];
   document.getElementById("pres-prog").innerHTML=pZ.map((z,i)=>`
     <div class="pr">
       <span class="pr-lbl">${z}</span>
-      <div class="pr-track"><div class="pr-fill" style="background:${pCol[i]};width:${pPct[i]}%"></div></div>
-      <span class="pr-val" style="color:${pCol[i]}">${pPct[i]}%</span>
+      <div class="pr-track"><div class="pr-fill" style="background:${pCols[i]};width:${pPct[i]}%"></div></div>
+      <span class="pr-val" style="color:${pCols[i]}">${pPct[i]}%</span>
     </div>`).join("");
   MK("c-pres",{type:"bar",data:{labels:pZ,datasets:[
-    {label:"1er Rev.",data:pR,backgroundColor:"rgba(58,155,61,.25)",borderRadius:3},
-    {label:"Entregado",data:pE,backgroundColor:"rgba(58,155,61,.82)",borderRadius:3},
-  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
- 
+    {label:"1er Rev.",data:pR,backgroundColor:"rgba(107,132,224,.22)",borderRadius:5},
+    {label:"Entregado",data:pE,backgroundColor:"rgba(78,106,212,.82)",borderRadius:5}
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT}}}});
+
   /* GC Tendencia */
   const gcByDate={};
   gc.forEach(x=>{const d=ds(x.Fecha);gcByDate[d]=(gcByDate[d]||0)+nv(x.TotalCaptura);});
   const gcDates=Object.keys(gcByDate);
-  MK("c-gct",{type:"line",data:{
-    labels:gcDates.length?gcDates:["27 feb","1 mar","3 mar","5 mar","7 mar","9 mar","11 mar","13 mar","15 mar","17 mar"],
-    datasets:[{label:"Adultos",data:gcDates.length?Object.values(gcByDate):[0,0,7,0,0,0,0,0,6347,6825],
-      borderColor:"#E03838",borderWidth:2.5,pointRadius:4.5,pointBackgroundColor:"#C42424",
-      fill:true,backgroundColor:"rgba(196,36,36,.07)",tension:.2
-    }]
-  },options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw.toLocaleString("es-GT")} adultos`}}}}});
- 
-  /* GC Especie por Finca */
+  MK("c-gct",{type:"line",data:{labels:gcDates.length?gcDates:["27 feb","1 mar","3 mar","5 mar","7 mar","9 mar","11 mar","13 mar","15 mar","17 mar"],datasets:[{label:"Adultos",data:gcDates.length?Object.values(gcByDate):[0,0,7,0,0,0,0,0,6347,6825],
+    borderColor:RED,borderWidth:2.5,pointRadius:4,pointBackgroundColor:RED,fill:true,backgroundColor:"rgba(224,56,56,.08)",tension:.2}]},
+    options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw.toLocaleString("es-GT")} adultos`}}}}});
+
+  /* GC especie */
   const fincas=[...new Set(gc.map(x=>x.Nombre_finca).filter(Boolean))];
   MK("c-gcf",{type:"bar",data:{labels:fincas.length?fincas:["CAÑAVERALES","MIXQUEÑO","SANTA ISABEL"],datasets:[
-    {label:"Phyllophaga",data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Phyllophaga),0)):[11260,987,215],backgroundColor:"rgba(56,152,216,.85)",borderRadius:3,stack:"s"},
-    {label:"Anomala",    data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Anomala),0)):[626,0,0],    backgroundColor:"rgba(30,192,154,.85)",borderRadius:3,stack:"s"},
-    {label:"Diplotaxis", data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Diplotaxis),0)):[0,0,84],  backgroundColor:"rgba(112,204,115,.85)",borderRadius:3,stack:"s"},
-  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
- 
-  /* GC Lotes Críticos (clickable) */
+    {label:"Phyllophaga",data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Phyllophaga),0)):[11260,987,215],backgroundColor:"rgba(56,152,216,.85)",borderRadius:4,stack:"s"},
+    {label:"Anomala",    data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Anomala),0)):[626,0,0],    backgroundColor:"rgba(0,168,216,.85)",borderRadius:4,stack:"s"},
+    {label:"Diplotaxis", data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Diplotaxis),0)):[0,0,84],  backgroundColor:"rgba(72,200,112,.85)",borderRadius:4,stack:"s"},
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT}},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
+
+  /* GC Lotes críticos */
   const gcTop=[...gc].sort((a,b)=>nv(b.TotalCaptura)-nv(a.TotalCaptura)).slice(0,10);
-  MK("c-gcl",{type:"bar",data:{
-    labels:gcTop.length?gcTop.map(x=>String(x.ID_Lote||"").slice(-7)):["0043601","0043602","0043502","0043501","0082603","0082403","0850101","0081801","0850309","0850402"],
-    datasets:[{label:"Adultos",data:gcTop.length?gcTop.map(x=>nv(x.TotalCaptura)):[3836,3513,2429,2108,699,158,158,130,55,36],
-      backgroundColor:"rgba(196,36,36,.82)",borderRadius:3
-    }]
-  },options:{...BASE,scales:{x:{...BASE.scales.x,ticks:{font:{size:9}}},y:{...BASE.scales.y}},plugins:{...BASE.plugins,tooltip:TT}}});
+  MK("c-gcl",{type:"bar",data:{labels:gcTop.length?gcTop.map(x=>String(x.ID_Lote||"").slice(-7)):["0043601","0043602","0043502","0043501","0082603","0082403","0850101","0081801","0850309","0850402"],
+    datasets:[{label:"Adultos",data:gcTop.length?gcTop.map(x=>nv(x.TotalCaptura)):[3836,3513,2429,2108,699,158,158,130,55,36],backgroundColor:"rgba(224,56,56,.82)",borderRadius:4}]},
+    options:{...BASE,scales:{x:{...BASE.scales.x,ticks:{font:{size:10}}},y:{...BASE.scales.y}},plugins:{...BASE.plugins,tooltip:TT}}});
 }
- 
-/* ══════════════════════════════════════════════
-   BADGE
-══════════════════════════════════════════════ */
+
+/* ══ Badge ══ */
 function bdg(txt){
   const t=(txt||"").replace(/🟢|🔴|🟠/g,"").trim().toUpperCase();
   const ok=t==="REPRESENTATIVO"||t.includes("TIEMPO");
   const warn=t.includes("ACEPTABLE")||t.includes("VENTANA");
-  const col=ok?"var(--g5)":warn?"var(--a5)":"var(--r5)";
-  return `<span class="bdg" style="color:${col};border-color:${col}28;background:${col}0E"><span class="bdg-pip" style="background:${col}"></span>${txt||""}</span>`;
+  const col=ok?{bg:"#EAFAF1",c:"#1B6B35",b:"#28A854"}:warn?{bg:"#FFF8E0",c:"#7A4400",b:"#F0A000"}:{bg:"#FFF0F0",c:"#7A1515",b:"#E03838"};
+  return `<span class="bdg" style="background:${col.bg};color:${col.c};border:1px solid ${col.b}50">${txt||""}</span>`;
 }
- 
-/* ══════════════════════════════════════════════
-   TABLES
-══════════════════════════════════════════════ */
+
+/* ══ Tables ══ */
 function renderTables(){
-  const m=FD("muestreo"), c=FD("control"), e=FD("ejecutados"), d=FD("dano");
+  const m=FD("muestreo"),c=FD("control"),e=FD("ejecutados"),d=FD("dano");
   const gc=F.zona!==null?(DB.ronron||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.ronron||[]);
- 
-  /* Muestreo */
+
+  // Muestreo
   document.getElementById("tb-m").innerHTML=m.slice(0,400).map(r=>{
     const pc=nv(r.Porcentaje_Captura);
-    return `<tr>
-      <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
-      <td>${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td>
-      <td>${bdg(r.Estado_Muestreo)}</td>
-      <td class="r">${r.ID_Catorcena||""}</td>
-      <td class="r">${nv(r.Area||r.Area_lote_ha).toFixed(1)}</td>
-      <td class="r">${nv(r.Total_de_trampas||r.Trampas_colocadas||0)}</td>
-      <td class="r" style="${nv(r.Diferencia_Trampas)<0?"color:var(--r5)":""}">${r.Diferencia_Trampas||""}</td>
-      <td class="r" style="${pc>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${pc}</td>
-      <td class="r">${r.Porcentaje_Captura_Ajustado||""}</td>
-      <td class="r" style="${nv(r.Kg_a_aplicar)>0?"color:var(--a5);font-weight:600":""}">${nv(r.Kg_a_aplicar).toFixed(1)}</td>
-    </tr>`;
+    return `<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
+    <td style="font-weight:500">${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td>
+    <td>${bdg(r.Estado_Muestreo)}</td>
+    <td class="r">${r.ID_Catorcena||""}</td><td class="r">${nv(r.Area||r.Area_lote_ha).toFixed(1)}</td>
+    <td class="r">${nv(r.Total_de_trampas||r.Trampas_colocadas||0)}</td>
+    <td class="r" style="${nv(r.Diferencia_Trampas)<0?"color:var(--er2)":""}">${r.Diferencia_Trampas||""}</td>
+    <td class="r" style="${pc>=8?"color:var(--wa2);font-weight:700":"color:var(--t3)"}">${pc}</td>
+    <td class="r">${r.Porcentaje_Captura_Ajustado||""}</td>
+    <td class="r" style="${nv(r.Kg_a_aplicar)>0?"color:var(--wa2);font-weight:600":""}">${nv(r.Kg_a_aplicar).toFixed(1)}</td></tr>`;
   }).join("");
-  $("ti-m", m.length>400?`Mostrando 400 de ${m.length} registros`:"");
- 
-  /* Control */
+  $("ti-m",m.length>400?`Mostrando 400 de ${m.length} registros`:"");
+
+  // Control
   document.getElementById("tb-c").innerHTML=c.slice(0,400).map(r=>{
-    const pc=nv(r.Porcentaje_Captura), idx=nv(r.Indice_Cumplimiento);
-    return `<tr>
-      <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
-      <td>${r.Nombre_finca||""}</td>
-      <td class="r">${r.ID_Catorcena||""}</td>
-      <td class="r" style="color:var(--tx3)">${r.Catorcena_Control||"—"}</td>
-      <td>${bdg((r.Estado_Control||"").replace(/🟢|🔴|🟠/g,"").trim())}</td>
-      <td class="r" style="${pc>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${pc}</td>
-      <td class="r" style="color:var(--a5)">${nv(r.Kg_Recomendados).toFixed(1)}</td>
-      <td class="r" style="${nv(r.Kg_Ejecutados)>0?"color:var(--g6);font-weight:600":"color:var(--tx4)"}">${nv(r.Kg_Ejecutados).toFixed(1)}</td>
-      <td class="r" style="${idx>=1?"color:var(--g6)":idx>0?"color:var(--a5)":"color:var(--tx4)"}">${idx>0?idx.toFixed(2):"—"}</td>
-      <td class="r" style="${nv(r.Retraso_Catorcenas)>0?"color:var(--a5)":""}">${r.Retraso_Catorcenas||"—"}</td>
-      <td class="r"><span style="color:${nv(r.Avance_de_ejecucion)>=100?"var(--g6)":nv(r.Avance_de_ejecucion)>0?"var(--a5)":"var(--tx4)"};font-weight:600">${r.Avance_de_ejecucion||0}%</span></td>
-    </tr>`;
+    const pc=nv(r.Porcentaje_Captura),idx=nv(r.Indice_Cumplimiento);
+    return `<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
+    <td style="font-weight:500">${r.Nombre_finca||""}</td>
+    <td class="r">${r.ID_Catorcena||""}</td><td class="r" style="color:var(--t3)">${r.Catorcena_Control||"—"}</td>
+    <td>${bdg((r.Estado_Control||"").replace(/🟢|🔴|🟠/g,"").trim())}</td>
+    <td class="r" style="${pc>=8?"color:var(--wa2);font-weight:700":"color:var(--t3)"}">${pc}</td>
+    <td class="r" style="color:var(--wa2)">${nv(r.Kg_Recomendados).toFixed(1)}</td>
+    <td class="r" style="${nv(r.Kg_Ejecutados)>0?"color:var(--ok1);font-weight:600":"color:var(--t4)"}">${nv(r.Kg_Ejecutados).toFixed(1)}</td>
+    <td class="r" style="${idx>=1?"color:var(--ok1)":idx>0?"color:var(--wa2)":"color:var(--t4)"}">${idx>0?idx.toFixed(2):"—"}</td>
+    <td class="r" style="${nv(r.Retraso_Catorcenas)>0?"color:var(--wa2)":""}">${r.Retraso_Catorcenas||"—"}</td>
+    <td class="r"><span style="color:${nv(r.Avance_de_ejecucion)>=100?"var(--ok1)":nv(r.Avance_de_ejecucion)>0?"var(--wa2)":"var(--t4)"};font-weight:700">${r.Avance_de_ejecucion||0}%</span></td></tr>`;
   }).join("");
-  $("ti-c", c.length>400?`Mostrando 400 de ${c.length}`:"");
- 
-  /* Ejecutados */
+  $("ti-c",c.length>400?`Mostrando 400 de ${c.length}`:"");
+
+  // Ejecutados
   document.getElementById("tb-e").innerHTML=e.slice(0,400).map(r=>`<tr>
     <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td>
+    <td style="font-weight:500">${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td>
     <td class="r">${r.ID_Catorcena||""}</td>
     <td class="r">${r.Porcentaje_Captura_referencia||"—"}</td>
-    <td class="r" style="color:var(--g6);font-weight:600">${nv(r.Kg_Aplicados).toFixed(1)}</td>
-    <td>${r.Producto||""}</td><td>${r.Condicion_Cañal||""}</td>
-  </tr>`).join("");
-  $("ti-e", e.length>400?`Mostrando 400 de ${e.length}`:"");
- 
-  /* Daño */
+    <td class="r" style="color:var(--ok1);font-weight:700">${nv(r.Kg_Aplicados).toFixed(1)}</td>
+    <td>${r.Producto||""}</td><td>${r.Condicion_Cañal||""}</td></tr>`).join("");
+  $("ti-e",e.length>400?`Mostrando 400 de ${e.length}`:"");
+
+  // Daño
   document.getElementById("tb-d").innerHTML=d.slice(0,400).map(r=>`<tr>
     <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td><td>${r.Variedad||""}</td><td>${ds(r.Fecha)}</td>
+    <td style="font-weight:500">${r.Nombre_finca||""}</td><td>${r.Variedad||""}</td><td>${ds(r.Fecha)}</td>
     <td class="r">${r.ID_Catorcena||""}</td>
-    <td class="r" style="${nv(r.Porc_Infest_Barrenador)>20?"color:var(--a6)":""}">${nv(r.Porc_Infest_Barrenador).toFixed(1)}</td>
-    <td class="r" style="${nv(r.Porc_Infest_Rata)>5?"color:var(--a5)":""}">${nv(r.Porc_Infest_Rata).toFixed(1)}</td>
-    <td class="r" style="${nv(r.Porc_Inten_Infest_Barrenador)>3?"color:var(--a6);font-weight:600":""}">${nv(r.Porc_Inten_Infest_Barrenador).toFixed(2)}</td>
-    <td class="r" style="${nv(r.Porc_Inten_Infest_Rata)>1?"color:var(--t5)":""}">${nv(r.Porc_Inten_Infest_Rata).toFixed(2)}</td>
-  </tr>`).join("");
-  $("ti-d", d.length>400?`Mostrando 400 de ${d.length}`:"");
- 
-  /* Gallina Ciega */
+    <td class="r" style="${nv(r.Porc_Infest_Barrenador)>20?"color:var(--wa2)":""}">${nv(r.Porc_Infest_Barrenador).toFixed(1)}</td>
+    <td class="r" style="${nv(r.Porc_Infest_Rata)>5?"color:var(--wa2)":""}">${nv(r.Porc_Infest_Rata).toFixed(1)}</td>
+    <td class="r" style="${nv(r.Porc_Inten_Infest_Barrenador)>3?"color:var(--wa2);font-weight:600":""}">${nv(r.Porc_Inten_Infest_Barrenador).toFixed(2)}</td>
+    <td class="r" style="${nv(r.Porc_Inten_Infest_Rata)>1?"color:var(--in2)":""}">${nv(r.Porc_Inten_Infest_Rata).toFixed(2)}</td></tr>`).join("");
+  $("ti-d",d.length>400?`Mostrando 400 de ${d.length}`:"");
+
+  // GC
   document.getElementById("tb-gc").innerHTML=gc.map(r=>`<tr>
     <td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td>
-    <td>${r.Nombre_finca||""}</td><td class="r">${r.ID_Catorcena||""}</td><td>${ds(r.Fecha)}</td>
+    <td style="font-weight:500">${r.Nombre_finca||""}</td><td class="r">${r.ID_Catorcena||""}</td><td>${ds(r.Fecha)}</td>
     <td>${r.Tipo_trampa||""}</td><td class="r">${r.No_Trampas||""}</td>
-    <td class="r" style="${nv(r.Phyllophaga)>500?"color:var(--a6);font-weight:600":""}">${fmtN(nv(r.Phyllophaga))}</td>
-    <td class="r">${fmtN(nv(r.Diplotaxis))}</td>
-    <td class="r">${fmtN(nv(r.Anomala))}</td>
-    <td class="r" style="${nv(r.TotalCaptura)>500?"color:var(--r5);font-weight:600":"color:var(--g6)"}">${fmtN(nv(r.TotalCaptura))}</td>
-  </tr>`).join("");
- 
-  /* Dinámica */
+    <td class="r" style="${nv(r.Phyllophaga)>500?"color:var(--wa2);font-weight:600":""}">${fmtN(nv(r.Phyllophaga))}</td>
+    <td class="r">${fmtN(nv(r.Diplotaxis))}</td><td class="r">${fmtN(nv(r.Anomala))}</td>
+    <td class="r" style="${nv(r.TotalCaptura)>500?"color:var(--er2);font-weight:700":"color:var(--ok1)"}">${fmtN(nv(r.TotalCaptura))}</td></tr>`).join("");
+
+  // Dinámica
   const dpS=[{z:5,l:"0600605",f:"PETÉN",fe:"3 mar 2026",n:"MEDIO - Riesgo",pc:5,s:7,hg:4,e:21,i:0.98},{z:5,l:"0600603",f:"PETÉN",fe:"2 mar 2026",n:"MEDIO - Riesgo",pc:9,s:12,hg:4,e:19,i:0.69},{z:5,l:"0600604",f:"PETÉN",fe:"27 feb 2026",n:"BAJO - Estable",pc:4,s:6,hg:2,e:8,i:0.22},{z:4,l:"0690109",f:"SAN LORENZO",fe:"21 feb 2026",n:"BAJO - Estable",pc:7,s:8,hg:3,e:9,i:0.35},{z:5,l:"0600605",f:"PETÉN",fe:"31 ene 2026",n:"BAJO - Estable",pc:4,s:6,hg:1,e:2,i:0.06},{z:5,l:"0600603",f:"PETÉN",fe:"30 ene 2026",n:"BAJO - Estable",pc:4,s:5,hg:0,e:0,i:0.00},{z:5,l:"0600604",f:"PETÉN",fe:"29 ene 2026",n:"BAJO - Estable",pc:2,s:3,hg:1,e:3,i:0.08},{z:5,l:"0600605",f:"PETÉN",fe:"21 oct 2025",n:"BAJO - Estable",pc:3,s:3,hg:1,e:3,i:0.25}];
   const dpR=DB.dinamica||dpS;
   document.getElementById("tb-dp").innerHTML=dpR.map(r=>{
-    const ipr=nv(r.IPR||r.i), nivel=(r.Nivel_IPR||r.n||"").toUpperCase();
-    const col=nivel.includes("MEDIO")||ipr>=.5&&ipr<1?"var(--a5)":ipr>=1?"var(--r5)":"var(--g5)";
+    const ipr=nv(r.IPR||r.i);
+    const col=ipr>=1?{bg:"#FFF0F0",c:"#7A1515",b:"#E03838"}:ipr>=.5?{bg:"#FFF8E0",c:"#7A4400",b:"#F0A000"}:{bg:"#EAFAF1",c:"#1B6B35",b:"#28A854"};
     return `<tr>
-      <td class="m">${r.ID_Zona||r.z||""}</td><td class="m">${r.ID_Lote||r.l||""}</td>
-      <td>${r.Nombre_finca||r.f||""}</td><td>${ds(r.Fecha||r.fe)}</td>
-      <td>${bdg(r.Nivel_IPR||r.n||"")}</td>
-      <td class="r">${r.Porcentaje_Captura||r.pc||""}</td>
-      <td class="r">${r.Sigmodon||r.s||""}</td>
-      <td class="r">${r.Hembras_Gestantes||r.hg||""}</td>
-      <td class="r">${r.Hembriones||r.Total_Embriones||r.e||""}</td>
-      <td class="r" style="color:${col};font-weight:600">${(r.IPR||r.i||0).toFixed(2)}</td>
-    </tr>`;
+    <td class="m">${r.ID_Zona||r.z||""}</td><td class="m">${r.ID_Lote||r.l||""}</td>
+    <td style="font-weight:500">${r.Nombre_finca||r.f||""}</td><td>${ds(r.Fecha||r.fe)}</td>
+    <td>${bdg(r.Nivel_IPR||r.n||"")}</td>
+    <td class="r">${r.Porcentaje_Captura||r.pc||""}</td>
+    <td class="r">${r.Sigmodon||r.s||""}</td>
+    <td class="r">${r.Hembras_Gestantes||r.hg||""}</td>
+    <td class="r">${r.Hembriones||r.Total_Embriones||r.e||""}</td>
+    <td class="r"><span class="bdg" style="background:${col.bg};color:${col.c};border:1px solid ${col.b}50;font-size:12px;padding:3px 10px">${(r.IPR||r.i||0).toFixed(2)}</span></td></tr>`;
   }).join("");
- 
-  /* Resumen overview */
+
+  // Resumen
   buildResumen();
 }
- 
+
 function buildResumen(){
-  const m=FD("muestreo"), c=FD("control");
+  const m=FD("muestreo"),c=FD("control");
   const label=F.cat?`Cat. ${F.cat}`:F.zona?`Z·${F.zona}`:F.finca?F.finca.slice(0,14):"Todos";
-  $("res-chip", label+" · "+m.length+" lotes");
+  $("res-chip",label+" · "+m.length+" lotes");
   const fincas=[...new Set([...m,...c].map(r=>r.Nombre_finca).filter(Boolean))].sort();
   const rows=fincas.map(fn=>{
-    const mF=m.filter(r=>r.Nombre_finca===fn), cF=c.filter(r=>r.Nombre_finca===fn);
+    const mF=m.filter(r=>r.Nombre_finca===fn),cF=c.filter(r=>r.Nombre_finca===fn);
     const zona=[...new Set(mF.map(r=>r.ID_Zona).filter(Boolean))].join(",");
     const pp=mF.length?(mF.reduce((s,r)=>s+nv(r.Porcentaje_Captura),0)/mF.length).toFixed(1):0;
     const l8=mF.filter(r=>nv(r.Porcentaje_Captura)>=8).length;
@@ -1546,44 +1219,33 @@ function buildResumen(){
     return {zona,fn,lotes:mF.length,pp,l8,kgR,kgE,at,pnd};
   }).filter(r=>r.lotes>0);
   document.getElementById("tb-res").innerHTML=rows.map(r=>`<tr>
-    <td class="m" style="color:var(--g7)">${r.zona}</td>
-    <td style="font-weight:500">${r.fn}</td>
+    <td class="m" style="color:var(--blue2);font-weight:600">${r.zona}</td>
+    <td style="font-weight:600;color:var(--t1)">${r.fn}</td>
     <td class="r">${r.lotes}</td>
-    <td class="r" style="${nv(r.pp)>=8?"color:var(--a6);font-weight:600":"color:var(--tx3)"}">${r.pp}%</td>
-    <td class="r" style="${r.l8>0?"color:var(--r5)":""}">${r.l8}</td>
-    <td class="r" style="color:var(--a5)">${fmt(r.kgR)}</td>
-    <td class="r" style="${r.kgE>0?"color:var(--g6)":""}">${fmt(r.kgE)}</td>
-    <td class="r" style="${r.at>0?"color:var(--g6)":""}">${r.at}</td>
-    <td class="r" style="${r.pnd>0?"color:var(--r5)":""}">${r.pnd}</td>
-  </tr>`).join("");
+    <td class="r" style="${nv(r.pp)>=8?"color:var(--wa2);font-weight:700":"color:var(--t3)"}">${r.pp}%</td>
+    <td class="r"><span style="color:${r.l8>0?"var(--er2)":"var(--t4)"};font-weight:${r.l8>0?"700":"400"}">${r.l8}</span></td>
+    <td class="r" style="color:var(--wa2)">${fmt(r.kgR)}</td>
+    <td class="r" style="${r.kgE>0?"color:var(--ok1);font-weight:600":""}">${fmt(r.kgE)}</td>
+    <td class="r" style="${r.at>0?"color:var(--ok1);font-weight:600":""}">${r.at}</td>
+    <td class="r" style="${r.pnd>0?"color:var(--er2);font-weight:600":""}">${r.pnd}</td></tr>`).join("");
 }
- 
-/* ══════════════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════════════ */
-function NAV(id, btn, color){
+
+/* ══ Navigation ══ */
+function NAV(id,btn){
   document.querySelectorAll(".tab").forEach(p=>p.classList.remove("on"));
-  document.querySelectorAll(".nv").forEach(b=>{b.classList.remove("on");b.style.color="";});
+  document.querySelectorAll(".nv").forEach(b=>b.classList.remove("on"));
   document.getElementById("tab-"+id).classList.add("on");
-  btn.classList.add("on"); btn.style.color=color;
+  btn.classList.add("on");
   window.scrollTo({top:0,behavior:"smooth"});
 }
- 
-function MT(mod, view, btn){
+function MT(mod,view,btn){
   document.querySelectorAll(`[id^="${mod}-"]`).forEach(el=>el.classList.remove("on"));
-  const el=document.getElementById(`${mod}-${view}`); if(el) el.classList.add("on");
+  const el=document.getElementById(`${mod}-${view}`);if(el)el.classList.add("on");
   btn.closest(".mtabs").querySelectorAll(".mt").forEach(b=>b.classList.remove("on"));
   btn.classList.add("on");
 }
- 
-/* ══ BOOT ══ */
+
 boot();
 </script>
 </body>
 </html>
- 
-
-
-
-
-
