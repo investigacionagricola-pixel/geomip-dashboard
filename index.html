@@ -3,903 +3,1047 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GeoMIP v2.0 · Sistema de Reportes de Plagas</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+<title>GeoMIP v2.0 · Reportes de Plagas · Ingenio Madre Tierra</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════════
-   TOKENS
-══════════════════════════════════════════════ */
 :root{
-  --grad:linear-gradient(135deg,#3B52B0 0%,#5A2D82 55%,#7B3EA8 100%);
-  --grad2:linear-gradient(135deg,#4A63C0 0%,#6B3D92 100%);
-  --grad3:linear-gradient(135deg,#2D3F8F,#4A1F6A);
-  --white:#FFFFFF; --bg:#F0F2FA;
-  --blue1:#2C3E8C; --blue2:#3B52B0; --blue3:#4E6AD4; --blue4:#7090E8;
-  --pur1:#5A2D82; --pur2:#7B3EA8; --pur3:#9B5CCC;
-  --ok1:#166534; --ok2:#16A34A; --ok3:#4ADE80;
-  --wa1:#92400E; --wa2:#D97706; --wa3:#FCD34D;
-  --er1:#991B1B; --er2:#DC2626; --er3:#FCA5A5;
-  --in1:#0C4A6E; --in2:#0284C7; --in3:#7DD3FC;
-  --t1:#111827; --t2:#374151; --t3:#6B7280; --t4:#9CA3AF; --t5:#E5E7EB;
-  --sh1:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
-  --sh2:0 4px 20px rgba(59,82,176,.14),0 2px 6px rgba(0,0,0,.07);
-  --sh3:0 8px 32px rgba(59,82,176,.2),0 4px 12px rgba(0,0,0,.1);
-  --shcard:0 2px 12px rgba(90,45,130,.18);
-  --r:16px; --r2:12px; --r3:8px;
-  --font:'Inter',sans-serif; --fontd:'Barlow Condensed',sans-serif;
+  --grad:linear-gradient(135deg,#2D3F9F 0%,#5A2D82 58%,#7B3EA8 100%);
+  --gcard:linear-gradient(140deg,#3D52B4 0%,#6238A0 100%);
+  --w:#fff;--bg:#EEF1FA;
+  --b1:#2C3E8C;--b2:#3B52B0;--b3:#4E6AD4;--b4:#7B94E8;--b5:#C5D0F8;
+  --p1:#4A1F6A;--p2:#5A2D82;--p3:#7B3EA8;
+  --g1:#14532D;--g2:#166534;--g3:#16A34A;--g4:#4ADE80;--g5:#DCFCE7;
+  --a1:#78350F;--a2:#92400E;--a3:#D97706;--a4:#F59E0B;--a5:#FEF3C7;
+  --r1:#7F1D1D;--r2:#991B1B;--r3:#DC2626;--r4:#F87171;--r5:#FEF2F2;
+  --c1:#0C4A6E;--c2:#0369A1;--c3:#0284C7;--c4:#BAE6FD;
+  --te1:#0F172A;--te2:#1E293B;--te3:#475569;--te4:#94A3B8;--te5:#E2E8F0;--te6:#F8FAFC;
+  --sh0:0 1px 3px rgba(0,0,0,.07);
+  --sh1:0 2px 10px rgba(45,63,159,.1);
+  --sh2:0 6px 24px rgba(45,63,159,.16);
+  --sh3:0 12px 40px rgba(45,63,159,.22);
+  --shcard:0 3px 18px rgba(90,45,130,.2);
+  --r:16px;--r2:11px;--r3:8px;
+  --f:'Inter',sans-serif;--fd:'Barlow Condensed',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px;scroll-behavior:smooth}
-body{background:var(--grad);min-height:100vh;font-family:var(--font);color:var(--t1);overflow-x:hidden}
+html{scroll-behavior:smooth;font-size:14px}
+body{font-family:var(--f);background:var(--grad);min-height:100vh;color:var(--te1);overflow-x:hidden}
 ::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:rgba(255,255,255,.1)}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,.4);border-radius:3px}
+::-webkit-scrollbar-track{background:#F1F5F9}
+::-webkit-scrollbar-thumb{background:var(--b3);border-radius:3px}
 
-/* ══ ANIMATIONS ══ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes kpiIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes kIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
 
-/* ══ LOADING ══ */
-#loading{position:fixed;inset:0;z-index:9999;background:var(--grad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s}
-#loading.out{opacity:0;pointer-events:none}
-.l-icon{font-size:60px;animation:float 2s ease-in-out infinite}
-.l-title{font-family:var(--fontd);font-size:38px;font-weight:900;color:#fff;letter-spacing:3px}
-.l-sub{font-size:13px;color:rgba(255,255,255,.75);letter-spacing:.5px;text-align:center;line-height:1.8}
-.l-bar{width:300px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
-.l-fill{height:100%;width:0%;background:rgba(255,255,255,.9);transition:width .35s ease;border-radius:2px}
-.l-msg{font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.5px}
-.l-dots{display:flex;gap:8px}
-.l-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .3s}
-.l-dot.ok{background:rgba(255,255,255,.9)} .l-dot.er{background:#FF8080}
+/* ── LOADING ── */
+#LOAD{position:fixed;inset:0;z-index:9999;background:var(--grad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .6s}
+#LOAD.out{opacity:0;pointer-events:none}
+.li{font-size:56px;animation:float 2.2s ease-in-out infinite}
+.lt{font-family:var(--fd);font-size:38px;font-weight:900;color:#fff;letter-spacing:3px}
+.ls{font-size:12px;color:rgba(255,255,255,.7);letter-spacing:.5px;text-align:center;line-height:1.8}
+.lb{width:300px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden}
+.lf{height:100%;width:0%;background:#fff;transition:width .3s;border-radius:2px}
+.lm{font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.5px}
+.ldts{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;max-width:300px}
+.ldt{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);transition:background .3s}
+.ldt.ok{background:rgba(255,255,255,.9)}.ldt.er{background:#F87171}
 
-/* ══ HUB WRAPPER ══ */
-#hub{min-height:100vh;padding-bottom:40px}
-#detail{display:none;min-height:100vh;background:var(--bg)}
+/* ── HUB ── */
+#HUB{min-height:100vh;padding-bottom:32px}
+#DET{display:none;background:var(--bg);min-height:100vh}
 
-/* ══ HUB HEADER ══ */
-.hub-hdr{padding:32px 40px 0;max-width:1300px;margin:0 auto}
-.hub-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px}
-.hub-brand{display:flex;align-items:center;gap:14px}
-.hub-logo{width:48px;height:48px;background:rgba(255,255,255,.18);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px)}
-.hub-brandname{font-family:var(--fontd);font-size:24px;font-weight:900;color:#fff;letter-spacing:2px;line-height:1}
-.hub-tagline{font-size:11px;color:rgba(255,255,255,.65);letter-spacing:.5px}
-.hub-sync{display:flex;align-items:center;gap:10px}
-.hub-live{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.8);background:rgba(255,255,255,.12);padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.2)}
-.hub-live-pip{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4)}
-.hub-live-pip.on{background:#68EF9C;animation:pulse 2.5s infinite}
-.hub-sync-btn{font-size:12px;font-weight:500;padding:8px 18px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;cursor:pointer;border-radius:20px;transition:all .15s;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px)}
-.hub-sync-btn:hover{background:rgba(255,255,255,.28)}
-.spin-ic{width:11px;height:11px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+/* hub topbar */
+.htop{padding:26px 36px 0;max-width:1360px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+.hbrand{display:flex;align-items:center;gap:13px}
+.hlogo{width:48px;height:48px;background:rgba(255,255,255,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;border:1px solid rgba(255,255,255,.22)}
+.hbname{font-family:var(--fd);font-size:23px;font-weight:900;color:#fff;letter-spacing:2px}
+.hbtag{font-size:10.5px;color:rgba(255,255,255,.62);letter-spacing:.5px}
+.hright{display:flex;align-items:center;gap:9px}
+.hlive{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.78);background:rgba(255,255,255,.11);padding:5px 13px;border-radius:18px;border:1px solid rgba(255,255,255,.18)}
+.hlpip{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
+.hlpip.on{background:#4ADE80;animation:pulse 2.5s infinite}.hlpip.err{background:#F87171}
+.hsync{font-size:12px;font-weight:500;padding:7px 17px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.26);color:#fff;cursor:pointer;border-radius:18px;transition:all .14s;display:flex;align-items:center;gap:5px}
+.hsync:hover{background:rgba(255,255,255,.25)}
+.spi{width:11px;height:11px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
 
-/* ══ HUB TITLE ══ */
-.hub-title-wrap{text-align:center;padding:20px 0 40px}
-.hub-title-icon{font-size:32px;margin-bottom:10px}
-.hub-title{font-family:var(--fontd);font-size:46px;font-weight:900;color:#fff;letter-spacing:-1px;text-transform:uppercase}
-.hub-title-sub{font-size:14px;color:rgba(255,255,255,.75);margin-top:8px;letter-spacing:.3px}
+/* hub title */
+.ht{text-align:center;padding:10px 0 28px}
+.ht-icon{font-size:30px;margin-bottom:8px}
+.ht-title{font-family:var(--fd);font-size:46px;font-weight:900;color:#fff;letter-spacing:-1px;text-transform:uppercase}
+.ht-sub{font-size:13px;color:rgba(255,255,255,.7);margin-top:8px;letter-spacing:.3px}
 
-/* ══ FILTER BAR HUB ══ */
-.hub-filters{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:32px;padding:0 40px}
-.hpill{font-size:12px;font-weight:500;padding:7px 18px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);cursor:pointer;border-radius:24px;transition:all .15s;letter-spacing:.3px;backdrop-filter:blur(6px)}
-.hpill:hover{background:rgba(255,255,255,.22);color:#fff}
-.hpill.on{background:rgba(255,255,255,.95);color:var(--blue2);border-color:rgba(255,255,255,.95);font-weight:700}
+/* hub stats row */
+.hub-stats{display:flex;justify-content:center;gap:16px;margin-bottom:28px;flex-wrap:wrap;padding:0 36px}
+.hstat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 20px;text-align:center;backdrop-filter:blur(8px);min-width:100px}
+.hstat-v{font-family:var(--fd);font-size:28px;font-weight:800;color:#fff;line-height:1}
+.hstat-l{font-size:10px;color:rgba(255,255,255,.68);letter-spacing:.5px;margin-top:3px}
 
-/* ══ CARD GRID ══ */
-.hub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding:0 40px;max-width:1300px;margin:0 auto}
-@media(max-width:1100px){.hub-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:800px){.hub-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.hub-grid{grid-template-columns:1fr}}
+/* category filter */
+.hcat{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:26px;padding:0 36px}
+.hcp{font-size:12px;font-weight:500;padding:7px 18px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.18);color:rgba(255,255,255,.82);cursor:pointer;border-radius:22px;transition:all .14s;backdrop-filter:blur(4px)}
+.hcp:hover{background:rgba(255,255,255,.2);color:#fff}
+.hcp.on{background:rgba(255,255,255,.96);color:var(--b2);border-color:rgba(255,255,255,.96);font-weight:700}
 
-/* ══ MODULE CARD ══ */
-.mod-card{
-  background:var(--white);border-radius:var(--r);overflow:hidden;
-  box-shadow:var(--shcard);cursor:pointer;
-  transition:transform .22s,box-shadow .22s;
-  animation:fadeUp .4s ease both;
-  display:flex;flex-direction:column
-}
-.mod-card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(90,45,130,.28)}
-.mod-card-top{
-  height:120px;display:flex;align-items:center;justify-content:center;
-  background:var(--grad2);position:relative;overflow:hidden
-}
-.mod-card-top::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 70% 30%,rgba(255,255,255,.12),transparent 70%);
-}
-.mod-card-emoji{font-size:52px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));animation:float 3s ease-in-out infinite}
-.mod-card-body{padding:18px 20px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
-.mod-card-title{font-size:15px;font-weight:700;color:var(--t1);line-height:1.3}
-.mod-card-desc{font-size:12px;color:var(--t3);line-height:1.6;flex:1}
-.mod-card-meta{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--t5);font-size:10px;color:var(--t4)}
-.mod-card-tag{font-weight:600;color:var(--blue3)}
-.mod-card-count{background:#EEF1FB;color:var(--blue2);padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600}
-.mod-card-actions{padding:0 20px 18px;display:flex;gap:8px}
-.btn-ver{flex:1;padding:9px 0;background:var(--blue3);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px}
-.btn-ver:hover{background:var(--blue2)}
-.btn-api{padding:9px 14px;background:var(--bg);color:var(--blue3);border:1.5px solid var(--t5);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
-.btn-api:hover{border-color:var(--blue3);background:#EEF1FB}
+/* CARD GRID */
+.hgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:0 36px;max-width:1360px;margin:0 auto}
+@media(max-width:1100px){.hgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.hgrid{grid-template-columns:repeat(2,1fr)}}
 
-/* ══ GUIDE SECTION ══ */
-.hub-guide{max-width:1300px;margin:32px auto 0;padding:0 40px}
-.guide-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:var(--r);padding:24px 32px;backdrop-filter:blur(8px)}
-.guide-title{font-size:14px;font-weight:700;color:rgba(255,255,255,.95);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.guide-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
-.guide-item{font-size:12px;color:rgba(255,255,255,.78);display:flex;align-items:flex-start;gap:8px}
-.guide-item::before{content:"✓";color:#68EF9C;font-weight:700;flex-shrink:0;margin-top:1px}
+/* MODULE CARD */
+.mc{background:var(--w);border-radius:var(--r);overflow:hidden;box-shadow:var(--shcard);cursor:pointer;transition:transform .22s,box-shadow .22s;animation:fadeUp .4s ease both;display:flex;flex-direction:column}
+.mc:hover{transform:translateY(-5px);box-shadow:0 16px 44px rgba(90,45,130,.32)}
+.mc.star{grid-column:span 2;border:2.5px solid rgba(255,200,60,.5)}
+.mc.star .mct{height:155px}
+.mc.star .mct-e{font-size:66px}
+.mct{height:112px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.mct::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 75% 25%,rgba(255,255,255,.14),transparent 65%)}
+.mct-e{font-size:50px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,.22));position:relative;z-index:1}
+.mc-sbadge{position:absolute;top:10px;right:10px;background:rgba(255,200,60,.25);border:1px solid rgba(255,200,60,.5);color:#FFF;font-size:8.5px;font-weight:700;padding:3px 9px;border-radius:12px;letter-spacing:.5px;backdrop-filter:blur(6px);z-index:2}
+.mcb{padding:15px 18px 11px;flex:1;display:flex;flex-direction:column;gap:5px}
+.mc-title{font-size:14px;font-weight:700;color:var(--te1);line-height:1.3}
+.mc-desc{font-size:11.5px;color:var(--te3);line-height:1.6;flex:1}
+.mc-meta{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--te5);font-size:10px}
+.mc-sheet{color:var(--b3);font-weight:600;font-family:monospace;font-size:9.5px}
+.mc-cnt{background:#EEF1FB;color:var(--b2);padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:700}
+.mc-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px}
+.mc-actions{padding:0 18px 15px;display:flex;gap:7px}
+.btn-ver{flex:1;padding:9px;background:var(--b3);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .14s;display:flex;align-items:center;justify-content:center;gap:5px}
+.btn-ver:hover{background:var(--b2)}
+.mc.star .btn-ver{background:linear-gradient(90deg,var(--r3),var(--p3));font-size:13px}
+.btn-api{padding:9px 13px;background:var(--bg);color:var(--b3);border:1.5px solid var(--te5);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .14s}
+.btn-api:hover{border-color:var(--b3);background:#EEF1FB}
 
-/* ══ HUB FOOTER ══ */
-.hub-foot{text-align:center;padding:24px 40px;font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.5px}
+/* guide */
+.hguide{max-width:1360px;margin:26px auto 0;padding:0 36px}
+.hgb{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:var(--r);padding:22px 28px;backdrop-filter:blur(8px)}
+.hgb-t{font-size:13px;font-weight:700;color:rgba(255,255,255,.95);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.hgb-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:7px}
+.hgi{font-size:11.5px;color:rgba(255,255,255,.75);display:flex;align-items:flex-start;gap:7px}
+.hgi::before{content:"✓";color:#4ADE80;font-weight:700;flex-shrink:0;margin-top:1px}
+.hfoot{text-align:center;padding:22px;font-size:11px;color:rgba(255,255,255,.42);letter-spacing:.5px}
 
-/* ══════════════════════════════════════════════
-   DETAIL VIEW
-══════════════════════════════════════════════ */
-/* Topbar detail */
-.det-hdr{background:var(--grad);padding:0}
-.det-hdr-top{max-width:1540px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:58px;gap:0}
-.back-btn{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:7px 16px;border-radius:22px;cursor:pointer;transition:all .15s;flex-shrink:0;margin-right:20px;text-decoration:none}
-.back-btn:hover{background:rgba(255,255,255,.22);color:#fff}
-.det-module-name{font-family:var(--fontd);font-size:20px;font-weight:800;color:#fff;letter-spacing:1.5px;display:flex;align-items:center;gap:9px}
-.det-module-icon{font-size:22px}
-.det-hdr-right{display:flex;align-items:center;gap:8px;margin-left:auto}
-.det-live{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.1);padding:5px 12px;border-radius:16px}
-.det-pip{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
-.det-pip.on{background:#68EF9C;animation:pulse 2.5s infinite}
-.det-sync{font-size:12px;font-weight:500;padding:6px 16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;border-radius:20px;transition:all .15s;display:flex;align-items:center;gap:5px}
-.det-sync:hover{background:rgba(255,255,255,.25)}
+/* ── DETAIL ── */
+.dh{background:var(--grad);position:sticky;top:0;z-index:300}
+.dh-top{max-width:1560px;margin:0 auto;padding:0 22px;display:flex;align-items:center;height:56px;gap:0}
+.back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:7px 15px;border-radius:20px;cursor:pointer;transition:all .14s;flex-shrink:0;margin-right:18px}
+.back:hover{background:rgba(255,255,255,.24);color:#fff}
+.dh-mod{font-family:var(--fd);font-size:19px;font-weight:800;color:#fff;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.dh-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.dlive{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.72);background:rgba(255,255,255,.1);padding:5px 11px;border-radius:14px}
+.dpip{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35)}
+.dpip.on{background:#4ADE80;animation:pulse 2.5s infinite}.dpip.err{background:#F87171}
+.dsync{font-size:11px;font-weight:500;padding:6px 14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff;cursor:pointer;border-radius:18px;transition:all .14s;display:flex;align-items:center;gap:4px}
+.dsync:hover{background:rgba(255,255,255,.24)}
 
-/* Filter bar */
-.det-fbar{background:rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px)}
-.det-fbar-inner{max-width:1540px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:0;flex-wrap:wrap;min-height:46px}
-.det-fsep{width:1px;height:22px;background:rgba(255,255,255,.15);margin:0 14px;flex-shrink:0}
-.det-flbl{font-size:9.5px;font-weight:600;color:rgba(255,255,255,.65);letter-spacing:2px;text-transform:uppercase;margin-right:7px;flex-shrink:0}
-.det-pills{display:flex;flex-wrap:wrap;gap:4px}
-.dpill{font-size:10px;font-weight:500;padding:4px 11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);cursor:pointer;transition:all .13s;border-radius:16px;white-space:nowrap}
-.dpill:hover{background:rgba(255,255,255,.2);color:#fff}
-.dpill.on{background:rgba(255,255,255,.95);color:var(--blue2);border-color:rgba(255,255,255,.95);font-weight:700}
-.det-atags{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.det-atag{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:3px 9px;border-radius:14px;background:rgba(240,160,0,.25);border:1px solid rgba(240,160,0,.4);color:#FCD34D}
-.det-atag-x{cursor:pointer;opacity:.75;font-size:11px;line-height:1}
-.det-atag-x:hover{opacity:1}
-.det-clear{font-size:10px;font-weight:600;padding:3px 10px;background:rgba(220,38,38,.2);border:1px solid rgba(220,38,38,.35);color:#FCA5A5;cursor:pointer;border-radius:14px;transition:all .13s;display:none}
-.det-clear:hover{background:rgba(220,38,38,.32)}
+/* FILTER BAR */
+.fb{background:rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px)}
+.fb-in{max-width:1560px;margin:0 auto;padding:8px 22px;display:flex;align-items:center;flex-wrap:wrap;gap:0;min-height:46px}
+.fsep{width:1px;height:22px;background:rgba(255,255,255,.14);margin:0 13px;flex-shrink:0}
+.flbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.58);letter-spacing:2.5px;text-transform:uppercase;margin-right:7px;flex-shrink:0}
+.fpills{display:flex;flex-wrap:wrap;gap:4px}
+.fp{font-size:10px;font-weight:500;padding:4px 11px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);cursor:pointer;border-radius:14px;transition:all .12s;white-space:nowrap}
+.fp:hover{background:rgba(255,255,255,.22);color:#fff}
+.fp.on{background:rgba(255,255,255,.95);color:var(--b2);border-color:rgba(255,255,255,.95);font-weight:700}
+.ftags{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.ftag{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:3px 9px;border-radius:13px;background:rgba(245,158,11,.22);border:1px solid rgba(245,158,11,.38);color:#FDE68A}
+.ftag-x{cursor:pointer;opacity:.7;font-size:12px;line-height:1;transition:opacity .1s}
+.ftag-x:hover{opacity:1}
+.fclear{font-size:10px;font-weight:600;padding:3px 10px;background:rgba(220,38,38,.16);border:1px solid rgba(220,38,38,.3);color:#FCA5A5;cursor:pointer;border-radius:13px;transition:all .12s;display:none}
+.fclear:hover{background:rgba(220,38,38,.28)}
 
-/* Content area */
-.det-body{background:var(--bg);min-height:calc(100vh - 104px);padding:24px 24px 60px;max-width:1540px;margin:0 auto}
-.det-ph{
-  background:var(--grad);border-radius:var(--r);
-  padding:24px 28px;margin-bottom:18px;
-  display:flex;align-items:center;gap:18px;position:relative;overflow:hidden
-}
-.det-ph::before{content:'';position:absolute;right:-20px;top:-20px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.06)}
-.det-ph-icon{font-size:48px;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
-.det-ph-title{font-family:var(--fontd);font-size:38px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:.9}
-.det-ph-title b{opacity:.85}
-.det-ph-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:6px;letter-spacing:.3px}
-.det-ph-stats{display:flex;gap:12px;margin-left:auto;flex-shrink:0}
-.det-ph-stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:10px 16px;text-align:center;backdrop-filter:blur(8px)}
-.det-ph-sv{font-family:var(--fontd);font-size:28px;font-weight:800;color:#fff;line-height:1}
-.det-ph-sl{font-size:10px;color:rgba(255,255,255,.7);letter-spacing:.5px;margin-top:2px}
+/* CONTENT */
+.dc{max-width:1560px;margin:0 auto;padding:20px 22px 60px}
+.tab{display:none}
+.tab.on{display:block;animation:fadeUp .28s ease both}
+
+/* PAGE HERO */
+.hero{background:var(--grad);border-radius:var(--r);padding:22px 26px;margin-bottom:16px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-8px;top:-8px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hero-ic{font-size:44px;flex-shrink:0;filter:drop-shadow(0 4px 12px rgba(0,0,0,.28));position:relative;z-index:1}
+.hero-title{font-family:var(--fd);font-size:36px;font-weight:900;color:#fff;line-height:.88;letter-spacing:-1px;position:relative;z-index:1}
+.hero-title b{color:rgba(255,255,255,.82)}
+.hero-sub{font-size:11.5px;color:rgba(255,255,255,.68);margin-top:5px;letter-spacing:.2px}
+.hero-stats{display:flex;gap:10px;margin-left:auto;flex-shrink:0;position:relative;z-index:1}
+.hs{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:9px 14px;text-align:center;backdrop-filter:blur(6px);min-width:68px}
+.hs-v{font-family:var(--fd);font-size:26px;font-weight:800;color:#fff;line-height:1}
+.hs-l{font-size:9px;color:rgba(255,255,255,.68);letter-spacing:.5px;margin-top:2px}
 
 /* KPI */
-.krow{display:grid;gap:12px;margin-bottom:14px}
-.kc{background:var(--white);border-radius:var(--r2);padding:16px 18px;box-shadow:var(--sh1);border:1px solid rgba(0,0,0,.05);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.krow{display:grid;gap:11px;margin-bottom:13px}
+.kc{background:var(--w);border-radius:var(--r2);padding:14px 16px;box-shadow:var(--sh0);border:1px solid rgba(0,0,0,.06);position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s}
 .kc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
 .kc-bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:3px 3px 0 0}
-.kc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
-.kc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.kc-lbl{font-size:10.5px;font-weight:600;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;line-height:1.2}
-.kc-val{font-family:var(--fontd);font-size:34px;font-weight:800;line-height:.88;letter-spacing:-1px;animation:kpiIn .4s ease}
-.kc-unit{font-size:14px;font-weight:500;color:var(--t3);margin-left:1px}
-.kc-sub{font-size:10.5px;color:var(--t3);margin-top:6px;line-height:1.4}
-.kc-sub.ok{color:var(--ok2)} .kc-sub.warn{color:var(--wa2)} .kc-sub.danger{color:var(--er2)}
-.kc-prog{height:4px;background:var(--t5);border-radius:2px;margin-top:10px;overflow:hidden}
-.kc-pfill{height:100%;border-radius:2px;transition:width 1.3s cubic-bezier(.16,1,.3,1)}
+.kc-lbl{font-size:10px;font-weight:700;color:var(--te3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
+.kc-val{font-family:var(--fd);font-size:32px;font-weight:800;line-height:.88;letter-spacing:-1px;animation:kIn .35s ease}
+.kc-u{font-size:13px;font-weight:500;color:var(--te3);margin-left:1px}
+.kc-sub{font-size:10px;color:var(--te3);margin-top:5px;line-height:1.4}
+.kc-sub.ok{color:var(--g3)}.kc-sub.warn{color:var(--a3)}.kc-sub.er{color:var(--r3)}
+.kc-prog{height:4px;background:var(--te5);border-radius:2px;margin-top:9px;overflow:hidden}
+.kc-pf{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
 
 /* MINI STATS */
-.msr{display:grid;gap:12px;margin-bottom:14px}
-.ms{background:var(--white);border-radius:var(--r2);padding:14px 16px;box-shadow:var(--sh1);border:1px solid rgba(0,0,0,.05);display:flex;align-items:center;gap:12px}
-.ms-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.ms-lbl{font-size:10.5px;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase}
-.ms-val{font-family:var(--fontd);font-size:26px;font-weight:800;line-height:1.1;margin-top:1px}
+.msr{display:grid;gap:11px;margin-bottom:13px}
+.ms{background:var(--w);border-radius:var(--r2);padding:12px 15px;box-shadow:var(--sh0);border:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:11px}
+.ms-ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.ms-l{font-size:10px;font-weight:700;color:var(--te3);letter-spacing:.5px;text-transform:uppercase}
+.ms-v{font-family:var(--fd);font-size:24px;font-weight:800;line-height:1.1;margin-top:1px}
 
-/* Cards */
-.card{background:var(--white);border-radius:var(--r2);padding:18px 20px;box-shadow:var(--sh1);border:1px solid rgba(0,0,0,.05);position:relative;transition:box-shadow .2s}
+/* CARDS */
+.card{background:var(--w);border-radius:var(--r2);padding:16px 18px;box-shadow:var(--sh0);border:1px solid rgba(0,0,0,.05);position:relative;transition:box-shadow .18s,border-color .18s}
 .card:hover{box-shadow:var(--sh2)}
 .card.cl{cursor:pointer;transition:all .18s}
-.card.cl:hover{border:1.5px solid var(--blue3);box-shadow:0 4px 20px rgba(78,106,212,.18);transform:translateY(-1px)}
-.card.hl{border:2px solid var(--wa2)!important;box-shadow:0 0 0 4px rgba(217,119,6,.1)!important}
-.card.cl::after{content:'🖱️ Clic para filtrar';position:absolute;top:10px;right:12px;font-size:9px;font-weight:500;color:var(--blue3);opacity:0;transition:opacity .15s;background:#EEF1FB;padding:2px 8px;border-radius:10px}
+.card.cl:hover{border-color:var(--b3);box-shadow:0 4px 18px rgba(78,106,212,.2);transform:translateY(-1px)}
+.card.hl{border:2px solid var(--a3)!important;box-shadow:0 0 0 3px rgba(217,119,6,.1)!important}
+.card.cl::after{content:'🖱 Filtrar';position:absolute;top:11px;right:13px;font-size:9px;font-weight:600;color:var(--b3);opacity:0;transition:opacity .14s;background:#EEF1FB;padding:2px 8px;border-radius:10px}
 .card.cl:hover::after{opacity:1}
 
-/* Section header */
-.sh{display:flex;align-items:center;gap:9px;margin-bottom:12px}
-.sh-icon{font-size:17px}
-.sh-title{font-size:13.5px;font-weight:700;color:var(--t1)}
-.sh-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:12px;letter-spacing:.4px;flex-shrink:0}
-.sh-line{flex:1;height:1px;background:var(--t5)}
-.ch-hint{font-size:10px;color:var(--t4);margin-bottom:9px;background:#F8F9FC;padding:4px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:4px}
-.cw{position:relative;width:100%}
-.cw-c{display:flex;align-items:center;justify-content:center}
-.leg{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:9px;font-size:11px;color:var(--t3);font-weight:500}
-.l-c{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
-.l-s{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:4px;flex-shrink:0;vertical-align:middle}
+/* SEC HEADER */
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.sh-i{font-size:16px}
+.sh-t{font-size:13px;font-weight:700;color:var(--te1)}
+.sh-b{font-size:9px;font-weight:600;padding:3px 9px;border-radius:11px;letter-spacing:.4px;flex-shrink:0}
+.sh-line{flex:1;height:1px;background:var(--te5)}
+.ch-hint{font-size:9.5px;color:var(--te4);margin-bottom:8px;background:var(--te6);padding:3px 9px;border-radius:7px;display:inline-flex;align-items:center;gap:4px}
 
-/* Grid */
-.g{display:grid;gap:14px;margin-bottom:14px}
+/* GRID */
+.g{display:grid;gap:13px;margin-bottom:13px}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:1fr 1fr 1fr}
 .g4{grid-template-columns:repeat(4,1fr)}
 .g211{grid-template-columns:2.2fr 1fr 1.2fr}
-.g32{grid-template-columns:3fr 2fr}
+.g31{grid-template-columns:3fr 1fr}
 
-/* Tables */
-.tw{overflow-x:auto;border-radius:var(--r3);border:1px solid var(--t5)}
+.cw{position:relative;width:100%}
+.cwc{display:flex;align-items:center;justify-content:center}
+.leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:9px;font-size:10.5px;color:var(--te3);font-weight:500}
+.lc{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:3px;flex-shrink:0;vertical-align:middle}
+.ls{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:3px;flex-shrink:0;vertical-align:middle}
+
+/* TABLES */
+.tw{overflow-x:auto;border-radius:var(--r3);border:1px solid var(--te5)}
 .dt{width:100%;border-collapse:collapse;font-size:12px}
-.dt th{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);padding:9px 12px;text-align:left;white-space:nowrap;background:#F8F9FC;border-bottom:1.5px solid var(--t5);position:sticky;top:0}
+.dt th{font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--te3);padding:9px 12px;text-align:left;white-space:nowrap;background:var(--te6);border-bottom:1.5px solid var(--te5);position:sticky;top:0}
 .dt th.r{text-align:right}
-.dt td{padding:7px 12px;border-bottom:1px solid #F3F4F6;color:var(--t1);white-space:nowrap}
+.dt td{padding:7px 12px;border-bottom:1px solid #F1F5F9;color:var(--te1);white-space:nowrap}
 .dt td.r{text-align:right;font-family:monospace;font-size:11px}
-.dt td.m{font-family:monospace;font-size:11px;color:var(--t2)}
-.dt tr:hover td{background:#F8F9FF}
-.dt tr.tot td{background:#F0F4FF;font-weight:700;color:var(--blue2)}
-.ti{font-size:10.5px;color:var(--t4);text-align:center;padding:8px}
+.dt td.m{font-family:monospace;font-size:11px;color:var(--te2)}
+.dt tr:hover td{background:#F8FAFF}
+.dt tr.tot td{background:#EEF1FB;font-weight:700;color:var(--b2)}
+.ti{font-size:10px;color:var(--te4);text-align:center;padding:8px}
 
-/* Badges */
-.bdg{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:12px;white-space:nowrap}
+.bdg{display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:600;padding:3px 8px;border-radius:11px;white-space:nowrap}
 
-/* Module tabs */
-.mtabs{display:flex;gap:4px;margin-bottom:14px;background:#EEF1FB;padding:4px;border-radius:10px;width:fit-content}
-.mt{font-size:12px;font-weight:600;padding:7px 16px;background:transparent;border:none;color:var(--t3);cursor:pointer;border-radius:8px;transition:all .15s}
-.mt:hover{color:var(--t1);background:rgba(255,255,255,.6)}
-.mt.on{background:var(--white);color:var(--blue2);box-shadow:var(--sh1)}
+/* MODULE TABS */
+.mtabs{display:flex;gap:3px;background:#EEF1FB;padding:4px;border-radius:9px;width:fit-content;margin-bottom:13px}
+.mt{font-size:11.5px;font-weight:600;padding:7px 15px;background:transparent;border:none;color:var(--te3);cursor:pointer;border-radius:7px;transition:all .13s}
+.mt:hover{color:var(--te1);background:rgba(255,255,255,.6)}
+.mt.on{background:var(--w);color:var(--b2);box-shadow:var(--sh0)}
 .mv{display:none}
 .mv.on{display:block;animation:fadeUp .22s ease both}
 
-/* Alert cards */
-.alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
-.alert{padding:14px 16px;border-radius:var(--r3);border-left:4px solid}
-.at{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
-.ab{font-size:12px;line-height:1.6;color:var(--t2)}
+/* PROGRESS */
+.pr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.pr-l{font-size:11px;font-weight:600;color:var(--te2);width:42px;flex-shrink:0}
+.pr-t{flex:1;height:7px;background:var(--te5);overflow:hidden;border-radius:4px}
+.pr-f{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.pr-v{font-size:11px;font-weight:700;width:34px;text-align:right;flex-shrink:0}
 
-/* Progress */
-.pr{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.pr-lbl{font-size:11px;font-weight:600;color:var(--t2);width:44px;flex-shrink:0}
-.pr-track{flex:1;height:7px;background:var(--t5);overflow:hidden;border-radius:4px}
-.pr-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-.pr-val{font-size:11px;font-weight:700;width:36px;text-align:right;flex-shrink:0}
+.sep{height:1px;background:var(--te5);margin:14px 0}
+.slbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--r3);margin-bottom:9px;display:flex;align-items:center;gap:5px}
+.abox{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+.al{padding:13px 16px;border-radius:var(--r3);border-left:4px solid}
+.al-t{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.al-b{font-size:12px;line-height:1.6;color:var(--te2)}
 
-.sep{height:1px;background:var(--t5);margin:14px 0}
-.slbl{font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--er2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-
-.ipr-box{padding:14px 18px;border-radius:var(--r3);border-left:4px solid;background:#F8F9FC}
-.ipr-val{font-family:var(--fontd);font-size:22px;font-weight:800;line-height:1;margin-bottom:3px}
-.ipr-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
-.ipr-desc{font-size:11px;color:var(--t3);line-height:1.5}
+/* DATA STATUS BANNER */
+.ds-banner{background:var(--te6);border:1px solid var(--te5);border-radius:var(--r2);padding:10px 16px;margin-bottom:13px;display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--te3)}
+.ds-item{display:flex;align-items:center;gap:5px}
+.ds-dot{width:7px;height:7px;border-radius:50%;background:var(--te4)}
+.ds-dot.ok{background:var(--g3)}.ds-dot.er{background:var(--r3)}.ds-dot.warn{background:var(--a3)}
 </style>
 </head>
 <body>
 
-<!-- ══ LOADING ══ -->
-<div id="loading">
-  <div class="l-icon">🌿</div>
-  <div class="l-title">GeoMIP v2.0</div>
-  <div class="l-sub">Sistema de Reportes Integrados de Plagas<br>Ingenio Madre Tierra · Zafra 2025–26</div>
-  <div class="l-bar"><div class="l-fill" id="lf"></div></div>
-  <div class="l-msg" id="lm">Conectando a Google Sheets...</div>
-  <div class="l-dots">
-    <div class="l-dot" id="ld-m"></div><div class="l-dot" id="ld-c"></div>
-    <div class="l-dot" id="ld-e"></div><div class="l-dot" id="ld-r"></div>
-    <div class="l-dot" id="ld-d"></div><div class="l-dot" id="ld-l"></div>
-  </div>
+<!-- LOADING -->
+<div id="LOAD">
+  <div class="li">🌿</div>
+  <div class="lt">GeoMIP v2.0</div>
+  <div class="ls">Sistema de Reportes Integrados de Plagas<br>Ingenio Madre Tierra · Zafra 2025–26</div>
+  <div class="lb"><div class="lf" id="LF"></div></div>
+  <div class="lm" id="LM">Conectando a Google Sheets...</div>
+  <div class="ldts" id="LDTS"></div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     HUB — Portal de Reportes
-══════════════════════════════════════════════ -->
-<div id="hub">
-  <div class="hub-hdr">
-    <div class="hub-topbar">
-      <div class="hub-brand">
-        <div class="hub-logo">🌿</div>
+<!-- ═══════════════ HUB ═══════════════ -->
+<div id="HUB">
+  <div class="htop">
+    <div class="hbrand">
+      <div class="hlogo">🌿</div>
+      <div>
+        <div class="hbname">GeoMIP v2.0</div>
+        <div class="hbtag">Sistema de Reportes Integrados · Ingenio Madre Tierra · Zafra 2025–26</div>
+      </div>
+    </div>
+    <div class="hright">
+      <div class="hlive"><div class="hlpip" id="H-pip"></div><span id="H-ts" style="font-size:11px">conectando...</span></div>
+      <button class="hsync" onclick="doSync()"><span class="spi" id="SP1"></span>↻ Sincronizar</button>
+    </div>
+  </div>
+
+  <div class="ht">
+    <div class="ht-icon">📊</div>
+    <div class="ht-title">Reportes de Muestreos y Plagas</div>
+    <div class="ht-sub">11 hojas conectadas · Datos en tiempo real desde Google Sheets · Selecciona un módulo</div>
+  </div>
+
+  <!-- Stats resumen -->
+  <div class="hub-stats">
+    <div class="hstat"><div class="hstat-v" id="HS-lotes">—</div><div class="hstat-l">Lotes Muestreados</div></div>
+    <div class="hstat"><div class="hstat-v" id="HS-cap">—</div><div class="hstat-l">% Cap. Promedio</div></div>
+    <div class="hstat"><div class="hstat-v" id="HS-gc">—</div><div class="hstat-l">Adultos GC Cap.</div></div>
+    <div class="hstat"><div class="hstat-v" id="HS-chinche">—</div><div class="hstat-l">Registros Chinche</div></div>
+    <div class="hstat"><div class="hstat-v" id="HS-hojas">11</div><div class="hstat-l">Hojas conectadas</div></div>
+  </div>
+
+  <div class="hcat">
+    <button class="hcp on" onclick="hF(null,this)">🌐 Todas</button>
+    <button class="hcp" onclick="hF('rata',this)">🐭 Rata Cañera</button>
+    <button class="hcp" onclick="hF('gc',this)">🪲 Gallina Ciega</button>
+    <button class="hcp" onclick="hF('chinche',this)">🦗 Chinche Salivosa</button>
+    <button class="hcp" onclick="hF('barr',this)">🌾 Barrenador</button>
+    <button class="hcp" onclick="hF('din',this)">🔬 Dinámica</button>
+    <button class="hcp" onclick="hF('gen',this)">📊 General</button>
+  </div>
+
+  <div class="hgrid" id="HGRID">
+
+    <!-- ★ RATA INTEGRADA (doble ancho) -->
+    <div class="mc star" data-cat="rata" style="animation-delay:.04s">
+      <div class="mct" style="background:linear-gradient(135deg,#7F1D1D,#5A2D82)">
+        <div class="mct-e">🐭</div>
+        <div class="mc-sbadge">⭐ INTEGRADO 3 HOJAS</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Dashboard Integrado Rata Cañera</div>
+        <div class="mc-desc">Vista unificada: Captura + Control + Ejecutado. KPIs en tiempo real, tendencias por catorcena, eficiencia de control y análisis geoespacial por zona.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Captura · Control · Ejecutado</span>
+          <span class="mc-cnt" id="CNT-rata">— lotes</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('rata')">👁️ Ver Dashboard Integrado</button>
+        <button class="btn-api" onclick="alert('API: ?sheet=muestreo')">API</button>
+      </div>
+    </div>
+
+    <!-- Gallina Ciega Adultos -->
+    <div class="mc" data-cat="gc" style="animation-delay:.08s">
+      <div class="mct" style="background:linear-gradient(135deg,#7F1D1D,#C42424)">
+        <div class="mct-e">🪲</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Captura Adultos Gallina Ciega</div>
+        <div class="mc-desc">Análisis de 423 capturas con trampa de luz. Phyllophaga, Anomala, Diplotaxis por finca y catorcena.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Muestreo_Captura_Adultos_GC</span>
+          <span class="mc-cnt" id="CNT-gcCap">423 muestras</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('gcCaptura')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Larvas Gallina Ciega -->
+    <div class="mc" data-cat="gc" style="animation-delay:.12s">
+      <div class="mct" style="background:linear-gradient(135deg,#78350F,#7F1D1D)">
+        <div class="mct-e">🐛</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Larvas Gallina Ciega</div>
+        <div class="mc-desc">Análisis integrado de muestreos de larvas de gallina ciega por lote y zona.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Muestreo_Larvas_Gallina_Ciega</span>
+          <span class="mc-cnt" id="CNT-gcLarvas">— muestras</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('gcLarvas')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Chinche Salivosa -->
+    <div class="mc" data-cat="chinche" style="animation-delay:.16s">
+      <div class="mct" style="background:linear-gradient(135deg,#065F46,#1E4F6B)">
+        <div class="mct-e">🦗</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Muestreo Chinche Salivosa</div>
+        <div class="mc-desc">Análisis integrado de muestreos de chinche salivosa por zona, catorcena y finca.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Muestreo_ChincheSalivosa</span>
+          <span class="mc-cnt" id="CNT-chinche">— registros</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('chinche')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Programa Chinche + Gallina -->
+    <div class="mc" data-cat="chinche" style="animation-delay:.20s">
+      <div class="mct" style="background:linear-gradient(135deg,#064E3B,#5A2D82)">
+        <div class="mct-e">📋</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Programa Chinche & Gallina</div>
+        <div class="mc-desc">Programa integrado de control de chinche salivosa y gallina ciega. 248 registros.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">PROGRAMA_CHINCHE_GALLINA</span>
+          <span class="mc-cnt" id="CNT-prog">248 registros</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('programa')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Daño Cosecha -->
+    <div class="mc" data-cat="barr" style="animation-delay:.24s">
+      <div class="mct" style="background:linear-gradient(135deg,#78350F,#5A2D82)">
+        <div class="mct-e">🌾</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Daño Cosecha Rata-Barrenador</div>
+        <div class="mc-desc">853 registros de daño en cosecha — intensidad de daño por barrenador y rata por lote.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Integrado_Daño_Cosecha</span>
+          <span class="mc-cnt" id="CNT-dano">853 muestras</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('dano')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Dinámica Poblacional -->
+    <div class="mc" data-cat="din" style="animation-delay:.28s">
+      <div class="mct" style="background:linear-gradient(135deg,#0C4A6E,#5A2D82)">
+        <div class="mct-e">🔬</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Dinámica de Población</div>
+        <div class="mc-desc">Índice Potencial Reproductivo (IPR). 136 muestreos — hembras gestantes y embriones.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Muestreo_Dinamica_Poblacion</span>
+          <span class="mc-cnt" id="CNT-din">136 registros</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('dinamica')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Actividad General -->
+    <div class="mc" data-cat="gen" style="animation-delay:.32s">
+      <div class="mct" style="background:linear-gradient(135deg,#1E3A5F,#5A2D82)">
+        <div class="mct-e">📊</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Actividad de Plagas</div>
+        <div class="mc-desc">1,281 registros de actividad general de plagas. Análisis consolidado de toda la zafra.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">ActividadPlaga</span>
+          <span class="mc-cnt" id="CNT-act">1,281 reg.</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('actividad')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Presupuesto -->
+    <div class="mc" data-cat="gen" style="animation-delay:.36s">
+      <div class="mct" style="background:linear-gradient(135deg,#14532D,#2D3F9F)">
+        <div class="mct-e">💰</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Presupuesto Rodenticida</div>
+        <div class="mc-desc">Control de kg asignados vs entregados por zona. 49% avance presupuestal zafra 2025–26.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Datos Presupuesto Zafra</span>
+          <span class="mc-cnt">5 zonas</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('presupuesto')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+    <!-- Lote Cosecha -->
+    <div class="mc" data-cat="barr" style="animation-delay:.40s">
+      <div class="mct" style="background:linear-gradient(135deg,#78350F,#2D3F9F)">
+        <div class="mct-e">📦</div>
+      </div>
+      <div class="mcb">
+        <div class="mc-title">Lote Cosecha</div>
+        <div class="mc-desc">Evaluación de severidad de daño en 190 lotes cosechados — barrenador y rata cañera.</div>
+        <div class="mc-meta">
+          <span class="mc-sheet">Integrad_lote_cosecha</span>
+          <span class="mc-cnt" id="CNT-lote">190 lotes</span>
+        </div>
+      </div>
+      <div class="mc-actions">
+        <button class="btn-ver" onclick="openM('lote')">👁️ Ver</button>
+        <button class="btn-api">API</button>
+      </div>
+    </div>
+
+  </div><!-- hgrid -->
+
+  <div class="hguide">
+    <div class="hgb">
+      <div class="hgb-t">💡 Cómo usar los reportes</div>
+      <div class="hgb-g">
+        <div class="hgi">El Dashboard Integrado Rata combina 3 hojas en un solo análisis completo</div>
+        <div class="hgi">Usa filtros de catorcena y zona para segmentar datos en tiempo real</div>
+        <div class="hgi">Haz clic en las gráficas para aplicar filtros interactivos automáticamente</div>
+        <div class="hgi">11 hojas conectadas directamente desde Google Sheets vía Apps Script</div>
+        <div class="hgi">Cada módulo tiene vista de gráficas y tabla de detalle completo</div>
+        <div class="hgi">Usa "↻ Sincronizar" para forzar actualización inmediata de datos</div>
+      </div>
+    </div>
+  </div>
+  <div class="hfoot">GeoMIP v2.0 | Sistema de Reportes Integrados | Loker Estudio | Ingenio Madre Tierra · 2026</div>
+</div>
+
+<!-- ═══════════════ DETAIL VIEW ═══════════════ -->
+<div id="DET">
+  <div class="dh">
+    <div class="dh-top">
+      <button class="back" onclick="goBack()">← Volver a Reportes</button>
+      <div class="dh-mod"><span id="D-icon">📊</span>&nbsp;<span id="D-title">Módulo</span></div>
+      <div class="dh-right">
+        <div class="dlive"><div class="dpip" id="D-pip"></div><span id="D-ts" style="font-size:11px"></span></div>
+        <button class="dsync" onclick="doSync()"><span class="spi" id="SP2"></span>↻ Sync</button>
+      </div>
+    </div>
+    <!-- FILTER BAR -->
+    <div class="fb">
+      <div class="fb-in">
+        <span class="flbl">Catorcena</span>
+        <div class="fpills" id="F-cat"></div>
+        <div class="fsep"></div>
+        <span class="flbl">Zona</span>
+        <div class="fpills" id="F-zona"></div>
+        <div class="fsep" id="F-sep2" style="display:none"></div>
+        <div class="ftags" id="F-tags"></div>
+        <button class="fclear" id="F-clear" onclick="clearF()">✕ Limpiar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dc">
+
+    <!-- ══ RATA INTEGRADA ★ ══ -->
+    <div id="T-rata" class="tab">
+      <div class="hero">
+        <div class="hero-ic">🐭</div>
         <div>
-          <div class="hub-brandname">GeoMIP v2.0</div>
-          <div class="hub-tagline">Sistema de Reportes Integrados · Ingenio Madre Tierra</div>
+          <div class="hero-title">Dashboard Integrado<br><b>Rata Cañera</b></div>
+          <div class="hero-sub">Captura · Control · Rodenticida Ejecutado · Zafra 2025–26</div>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-v" id="R-lotes">—</div><div class="hs-l">Lotes</div></div>
+          <div class="hs"><div class="hs-v" id="R-pc">—</div><div class="hs-l">% Captura</div></div>
+          <div class="hs"><div class="hs-v" id="R-av">—</div><div class="hs-l">% Avance</div></div>
+          <div class="hs"><div class="hs-v" id="R-eff">—</div><div class="hs-l">% Eficiencia</div></div>
         </div>
       </div>
-      <div class="hub-sync">
-        <div class="hub-live"><div class="hub-live-pip" id="hub-pip"></div><span id="hub-ts">conectando...</span></div>
-        <button class="hub-sync-btn" onclick="doSync()"><span class="spin-ic" id="sp"></span>↻ Sincronizar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="hub-title-wrap">
-    <div class="hub-title-icon">📊</div>
-    <div class="hub-title">Reportes de Muestreos y Plagas</div>
-    <div class="hub-title-sub">Selecciona un módulo para ver el análisis integrado con datos en tiempo real</div>
-  </div>
-
-  <!-- Filter pills -->
-  <div class="hub-filters">
-    <button class="hpill on" onclick="filterCat(null,this)">Todas las Plagas</button>
-    <button class="hpill" onclick="filterCat('rata',this)">🐭 Rata Cañera</button>
-    <button class="hpill" onclick="filterCat('gallinaCiega',this)">🪲 Gallina Ciega</button>
-    <button class="hpill" onclick="filterCat('barrenador',this)">🌿 Barrenador</button>
-    <button class="hpill" onclick="filterCat('dinamica',this)">🔬 Dinámica</button>
-    <button class="hpill" onclick="filterCat('presupuesto',this)">💰 Presupuesto</button>
-  </div>
-
-  <!-- Card Grid -->
-  <div class="hub-grid" id="hub-grid">
-
-    <div class="mod-card" data-cat="rata" data-id="muestreo" style="animation-delay:.05s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#3B52B0,#6B3EA8)">
-        <div class="mod-card-emoji">🐭</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Captura de Rata Cañera</div>
-        <div class="mod-card-desc">Análisis integrado de muestreos de captura de rata cañera por catorcena y zona</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Integrado_Captura_Rata</span>
-          <span class="mod-card-count" id="cnt-muestreo">— lotes</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('muestreo')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-    <div class="mod-card" data-cat="rata" data-id="control" style="animation-delay:.1s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#5A2D82,#3B52B0)">
-        <div class="mod-card-emoji">🛡️</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Control de Rata</div>
-        <div class="mod-card-desc">Análisis de controles aplicados a ratas cañeras — estado y seguimiento de lotes</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Seguimiento_control_rata</span>
-          <span class="mod-card-count" id="cnt-control">— lotes</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('control')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-    <div class="mod-card" data-cat="rata" data-id="ejecutados" style="animation-delay:.15s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#166534,#3B52B0)">
-        <div class="mod-card-emoji">✅</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Rodenticida Ejecutado</div>
-        <div class="mod-card-desc">Registro de aplicaciones de rodenticida por finca y zona durante la zafra</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Integrado_Control_Rata</span>
-          <span class="mod-card-count" id="cnt-ejecutados">— aplic.</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('ejecutados')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-    <div class="mod-card" data-cat="gallinaCiega" data-id="gallinaCiega" style="animation-delay:.2s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#7B3EA8,#C42424)">
-        <div class="mod-card-emoji">🪲</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Captura Adultos Gallina Ciega</div>
-        <div class="mod-card-desc">Análisis de capturas de adultos de gallina ciega mediante trampa de luz</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Int_Capt_Ronron</span>
-          <span class="mod-card-count" id="cnt-gc">— muestras</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('gallinaCiega')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-    <div class="mod-card" data-cat="barrenador" data-id="dano" style="animation-delay:.25s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#92400E,#5A2D82)">
-        <div class="mod-card-emoji">🌾</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Daño Cosecha Rata-Barrenador</div>
-        <div class="mod-card-desc">Análisis de daños en cosecha causados por barrenador y rata cañera por lote</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Integrado_Daño_Cosecha</span>
-          <span class="mod-card-count" id="cnt-dano">— muestras</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('dano')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-    <div class="mod-card" data-cat="dinamica" data-id="dinamica" style="animation-delay:.3s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#0C4A6E,#5A2D82)">
-        <div class="mod-card-emoji">🔬</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Dinámica de Población</div>
-        <div class="mod-card-desc">Análisis de dinámica poblacional e Índice de Potencial Reproductivo (IPR)</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Muestreo_Dinamica_Poblacion</span>
-          <span class="mod-card-count" id="cnt-dp">— registros</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('dinamica')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-    <div class="mod-card" data-cat="presupuesto" data-id="presupuesto" style="animation-delay:.35s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#3B52B0,#166534)">
-        <div class="mod-card-emoji">💰</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Presupuesto Rodenticida</div>
-        <div class="mod-card-desc">Control de presupuesto de rodenticida — kg asignados, entregados y disponibles</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Presupuesto Zafra 2025–26</span>
-          <span class="mod-card-count">5 zonas</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('presupuesto')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-    <div class="mod-card" data-cat="rata" data-id="overview" style="animation-delay:.4s">
-      <div class="mod-card-top" style="background:linear-gradient(135deg,#4A63C0,#7B3EA8)">
-        <div class="mod-card-emoji">📊</div>
-      </div>
-      <div class="mod-card-body">
-        <div class="mod-card-title">Dashboard General</div>
-        <div class="mod-card-desc">Vista ejecutiva consolidada de todos los módulos — KPIs, alertas y resumen por finca</div>
-        <div class="mod-card-meta">
-          <span class="mod-card-tag">Todas las hojas</span>
-          <span class="mod-card-count">6 módulos</span>
-        </div>
-      </div>
-      <div class="mod-card-actions">
-        <button class="btn-ver" onclick="openModule('overview')">👁️ Ver</button>
-        <button class="btn-api">API</button>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Guide -->
-  <div class="hub-guide">
-    <div class="guide-box">
-      <div class="guide-title">💡 Cómo usar los reportes</div>
-      <div class="guide-items">
-        <div class="guide-item">Selecciona un reporte en la cuadrícula para ver el análisis completo</div>
-        <div class="guide-item">Usa los filtros de catorcena y zona para segmentar los datos</div>
-        <div class="guide-item">Haz clic en las gráficas para aplicar filtros interactivos</div>
-        <div class="guide-item">Los datos se actualizan en tiempo real desde Google Sheets</div>
-        <div class="guide-item">Cada reporte integra múltiples tablas relacionadas de AppSheet</div>
-        <div class="guide-item">Usa "Sincronizar" para forzar actualización de datos</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hub-foot">GeoMIP v2.0 | Sistema de Reportes Integrados | Loker Estudio | Ingenio Madre Tierra · 2026</div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     DETAIL VIEW
-══════════════════════════════════════════════ -->
-<div id="detail">
-  <!-- Header -->
-  <div class="det-hdr">
-    <div class="det-hdr-top">
-      <button class="back-btn" onclick="goBack()">← Volver a Reportes</button>
-      <div class="det-module-name"><span class="det-module-icon" id="det-icon">📊</span><span id="det-title">Módulo</span></div>
-      <div class="det-hdr-right">
-        <div class="det-live"><div class="det-pip" id="det-pip"></div><span id="det-ts" style="font-size:11px"></span></div>
-        <button class="det-sync" onclick="doSync()"><span class="spin-ic" id="sp2"></span>↻ Sync</button>
-      </div>
-    </div>
-    <!-- Filter bar -->
-    <div class="det-fbar">
-      <div class="det-fbar-inner">
-        <span class="det-flbl">Catorcena</span>
-        <div class="det-pills" id="p-cat"></div>
-        <div class="det-fsep"></div>
-        <span class="det-flbl">Zona</span>
-        <div class="det-pills" id="p-zona"></div>
-        <div class="det-fsep" id="f-sep" style="display:none"></div>
-        <div class="det-atags" id="atags"></div>
-        <button class="det-clear" id="clear-btn" onclick="clearF()">✕ Limpiar filtros</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Content -->
-  <div class="det-body">
-
-    <!-- ══ OVERVIEW ══ -->
-    <div id="tab-overview" class="mv" style="display:none">
-      <div class="det-ph">
-        <div class="det-ph-icon">📊</div>
-        <div><div class="det-ph-title">Dashboard <b>General</b></div><div class="det-ph-sub">Vista ejecutiva consolidada · Todos los módulos · Zafra 2025–26</div></div>
-        <div class="det-ph-stats">
-          <div class="det-ph-stat"><div class="det-ph-sv" id="ph-cat">—</div><div class="det-ph-sl">Cat. activa</div></div>
-          <div class="det-ph-stat"><div class="det-ph-sv" id="ph-lotes">—</div><div class="det-ph-sl">Lotes</div></div>
-          <div class="det-ph-stat"><div class="det-ph-sv" id="ph-av">—</div><div class="det-ph-sl">% Avance</div></div>
-        </div>
-      </div>
+      <!-- KPIs row 1 -->
       <div class="krow" style="grid-template-columns:repeat(6,1fr)">
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#3B52B0,#7090E8)"></div><div class="kc-top"><div class="kc-icon" style="background:#EEF1FB">🌱</div></div><div class="kc-lbl">Área Muestreada</div><div class="kc-val" style="color:var(--blue2)" id="o-am">—</div><div class="kc-sub" id="o-ams">ha</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#DC2626,#E03838)"></div><div class="kc-top"><div class="kc-icon" style="background:#FFF0F0">⚠️</div></div><div class="kc-lbl">Área Infestada</div><div class="kc-val" style="color:var(--er2)" id="o-ai">—</div><div class="kc-sub danger" id="o-ais">ha ≥8%</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#D97706,#F0A000)"></div><div class="kc-top"><div class="kc-icon" style="background:#FFF8E0">📊</div></div><div class="kc-lbl">% Captura Prom.</div><div class="kc-val" style="color:var(--wa2)" id="o-pc">—</div><div class="kc-sub" id="o-pcs">umbral 8%</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-top"><div class="kc-icon" style="background:#F4F4F6">📦</div></div><div class="kc-lbl">Kg Requerido</div><div class="kc-val" style="color:var(--t2)" id="o-kr">—</div><div class="kc-sub">rodenticida</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#166534,#16A34A)"></div><div class="kc-top"><div class="kc-icon" style="background:#EAFAF1">✅</div></div><div class="kc-lbl">Kg Ejecutado</div><div class="kc-val" style="color:var(--ok1)" id="o-ke">—</div><div class="kc-sub ok" id="o-kes">aplicado</div><div class="kc-prog"><div class="kc-pfill" id="o-kep" style="background:linear-gradient(90deg,#16A34A,#4ADE80)"></div></div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#92400E,#D97706)"></div><div class="kc-top"><div class="kc-icon" style="background:#FFF5E0">🎯</div></div><div class="kc-lbl">% Avance Control</div><div class="kc-val" style="color:var(--wa1)" id="o-av">—</div><div class="kc-sub warn">zafra</div><div class="kc-prog"><div class="kc-pfill" id="o-avp" style="background:linear-gradient(90deg,#D97706,#F0A000)"></div></div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--b2),var(--b4))"></div><div class="kc-lbl">Lotes Muestreados</div><div class="kc-val" style="color:var(--b2)" id="R-m-nl">—</div><div class="kc-sub">registros captura</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a4))"></div><div class="kc-lbl">% Captura Prom.</div><div class="kc-val" style="color:var(--a2)" id="R-m-pc">—</div><div class="kc-sub" id="R-m-pcs">umbral 8%</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--r2),var(--r3))"></div><div class="kc-lbl">Lotes ≥ 8%</div><div class="kc-val" style="color:var(--r3)" id="R-m-l8">—</div><div class="kc-sub er">requieren control</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--g1),var(--g3))"></div><div class="kc-lbl">A Tiempo</div><div class="kc-val" style="color:var(--g2)" id="R-at">—</div><div class="kc-sub ok">ejecutados</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--r2),var(--r3))"></div><div class="kc-lbl">Pendientes</div><div class="kc-val" style="color:var(--r3)" id="R-pnd">—</div><div class="kc-sub er">sin ejecutar</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--g1),var(--g3))"></div><div class="kc-lbl">Kg Ejecutado</div><div class="kc-val" style="color:var(--g2)" id="R-kg">—</div><div class="kc-sub ok">aplicado</div><div class="kc-prog"><div class="kc-pf" id="R-kgp" style="background:linear-gradient(90deg,var(--g3),var(--g4))"></div></div></div>
       </div>
-      <div class="msr" style="grid-template-columns:repeat(4,1fr)">
-        <div class="ms"><div class="ms-icon" style="background:#EEF1FB">📋</div><div><div class="ms-lbl">Lotes Muestreados</div><div class="ms-val" style="color:var(--blue2)" id="o-lm">—</div></div></div>
-        <div class="ms"><div class="ms-icon" style="background:#EAFAF1">✅</div><div><div class="ms-lbl">A Tiempo</div><div class="ms-val" style="color:var(--ok1)" id="o-at">—</div></div></div>
-        <div class="ms"><div class="ms-icon" style="background:#FFF0F0">⏳</div><div><div class="ms-lbl">Pendiente</div><div class="ms-val" style="color:var(--er2)" id="o-pnd">—</div></div></div>
-        <div class="ms"><div class="ms-icon" style="background:#FFF8E0">⚡</div><div><div class="ms-lbl">Fuera Ventana</div><div class="ms-val" style="color:var(--wa2)" id="o-fv">—</div></div></div>
+      <!-- KPIs row 2 -->
+      <div class="krow" style="grid-template-columns:repeat(4,1fr)">
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-lbl">Área Muestreada</div><div class="kc-val" style="color:var(--te2)" id="R-area">—</div><div class="kc-sub">hectáreas</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a4))"></div><div class="kc-lbl">Kg Requerido</div><div class="kc-val" style="color:var(--a2)" id="R-kgreq">—</div><div class="kc-sub warn">rodenticida</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a3))"></div><div class="kc-lbl">Fuera de Ventana</div><div class="kc-val" style="color:var(--a2)" id="R-fv">—</div><div class="kc-sub warn">con retraso</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--b2),var(--b4))"></div><div class="kc-lbl">% Avance General</div><div class="kc-val" style="color:var(--b2)" id="R-avgen">—</div><div class="kc-sub">vs kg requerido</div><div class="kc-prog"><div class="kc-pf" id="R-avgenp" style="background:linear-gradient(90deg,var(--b3),var(--b4))"></div></div></div>
       </div>
+      <!-- Charts -->
       <div class="g g211">
-        <div class="card cl" id="cd-cat"><div class="sh"><span class="sh-icon">📈</span><span class="sh-title">% Captura por Catorcena</span><span class="sh-badge" style="background:#EEF1FB;color:var(--blue2);border:1px solid #B0BEF0">Umbral 8%</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar catorcena</div><div class="cw" style="height:195px"><canvas id="c-cat"></canvas></div></div>
-        <div class="card"><div class="sh"><span class="sh-icon">🍩</span><span class="sh-title">Estado Control</span><div class="sh-line"></div></div><div class="cw-c" style="height:155px"><canvas id="c-est" style="max-width:150px;max-height:150px"></canvas></div><div class="leg" style="justify-content:center;margin-top:8px;margin-bottom:0"><span><span class="l-c" style="background:var(--ok2)"></span>A Tiempo (<b id="leg-at">—</b>)</span><span><span class="l-c" style="background:var(--er2)"></span>Pend. (<b id="leg-pnd">—</b>)</span><span><span class="l-c" style="background:var(--wa2)"></span>Fuera (<b id="leg-fv">—</b>)</span></div></div>
-        <div class="card cl" id="cd-zpct"><div class="sh"><span class="sh-icon">🗺️</span><span class="sh-title">% Captura / Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar zona</div><div class="cw" style="height:165px"><canvas id="c-zpct"></canvas></div></div>
+        <div class="card cl" id="CD-cat"><div class="sh"><span class="sh-i">📈</span><span class="sh-t">% Captura por Catorcena</span><span class="sh-b" style="background:#FEF3C7;color:var(--a2);border:1px solid #FDE68A">Umbral 8%</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar catorcena</div><div class="cw" style="height:196px"><canvas id="C-cat"></canvas></div></div>
+        <div class="card"><div class="sh"><span class="sh-i">🍩</span><span class="sh-t">Estado Control</span><div class="sh-line"></div></div><div class="cwc" style="height:148px"><canvas id="C-est" style="max-width:148px;max-height:148px"></canvas></div><div class="leg" style="justify-content:center;margin-top:7px;margin-bottom:0"><span><span class="lc" style="background:var(--g3)"></span>A Tiempo (<b id="L-at">—</b>)</span><span><span class="lc" style="background:var(--r3)"></span>Pend. (<b id="L-pnd">—</b>)</span><span><span class="lc" style="background:var(--a3)"></span>Fuera (<b id="L-fv">—</b>)</span></div></div>
+        <div class="card cl" id="CD-zpct"><div class="sh"><span class="sh-i">🗺️</span><span class="sh-t">% Captura / Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar zona</div><div class="cw" style="height:162px"><canvas id="C-zpct"></canvas></div></div>
+      </div>
+      <div class="g g3">
+        <div class="card cl" id="CD-comp"><div class="sh"><span class="sh-i">📊</span><span class="sh-t">Composición por Catorcena</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar cat.</div><div class="leg"><span><span class="ls" style="background:#3898D8"></span>Machos</span><span><span class="ls" style="background:#D4537E"></span>Hembras</span><span><span class="ls" style="background:var(--g4)"></span>Jóvenes</span><span><span class="ls" style="background:var(--a4)"></span>Adultas</span></div><div class="cw" style="height:175px"><canvas id="C-comp"></canvas></div></div>
+        <div class="card cl" id="CD-ez"><div class="sh"><span class="sh-i">📍</span><span class="sh-t">Estado Control / Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar zona</div><div class="leg"><span><span class="ls" style="background:var(--g3)"></span>A Tiempo</span><span><span class="ls" style="background:var(--r3)"></span>Pendiente</span><span><span class="ls" style="background:var(--a3)"></span>Fuera</span></div><div class="cw" style="height:175px"><canvas id="C-ez"></canvas></div></div>
+        <div class="card cl" id="CD-efinca"><div class="sh"><span class="sh-i">🏭</span><span class="sh-t">Kg Ejecutado / Finca</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar finca</div><div class="cw" style="height:175px"><canvas id="C-efinca"></canvas></div></div>
       </div>
       <div class="g g2">
-        <div class="card"><div class="sh"><span class="sh-icon">⚖️</span><span class="sh-title">Rodenticida Rec. vs Ejecutado</span><div class="sh-line"></div></div><div class="leg"><span><span class="l-s" style="background:#B0BEF0"></span>Recomendado</span><span><span class="l-s" style="background:var(--blue3)"></span>Ejecutado</span></div><div class="cw" style="height:155px"><canvas id="c-rod"></canvas></div></div>
-        <div class="card cl" id="cd-ez"><div class="sh"><span class="sh-icon">📍</span><span class="sh-title">Estado Control por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar zona</div><div class="leg"><span><span class="l-s" style="background:var(--ok2)"></span>A Tiempo</span><span><span class="l-s" style="background:var(--er2)"></span>Pendiente</span><span><span class="l-s" style="background:var(--wa2)"></span>Fuera Ventana</span></div><div class="cw" style="height:155px"><canvas id="c-ez"></canvas></div></div>
+        <div class="card"><div class="sh"><span class="sh-i">⚖️</span><span class="sh-t">Rodenticida Rec. vs Ejecutado</span><div class="sh-line"></div></div><div class="leg"><span><span class="ls" style="background:#B0BEF0"></span>Recomendado</span><span><span class="ls" style="background:var(--b3)"></span>Ejecutado</span></div><div class="cw" style="height:155px"><canvas id="C-rod"></canvas></div></div>
+        <div class="card cl" id="CD-top"><div class="sh"><span class="sh-i">🏆</span><span class="sh-t">Top 10 Lotes % Captura</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar finca</div><div class="cw" style="height:155px"><canvas id="C-top"></canvas></div></div>
       </div>
+      <!-- Tabla integrada -->
       <div class="card" style="margin-bottom:14px">
-        <div class="sh"><span class="sh-icon">📑</span><span class="sh-title">Resumen por Finca</span><span class="sh-badge" id="res-chip" style="background:#F3F4F6;color:var(--t3);border:1px solid var(--t5)">Todos</span><div class="sh-line"></div></div>
-        <div class="tw" style="max-height:280px;overflow-y:auto"><table class="dt"><thead><tr><th>Zona</th><th>Finca</th><th class="r">Lotes</th><th class="r">% Cap.</th><th class="r">≥ 8%</th><th class="r">Kg Req.</th><th class="r">Kg Eje.</th><th class="r">A Tiempo</th><th class="r">Pendiente</th></tr></thead><tbody id="tb-res"></tbody></table></div>
+        <div class="sh"><span class="sh-i">📋</span><span class="sh-t">Tabla Integrada — Captura + Control</span><span class="sh-b" id="RATA-chip" style="background:#EEF1FB;color:var(--b2);border:1px solid #B0BEF0">Todos</span><div class="sh-line"></div></div>
+        <div class="tw" style="max-height:300px;overflow-y:auto">
+          <table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.</th><th class="r">% Cap.</th><th class="r">Kg Req.</th><th>Estado</th><th class="r">Kg Eje.</th><th class="r">Avance%</th></tr></thead>
+          <tbody id="TB-rata"></tbody></table>
+        </div>
+        <div class="ti" id="TI-rata"></div>
       </div>
       <div class="sep"></div>
-      <div class="slbl">⚠ Alertas Activas del Sistema</div>
-      <div class="alerts">
-        <div class="alert" style="background:#FFF0F0;border-color:var(--er2)"><div class="at" style="color:var(--er2)">⚠ Rata — Z·4 El Retiro</div><div class="ab">Captura hasta 20% cat.11. Lotes pendientes. Acción inmediata requerida.</div></div>
-        <div class="alert" style="background:#FFF8E0;border-color:var(--wa2)"><div class="at" style="color:var(--wa2)">⚠ Gallina Ciega — Z·3 Cat.11</div><div class="ab">3,836 adultos/noche · lote 0043601 CAÑAVERALES. Explosión poblacional.</div></div>
-        <div class="alert" style="background:#E8F8FF;border-color:var(--in2)"><div class="at" style="color:var(--in2)">⚠ IPR — PETÉN Z·5</div><div class="ab">IPR 0.98 · lote 0600605. Umbral crítico 1.0 próximo. Intervención urgente.</div></div>
+      <div class="slbl">⚠ Alertas Activas</div>
+      <div class="abox">
+        <div class="al" style="background:var(--r5);border-color:var(--r3)"><div class="al-t" style="color:var(--r2)">⚠ Z·4 — Captura Crítica</div><div class="al-b">Lotes con >20% captura en cat.11. El Retiro / Horizontes. Acción inmediata.</div></div>
+        <div class="al" style="background:var(--a5);border-color:var(--a3)"><div class="al-t" style="color:var(--a2)">⚠ Pendientes Z·1 — 20% Avance</div><div class="al-b">Zona 1 muestra el menor avance de control. Priorizar aplicación de rodenticida.</div></div>
+        <div class="al" style="background:#EFF6FF;border-color:var(--c3)"><div class="al-t" style="color:var(--c2)">✓ Z·8 — Meta Cumplida</div><div class="al-b">Zona 8 alcanzó 100% entrega de rodenticida. Referencia para otras zonas.</div></div>
       </div>
     </div>
 
-    <!-- ══ MUESTREO ══ -->
-    <div id="tab-muestreo" class="mv" style="display:none">
-      <div class="det-ph"><div class="det-ph-icon">🐭</div><div><div class="det-ph-title">Captura de <b>Rata Cañera</b></div><div class="det-ph-sub">Sigmodon hispidus · Trampas de captura viva · Índice vs umbral 8%</div></div><div class="det-ph-stats"><div class="det-ph-stat"><div class="det-ph-sv" id="m-nl">—</div><div class="det-ph-sl">Lotes</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="m-pc">—</div><div class="det-ph-sl">% Captura</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="m-l8">—</div><div class="det-ph-sl">Lotes ≥8%</div></div></div></div>
-      <div class="krow" style="grid-template-columns:repeat(6,1fr)">
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--blue2),var(--blue4))"></div><div class="kc-icon" style="background:#EEF1FB;margin-bottom:6px">📋</div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--blue2)" id="m-nl2">—</div><div class="kc-sub">muestreados</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0;margin-bottom:6px">📊</div><div class="kc-lbl">% Captura</div><div class="kc-val" style="color:var(--wa2)" id="m-pc2">—</div><div class="kc-sub" id="m-pcs">promedio</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0;margin-bottom:6px">⚠️</div><div class="kc-lbl">Lotes ≥ 8%</div><div class="kc-val" style="color:var(--er2)" id="m-l82">—</div><div class="kc-sub">requieren control</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6;margin-bottom:6px">🗺️</div><div class="kc-lbl">Área (ha)</div><div class="kc-val" style="color:var(--t2)" id="m-at">—</div><div class="kc-sub">hectáreas</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0;margin-bottom:6px">📦</div><div class="kc-lbl">Kg Requerido</div><div class="kc-val" style="color:var(--wa1)" id="m-kr">—</div><div class="kc-sub">rodenticida</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--er1),var(--er2))"></div><div class="kc-icon" style="background:#FFF0F0;margin-bottom:6px">🔴</div><div class="kc-lbl">% Área Infestada</div><div class="kc-val" style="color:var(--er2)" id="m-ai">—</div><div class="kc-sub">del total</div></div>
-      </div>
-      <div class="mtabs"><button class="mt on" onclick="MT('mue','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('mue','t',this)">📋 Tabla Detalle</button></div>
-      <div id="mue-g" class="mv on">
-        <div class="g g2">
-          <div class="card cl" id="cd-comp"><div class="sh"><span class="sh-icon">📊</span><span class="sh-title">Composición Captura por Catorcena</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar catorcena</div><div class="leg"><span><span class="l-s" style="background:#3898D8"></span>Machos</span><span><span class="l-s" style="background:#D4537E"></span>Hembras</span><span><span class="l-s" style="background:var(--ok3)"></span>Jóvenes</span><span><span class="l-s" style="background:var(--wa3)"></span>Adultas</span></div><div class="cw" style="height:190px"><canvas id="c-comp"></canvas></div></div>
-          <div class="card cl" id="cd-top"><div class="sh"><span class="sh-icon">🏆</span><span class="sh-title">Top Lotes Mayor % Captura</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar finca</div><div class="cw" style="height:200px"><canvas id="c-top"></canvas></div></div>
+    <!-- ══ GALLINA CIEGA CAPTURA ══ -->
+    <div id="T-gcCaptura" class="tab">
+      <div class="hero">
+        <div class="hero-ic">🪲</div>
+        <div><div class="hero-title">Captura Adultos<br><b>Gallina Ciega</b></div><div class="hero-sub">423 muestras · Phyllophaga · Anomala · Diplotaxis · Trampa de luz</div></div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-v" id="GC-tc">—</div><div class="hs-l">Total adultos</div></div>
+          <div class="hs"><div class="hs-v" id="GC-cm">—</div><div class="hs-l">Máx. lote</div></div>
+          <div class="hs"><div class="hs-v" id="GC-ph">—</div><div class="hs-l">% Phyllophaga</div></div>
         </div>
       </div>
-      <div id="mue-t" class="mv">
-        <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Estado</th><th class="r">Cat.</th><th class="r">Área ha</th><th class="r">Trampas</th><th class="r">Var.Tr.</th><th class="r">% Cap.</th><th class="r">% Adj.</th><th class="r">Kg Req.</th></tr></thead><tbody id="tb-m"></tbody></table></div>
-        <div class="ti" id="ti-m"></div>
+      <div class="krow" style="grid-template-columns:repeat(5,1fr)">
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-lbl">No. Trampas</div><div class="kc-val" style="color:var(--te2)" id="GC-nt">—</div><div class="kc-sub">instaladas</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--r2),var(--r3))"></div><div class="kc-lbl">Total Captura</div><div class="kc-val" style="color:var(--r3)" id="GC-tc2">—</div><div class="kc-sub er">adultos</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a3))"></div><div class="kc-lbl">Captura Máxima</div><div class="kc-val" style="color:var(--a2)" id="GC-cm2">—</div><div class="kc-sub">un lote</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a4))"></div><div class="kc-lbl">% Phyllophaga</div><div class="kc-val" style="color:var(--a2)" id="GC-ph2">—</div><div class="kc-sub">dominante</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--g2),var(--g3))"></div><div class="kc-lbl">Lotes Muestreados</div><div class="kc-val" style="color:var(--g2)" id="GC-lm">—</div><div class="kc-sub">con trampa</div></div>
       </div>
-    </div>
-
-    <!-- ══ CONTROL ══ -->
-    <div id="tab-control" class="mv" style="display:none">
-      <div class="det-ph"><div class="det-ph-icon">🛡️</div><div><div class="det-ph-title">Control de <b>Rata</b></div><div class="det-ph-sub">Seguimiento de lotes con requerimiento de rodenticida · Cebo Cañamip</div></div><div class="det-ph-stats"><div class="det-ph-stat"><div class="det-ph-sv" id="c-at">—</div><div class="det-ph-sl">A tiempo</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="c-pnd">—</div><div class="det-ph-sl">Pendiente</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="c-ke">—</div><div class="det-ph-sl">Kg Eje.</div></div></div></div>
-      <div class="krow" style="grid-template-columns:repeat(6,1fr)">
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6;margin-bottom:6px">📋</div><div class="kc-lbl">No. Lotes</div><div class="kc-val" style="color:var(--t2)" id="c-nl">—</div><div class="kc-sub">con requerimiento</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1;margin-bottom:6px">✅</div><div class="kc-lbl">A Tiempo</div><div class="kc-val" style="color:var(--ok1)" id="c-at2">—</div><div class="kc-sub ok">ejecutados</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0;margin-bottom:6px">⏰</div><div class="kc-lbl">Fuera de Tiempo</div><div class="kc-val" style="color:var(--wa2)" id="c-ft">—</div><div class="kc-sub warn">con retraso</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--er2),var(--er3))"></div><div class="kc-icon" style="background:#FFF0F0;margin-bottom:6px">⏳</div><div class="kc-lbl">Pendiente</div><div class="kc-val" style="color:var(--er2)" id="c-pnd2">—</div><div class="kc-sub danger">sin ejecutar</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0;margin-bottom:6px">📦</div><div class="kc-lbl">Kg Requeridos</div><div class="kc-val" style="color:var(--wa1)" id="c-kr">—</div><div class="kc-sub">necesario</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1;margin-bottom:6px">💊</div><div class="kc-lbl">Kg Ejecutados</div><div class="kc-val" style="color:var(--ok1)" id="c-ke2">—</div><div class="kc-sub ok">aplicado</div></div>
-      </div>
-      <div class="mtabs"><button class="mt on" onclick="MT('ctrl','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('ctrl','t',this)">📋 Tabla Control</button></div>
-      <div id="ctrl-g" class="mv on">
+      <div class="mtabs"><button class="mt on" onclick="MT('gc','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('gc','t',this)">📋 Tabla</button></div>
+      <div id="gc-g" class="mv on">
         <div class="g g2">
-          <div class="card cl" id="cd-ez2"><div class="sh"><span class="sh-icon">📍</span><span class="sh-title">Estado Control por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar zona</div><div class="leg"><span><span class="l-s" style="background:var(--ok2)"></span>A Tiempo</span><span><span class="l-s" style="background:var(--er2)"></span>Pendiente</span><span><span class="l-s" style="background:var(--wa2)"></span>Fuera</span></div><div class="cw" style="height:175px"><canvas id="c-ez2"></canvas></div></div>
-          <div class="card"><div class="sh"><span class="sh-icon">⚖️</span><span class="sh-title">Rodenticida Rec. vs Ejecutado</span><div class="sh-line"></div></div><div class="leg"><span><span class="l-s" style="background:#B0BEF0"></span>Recomendado</span><span><span class="l-s" style="background:var(--blue3)"></span>Ejecutado</span></div><div class="cw" style="height:175px"><canvas id="c-rod2"></canvas></div></div>
+          <div class="card cl" id="CD-gcz"><div class="sh"><span class="sh-i">🗺️</span><span class="sh-t">Captura por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar zona</div><div class="cw" style="height:175px"><canvas id="C-gcz"></canvas></div></div>
+          <div class="card"><div class="sh"><span class="sh-i">📉</span><span class="sh-t">Tendencia de Captura</span><div class="sh-line"></div></div><div class="cw" style="height:175px"><canvas id="C-gct"></canvas></div></div>
+        </div>
+        <div class="g g2">
+          <div class="card"><div class="sh"><span class="sh-i">🔬</span><span class="sh-t">Especie por Finca</span><div class="sh-line"></div></div><div class="leg"><span><span class="ls" style="background:#3898D8"></span>Phyllophaga</span><span><span class="ls" style="background:var(--c3)"></span>Anomala</span><span><span class="ls" style="background:var(--g4)"></span>Diplotaxis</span></div><div class="cw" style="height:160px"><canvas id="C-gcf"></canvas></div></div>
+          <div class="card"><div class="sh"><span class="sh-i">🚨</span><span class="sh-t">Top Lotes Críticos</span><div class="sh-line"></div></div><div class="cw" style="height:160px"><canvas id="C-gcl"></canvas></div></div>
         </div>
       </div>
-      <div id="ctrl-t" class="mv">
-        <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.M.</th><th class="r">Cat.C.</th><th>Estado</th><th class="r">% Cap.</th><th class="r">Kg Req.</th><th class="r">Kg Eje.</th><th class="r">Índice</th><th class="r">Retraso</th><th class="r">Avance%</th></tr></thead><tbody id="tb-c"></tbody></table></div>
-        <div class="ti" id="ti-c"></div>
+      <div id="gc-t" class="mv">
+        <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.</th><th>Fecha</th><th>Trampa</th><th class="r">N°Tr.</th><th class="r">Phyllophaga</th><th class="r">Diplotaxis</th><th class="r">Anomala</th><th class="r">Total</th></tr></thead><tbody id="TB-gc"></tbody></table></div>
       </div>
     </div>
 
-    <!-- ══ EJECUTADOS ══ -->
-    <div id="tab-ejecutados" class="mv" style="display:none">
-      <div class="det-ph"><div class="det-ph-icon">✅</div><div><div class="det-ph-title">Rodenticida <b>Ejecutado</b></div><div class="det-ph-sub">Registro de aplicaciones de rodenticida por finca · Producto Cebo Cañamip</div></div><div class="det-ph-stats"><div class="det-ph-stat"><div class="det-ph-sv" id="e-nl">—</div><div class="det-ph-sl">Lotes</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="e-kg">—</div><div class="det-ph-sl">Kg Eje.</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="e-fn">—</div><div class="det-ph-sl">Fincas</div></div></div></div>
-      <div class="mtabs"><button class="mt on" onclick="MT('eje','g',this)">📊 Kg por Finca</button><button class="mt" onclick="MT('eje','t',this)">📋 Tabla Detalle</button></div>
-      <div id="eje-g" class="mv on"><div class="card cl" id="cd-efinca"><div class="sh"><span class="sh-icon">🏭</span><span class="sh-title">Kg Ejecutados por Finca</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar finca</div><div class="cw" style="height:200px"><canvas id="c-efinca"></canvas></div></div></div>
-      <div id="eje-t" class="mv"><div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Cap.Ref.</th><th class="r">Kg Aplicados</th><th>Producto</th><th>Condición</th></tr></thead><tbody id="tb-e"></tbody></table></div><div class="ti" id="ti-e"></div></div>
+    <!-- ══ GALLINA CIEGA LARVAS ══ -->
+    <div id="T-gcLarvas" class="tab">
+      <div class="hero">
+        <div class="hero-ic">🐛</div>
+        <div><div class="hero-title">Larvas<br><b>Gallina Ciega</b></div><div class="hero-sub">Muestreo de larvas por lote y catorcena</div></div>
+        <div class="hero-stats"><div class="hs"><div class="hs-v" id="GL-tot">—</div><div class="hs-l">Muestras</div></div></div>
+      </div>
+      <div class="card"><div class="sh"><span class="sh-i">📋</span><span class="sh-t">Detalle Larvas Gallina Ciega</span><div class="sh-line"></div></div>
+        <div class="tw" style="max-height:400px;overflow-y:auto"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th class="r">Larvas/m²</th></tr></thead><tbody id="TB-gcL"></tbody></table></div>
+        <div class="ti" id="TI-gcL"></div>
+      </div>
     </div>
 
-    <!-- ══ DAÑO ══ -->
-    <div id="tab-dano" class="mv" style="display:none">
-      <div class="det-ph"><div class="det-ph-icon">🌾</div><div><div class="det-ph-title">Daño Cosecha <b>Rata-Barrenador</b></div><div class="det-ph-sub">Intensidad de daño por barrenador y rata · Evaluación por lote cosecha</div></div><div class="det-ph-stats"><div class="det-ph-stat"><div class="det-ph-sv" id="d-tot">—</div><div class="det-ph-sl">Muestras</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="d-barr">—</div><div class="det-ph-sl">% Barrenador</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="d-rata">—</div><div class="det-ph-sl">% Rata</div></div></div></div>
-      <div class="mtabs"><button class="mt on" onclick="MT('dano','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('dano','t',this)">📋 Tabla Detalle</button></div>
+    <!-- ══ CHINCHE SALIVOSA ══ -->
+    <div id="T-chinche" class="tab">
+      <div class="hero">
+        <div class="hero-ic">🦗</div>
+        <div><div class="hero-title">Muestreo<br><b>Chinche Salivosa</b></div><div class="hero-sub">Análisis integrado de muestreos de chinche salivosa por zona y catorcena</div></div>
+        <div class="hero-stats"><div class="hs"><div class="hs-v" id="CH-tot">—</div><div class="hs-l">Muestras</div></div><div class="hs"><div class="hs-v" id="CH-ninfas">—</div><div class="hs-l">Ninfas prom.</div></div></div>
+      </div>
+      <div class="krow" style="grid-template-columns:repeat(3,1fr)">
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#065F46,#0D9488)"></div><div class="kc-lbl">Registros</div><div class="kc-val" style="color:#0D9488" id="CH-tot2">—</div><div class="kc-sub">muestreados</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a3))"></div><div class="kc-lbl">Ninfas Promedio</div><div class="kc-val" style="color:var(--a2)" id="CH-nf2">—</div><div class="kc-sub">por muestra</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--r2),var(--r3))"></div><div class="kc-lbl">Lotes Evaluados</div><div class="kc-val" style="color:var(--r3)" id="CH-lotes">—</div><div class="kc-sub">registros únicos</div></div>
+      </div>
+      <div class="g g2">
+        <div class="card cl" id="CD-chz"><div class="sh"><span class="sh-i">🗺️</span><span class="sh-t">Distribución por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar zona</div><div class="cw" style="height:175px"><canvas id="C-chz"></canvas></div></div>
+        <div class="card"><div class="sh"><span class="sh-i">📉</span><span class="sh-t">Tendencia por Catorcena</span><div class="sh-line"></div></div><div class="cw" style="height:175px"><canvas id="C-chcat"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="sh"><span class="sh-i">📋</span><span class="sh-t">Detalle Chinche Salivosa</span><div class="sh-line"></div></div>
+        <div class="tw" style="max-height:350px;overflow-y:auto"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th class="r">Ninfas</th><th class="r">Adultos</th></tr></thead><tbody id="TB-ch"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ══ PROGRAMA CHINCHE + GALLINA ══ -->
+    <div id="T-programa" class="tab">
+      <div class="hero">
+        <div class="hero-ic">📋</div>
+        <div><div class="hero-title">Programa<br><b>Chinche & Gallina</b></div><div class="hero-sub">248 registros · Control integrado de chinche salivosa y gallina ciega</div></div>
+        <div class="hero-stats"><div class="hs"><div class="hs-v" id="PG-tot">248</div><div class="hs-l">Registros</div></div></div>
+      </div>
+      <div class="card">
+        <div class="sh"><span class="sh-i">📋</span><span class="sh-t">Detalle Programa</span><div class="sh-line"></div></div>
+        <div class="tw" style="max-height:450px;overflow-y:auto"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th>Actividad</th><th class="r">Valor</th></tr></thead><tbody id="TB-pg"></tbody></table></div>
+        <div class="ti" id="TI-pg"></div>
+      </div>
+    </div>
+
+    <!-- ══ DAÑO COSECHA ══ -->
+    <div id="T-dano" class="tab">
+      <div class="hero">
+        <div class="hero-ic">🌾</div>
+        <div><div class="hero-title">Daño Cosecha<br><b>Rata-Barrenador</b></div><div class="hero-sub">853 registros · Intensidad de daño por barrenador y rata</div></div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-v" id="DN-tot">—</div><div class="hs-l">Muestras</div></div>
+          <div class="hs"><div class="hs-v" id="DN-barr">—</div><div class="hs-l">% Barrenador</div></div>
+          <div class="hs"><div class="hs-v" id="DN-rata">—</div><div class="hs-l">% Rata</div></div>
+        </div>
+      </div>
+      <div class="mtabs"><button class="mt on" onclick="MT('dano','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('dano','t',this)">📋 Tabla</button></div>
       <div id="dano-g" class="mv on">
         <div class="g g2">
-          <div class="card"><div class="sh"><span class="sh-icon">📉</span><span class="sh-title">Tendencia Daño por Catorcena</span><div class="sh-line"></div></div><div class="leg"><span><span class="l-c" style="background:var(--wa2)"></span>Barrenador %</span><span><span class="l-c" style="background:var(--er2)"></span>Rata %</span></div><div class="cw" style="height:180px"><canvas id="c-dano-trend"></canvas></div></div>
-          <div class="card"><div class="sh"><span class="sh-icon">🔴</span><span class="sh-title">Severidad Barrenador</span><div class="sh-line"></div></div><div class="cw-c" style="height:180px"><canvas id="c-sev-barr" style="max-width:165px;max-height:165px"></canvas></div></div>
+          <div class="card"><div class="sh"><span class="sh-i">📉</span><span class="sh-t">Tendencia Daño por Catorcena</span><div class="sh-line"></div></div><div class="leg"><span><span class="lc" style="background:var(--a3)"></span>Barrenador %</span><span><span class="lc" style="background:var(--r3)"></span>Rata %</span></div><div class="cw" style="height:180px"><canvas id="C-dano-trend"></canvas></div></div>
+          <div class="card"><div class="sh"><span class="sh-i">🔴</span><span class="sh-t">Severidad Barrenador</span><div class="sh-line"></div></div><div class="cwc" style="height:180px"><canvas id="C-sev-barr" style="max-width:165px;max-height:165px"></canvas></div></div>
         </div>
         <div class="g g2">
-          <div class="card cl" id="cd-dano-zona"><div class="sh"><span class="sh-icon">🗺️</span><span class="sh-title">Intensidad por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar zona</div><div class="leg"><span><span class="l-s" style="background:var(--wa2)"></span>Barrenador</span><span><span class="l-s" style="background:var(--er2)"></span>Rata</span></div><div class="cw" style="height:150px"><canvas id="c-dano-zona"></canvas></div></div>
-          <div class="card"><div class="sh"><span class="sh-icon">🐀</span><span class="sh-title">Severidad Rata</span><div class="sh-line"></div></div><div class="cw-c" style="height:150px"><canvas id="c-sev-rata" style="max-width:138px;max-height:138px"></canvas></div></div>
+          <div class="card cl" id="CD-dzona"><div class="sh"><span class="sh-i">🗺️</span><span class="sh-t">Intensidad por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱 Clic → filtrar zona</div><div class="leg"><span><span class="ls" style="background:var(--a3)"></span>Barrenador</span><span><span class="ls" style="background:var(--r3)"></span>Rata</span></div><div class="cw" style="height:150px"><canvas id="C-dzona"></canvas></div></div>
+          <div class="card"><div class="sh"><span class="sh-i">🐀</span><span class="sh-t">Severidad Rata</span><div class="sh-line"></div></div><div class="cwc" style="height:150px"><canvas id="C-sev-rata" style="max-width:138px;max-height:138px"></canvas></div></div>
         </div>
       </div>
-      <div id="dano-t" class="mv"><div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Fecha</th><th class="r">Cat.</th><th class="r">% Inf.Barr.</th><th class="r">% Inf.Rata</th><th class="r">% Int.Barr.</th><th class="r">% Int.Rata</th></tr></thead><tbody id="tb-d"></tbody></table></div><div class="ti" id="ti-d"></div></div>
+      <div id="dano-t" class="mv">
+        <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Fecha</th><th class="r">Cat.</th><th class="r">%Inf.Barr.</th><th class="r">%Inf.Rata</th><th class="r">%Int.Barr.</th><th class="r">%Int.Rata</th></tr></thead><tbody id="TB-dano"></tbody></table></div>
+        <div class="ti" id="TI-dano"></div>
+      </div>
     </div>
 
     <!-- ══ DINÁMICA ══ -->
-    <div id="tab-dinamica" class="mv" style="display:none">
-      <div class="det-ph"><div class="det-ph-icon">🔬</div><div><div class="det-ph-title">Dinámica <b>Poblacional</b></div><div class="det-ph-sub">Índice de Potencial Reproductivo (IPR) · Sigmodon hispidus · Hembras gestantes</div></div><div class="det-ph-stats"><div class="det-ph-stat"><div class="det-ph-sv" id="dp-ts">50</div><div class="det-ph-sl">Sigmodon</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="dp-ipr">0.98</div><div class="det-ph-sl">IPR máx.</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="dp-hg">16</div><div class="det-ph-sl">H.Gestantes</div></div></div></div>
-      <div class="krow" style="grid-template-columns:repeat(6,1fr)">
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--in1),var(--in2))"></div><div class="kc-icon" style="background:#E8F8FF;margin-bottom:6px">🔬</div><div class="kc-lbl">Muestreos</div><div class="kc-val" style="color:var(--in2)" id="dp-ms">8</div><div class="kc-sub">analizados</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6;margin-bottom:6px">🐀</div><div class="kc-lbl">Total Sigmodon</div><div class="kc-val" style="color:var(--t2)" id="dp-ts2">50</div><div class="kc-sub">individuos</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0;margin-bottom:6px">🤰</div><div class="kc-lbl">H. Gestantes</div><div class="kc-val" style="color:var(--wa1)" id="dp-hg2">16</div><div class="kc-sub warn">activas</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0;margin-bottom:6px">🥚</div><div class="kc-lbl">Total Embriones</div><div class="kc-val" style="color:var(--wa2)" id="dp-te">65</div><div class="kc-sub">detectados</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--er1),var(--er2))"></div><div class="kc-icon" style="background:#FFF0F0;margin-bottom:6px">📈</div><div class="kc-lbl">IPR Máximo</div><div class="kc-val" style="color:var(--er2)" id="dp-ipr2">0.98</div><div class="kc-sub danger">umbral: 1.0</div><div class="kc-prog"><div class="kc-pfill" style="background:linear-gradient(90deg,var(--er1),var(--er2));width:98%"></div></div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0;margin-bottom:6px">⚠️</div><div class="kc-lbl">Lotes Riesgo</div><div class="kc-val" style="color:var(--wa2)" id="dp-rm">2</div><div class="kc-sub warn">IPR ≥ 0.5</div></div>
+    <div id="T-dinamica" class="tab">
+      <div class="hero">
+        <div class="hero-ic">🔬</div>
+        <div><div class="hero-title">Dinámica<br><b>Poblacional</b></div><div class="hero-sub">136 registros · IPR · Sigmodon hispidus · Hembras gestantes</div></div>
+        <div class="hero-stats"><div class="hs"><div class="hs-v">0.98</div><div class="hs-l">IPR máx.</div></div><div class="hs"><div class="hs-v">136</div><div class="hs-l">Muestreos</div></div></div>
       </div>
-      <div class="mtabs"><button class="mt on" onclick="MT('dp','g',this)">📊 Gráfica IPR</button><button class="mt" onclick="MT('dp','t',this)">📋 Tabla Detalle</button></div>
+      <div class="krow" style="grid-template-columns:repeat(6,1fr)">
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--c2),var(--c3))"></div><div class="kc-lbl">Muestreos</div><div class="kc-val" style="color:var(--c2)" id="DP-ms">136</div><div class="kc-sub">registros</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-lbl">Total Sigmodon</div><div class="kc-val" style="color:var(--te2)" id="DP-ts">—</div><div class="kc-sub">individuos</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a3))"></div><div class="kc-lbl">H. Gestantes</div><div class="kc-val" style="color:var(--a2)" id="DP-hg">—</div><div class="kc-sub warn">activas</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a4))"></div><div class="kc-lbl">Total Embriones</div><div class="kc-val" style="color:var(--a2)" id="DP-te">—</div><div class="kc-sub">detectados</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--r2),var(--r3))"></div><div class="kc-lbl">IPR Máximo</div><div class="kc-val" style="color:var(--r3)" id="DP-ipr">—</div><div class="kc-sub er">umbral: 1.0</div><div class="kc-prog"><div class="kc-pf" id="DP-iprp" style="background:linear-gradient(90deg,var(--r2),var(--r3))"></div></div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a3))"></div><div class="kc-lbl">Lotes Riesgo</div><div class="kc-val" style="color:var(--a2)" id="DP-rm">—</div><div class="kc-sub warn">IPR ≥ 0.5</div></div>
+      </div>
+      <div class="mtabs"><button class="mt on" onclick="MT('dp','g',this)">📊 Gráfica IPR</button><button class="mt" onclick="MT('dp','t',this)">📋 Tabla</button></div>
       <div id="dp-g" class="mv on">
-        <div class="card" style="margin-bottom:14px"><div class="sh"><span class="sh-icon">📈</span><span class="sh-title">Tendencia IPR por Fecha</span><span class="sh-badge" style="background:#FFF0F0;color:var(--er2);border:1px solid #FFBBBB">Umbral Crítico: 1.0</span><div class="sh-line"></div></div><div class="ch-hint">IPR &lt; 0.5 = Bajo · 0.5–1.0 = Riesgo · ≥ 1.0 = ⚠ Crítico</div><div class="cw" style="height:210px"><canvas id="c-ipr"></canvas></div></div>
+        <div class="card" style="margin-bottom:13px"><div class="sh"><span class="sh-i">📈</span><span class="sh-t">Tendencia IPR por Muestreo</span><span class="sh-b" style="background:var(--r5);color:var(--r2);border:1px solid var(--r4)">Umbral Crítico: 1.0</span><div class="sh-line"></div></div><div class="cw" style="height:210px"><canvas id="C-ipr"></canvas></div></div>
         <div class="g g3">
-          <div class="ipr-box" style="border-color:var(--ok2)"><div class="ipr-lbl" style="color:var(--ok2)">IPR &lt; 0.5</div><div class="ipr-val" style="color:var(--ok1)">BAJO</div><div class="ipr-desc">Estable. Bajo potencial de crecimiento poblacional.</div></div>
-          <div class="ipr-box" style="border-color:var(--wa2)"><div class="ipr-lbl" style="color:var(--wa2)">IPR 0.5–1.0</div><div class="ipr-val" style="color:var(--wa1)">RIESGO</div><div class="ipr-desc">Monitoreo continuo. Potencial de crecimiento moderado.</div></div>
-          <div class="ipr-box" style="border-color:var(--er2)"><div class="ipr-lbl" style="color:var(--er2)">IPR ≥ 1.0</div><div class="ipr-val" style="color:var(--er2)">CRÍTICO</div><div class="ipr-desc">Implementar control inmediato. Alto potencial reproductivo.</div></div>
+          <div style="padding:13px 16px;background:var(--te6);border-radius:var(--r3);border-left:4px solid var(--g3)"><div style="font-size:9.5px;font-weight:700;color:var(--g3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px">IPR &lt; 0.5</div><div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--g2)">BAJO</div><div style="font-size:11px;color:var(--te3);margin-top:3px;line-height:1.5">Estable. Bajo potencial de crecimiento.</div></div>
+          <div style="padding:13px 16px;background:var(--te6);border-radius:var(--r3);border-left:4px solid var(--a3)"><div style="font-size:9.5px;font-weight:700;color:var(--a3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px">IPR 0.5–1.0</div><div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--a2)">RIESGO</div><div style="font-size:11px;color:var(--te3);margin-top:3px;line-height:1.5">Monitoreo continuo. Potencial moderado.</div></div>
+          <div style="padding:13px 16px;background:var(--te6);border-radius:var(--r3);border-left:4px solid var(--r3)"><div style="font-size:9.5px;font-weight:700;color:var(--r3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px">IPR ≥ 1.0</div><div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--r2)">CRÍTICO</div><div style="font-size:11px;color:var(--te3);margin-top:3px;line-height:1.5">Control inmediato. Alto potencial.</div></div>
         </div>
       </div>
-      <div id="dp-t" class="mv"><div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th>Nivel IPR</th><th class="r">% Cap.</th><th class="r">Sigmodon</th><th class="r">H.Gest.</th><th class="r">Embriones</th><th class="r">IPR</th></tr></thead><tbody id="tb-dp"></tbody></table></div></div>
+      <div id="dp-t" class="mv">
+        <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th class="r">%Cap.</th><th class="r">Sigmodon</th><th class="r">H.Gest.</th><th class="r">Embriones</th><th class="r">IPR</th></tr></thead><tbody id="TB-dp"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ══ ACTIVIDAD ══ -->
+    <div id="T-actividad" class="tab">
+      <div class="hero">
+        <div class="hero-ic">📊</div>
+        <div><div class="hero-title">Actividad de<br><b>Plagas</b></div><div class="hero-sub">1,281 registros · Análisis consolidado de actividad general de plagas</div></div>
+        <div class="hero-stats"><div class="hs"><div class="hs-v" id="ACT-tot">—</div><div class="hs-l">Registros</div></div></div>
+      </div>
+      <div class="card">
+        <div class="sh"><span class="sh-i">📋</span><span class="sh-t">Tabla Actividad de Plagas</span><div class="sh-line"></div></div>
+        <div class="tw" style="max-height:500px;overflow-y:auto"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Fecha</th><th class="r">Cat.</th><th>Plaga</th><th>Actividad</th><th class="r">Valor</th></tr></thead><tbody id="TB-act"></tbody></table></div>
+        <div class="ti" id="TI-act"></div>
+      </div>
     </div>
 
     <!-- ══ PRESUPUESTO ══ -->
-    <div id="tab-presupuesto" class="mv" style="display:none">
-      <div class="det-ph"><div class="det-ph-icon">💰</div><div><div class="det-ph-title">Presupuesto <b>Rodenticida</b></div><div class="det-ph-sub">Kg asignados vs entregados · Control presupuestal por zona · Zafra 2025–26</div></div><div class="det-ph-stats"><div class="det-ph-stat"><div class="det-ph-sv">15,622</div><div class="det-ph-sl">Kg asignados</div></div><div class="det-ph-stat"><div class="det-ph-sv">7,620</div><div class="det-ph-sl">Kg entregados</div></div><div class="det-ph-stat"><div class="det-ph-sv">49%</div><div class="det-ph-sl">Avance</div></div></div></div>
+    <div id="T-presupuesto" class="tab">
+      <div class="hero">
+        <div class="hero-ic">💰</div>
+        <div><div class="hero-title">Presupuesto<br><b>Rodenticida</b></div><div class="hero-sub">Kg asignados vs entregados · 5 zonas · Zafra 2025–26</div></div>
+        <div class="hero-stats"><div class="hs"><div class="hs-v">15,622</div><div class="hs-l">Kg asignados</div></div><div class="hs"><div class="hs-v">49%</div><div class="hs-l">Avance</div></div></div>
+      </div>
       <div class="krow" style="grid-template-columns:repeat(4,1fr)">
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6;margin-bottom:6px">📊</div><div class="kc-lbl">Kg 1er Revisado</div><div class="kc-val" style="color:var(--t2)">15,622</div><div class="kc-sub">presupuesto zafra</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1;margin-bottom:6px">✅</div><div class="kc-lbl">Kg Entregados</div><div class="kc-val" style="color:var(--ok1)">7,620</div><div class="kc-sub ok">despachados</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0;margin-bottom:6px">⏳</div><div class="kc-lbl">Kg Disponibles</div><div class="kc-val" style="color:var(--wa1)">8,002</div><div class="kc-sub warn">por entregar</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--blue2),var(--blue4))"></div><div class="kc-icon" style="background:#EEF1FB;margin-bottom:6px">🎯</div><div class="kc-lbl">% Avance</div><div class="kc-val" style="color:var(--blue2)">49<span class="kc-unit">%</span></div><div class="kc-sub">vs presupuesto</div><div class="kc-prog"><div class="kc-pfill" style="background:linear-gradient(90deg,var(--blue2),var(--blue4));width:49%"></div></div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-lbl">Kg 1er Revisado</div><div class="kc-val" style="color:var(--te2)">15,622</div><div class="kc-sub">presupuesto zafra</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--g2),var(--g3))"></div><div class="kc-lbl">Kg Entregados</div><div class="kc-val" style="color:var(--g2)">7,620</div><div class="kc-sub ok">despachados</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--a2),var(--a3))"></div><div class="kc-lbl">Kg Disponibles</div><div class="kc-val" style="color:var(--a2)">8,002</div><div class="kc-sub warn">por entregar</div></div>
+        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--b2),var(--b4))"></div><div class="kc-lbl">% Avance</div><div class="kc-val" style="color:var(--b2)">49<span class="kc-u">%</span></div><div class="kc-sub">vs presupuesto</div><div class="kc-prog"><div class="kc-pf" style="background:linear-gradient(90deg,var(--b2),var(--b4));width:49%"></div></div></div>
       </div>
       <div class="g g2">
-        <div class="card"><div class="sh"><span class="sh-icon">📊</span><span class="sh-title">Avance por Zona</span><div class="sh-line"></div></div><div id="pres-prog" style="margin-top:6px"></div></div>
-        <div class="card"><div class="sh"><span class="sh-icon">⚖️</span><span class="sh-title">Kg Revisado vs Entregado</span><div class="sh-line"></div></div><div class="leg"><span><span class="l-s" style="background:#B0BEF0"></span>1er Revisado</span><span><span class="l-s" style="background:var(--blue3)"></span>Entregado</span></div><div class="cw" style="height:195px"><canvas id="c-pres"></canvas></div></div>
+        <div class="card"><div class="sh"><span class="sh-i">📊</span><span class="sh-t">Avance por Zona</span><div class="sh-line"></div></div><div id="PRES-prog" style="margin-top:5px"></div></div>
+        <div class="card"><div class="sh"><span class="sh-i">⚖️</span><span class="sh-t">Kg Revisado vs Entregado</span><div class="sh-line"></div></div><div class="leg"><span><span class="ls" style="background:#B0BEF0"></span>1er Revisado</span><span><span class="ls" style="background:var(--b3)"></span>Entregado</span></div><div class="cw" style="height:195px"><canvas id="C-pres"></canvas></div></div>
       </div>
-      <div class="card" style="margin-top:12px"><div class="sh"><span class="sh-icon">📋</span><span class="sh-title">Detalle por Zona</span><div class="sh-line"></div></div>
+      <div class="card" style="margin-top:12px"><div class="sh"><span class="sh-i">📋</span><span class="sh-t">Detalle por Zona</span><div class="sh-line"></div></div>
         <div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Plaga</th><th class="r">Kg 1er Revisado</th><th class="r">Kg Entregados</th><th class="r">Kg Disponibles</th><th class="r">% Avance</th></tr></thead><tbody>
-          <tr><td class="m">Z·1</td><td>RATA</td><td class="r">3,643</td><td class="r" style="color:var(--ok1)">726</td><td class="r" style="color:var(--wa2)">2,917</td><td class="r"><span class="bdg" style="background:#FFF0F0;color:var(--er2)">20%</span></td></tr>
-          <tr><td class="m">Z·3</td><td>RATA</td><td class="r">1,782</td><td class="r" style="color:var(--ok1)">998</td><td class="r" style="color:var(--wa2)">784</td><td class="r"><span class="bdg" style="background:#FFF8E0;color:var(--wa2)">56%</span></td></tr>
-          <tr><td class="m">Z·4</td><td>RATA</td><td class="r">2,312</td><td class="r" style="color:var(--ok1)">1,860</td><td class="r" style="color:var(--wa2)">452</td><td class="r"><span class="bdg" style="background:#EAFAF1;color:var(--ok1)">80%</span></td></tr>
-          <tr><td class="m">Z·5</td><td>RATA</td><td class="r">6,570</td><td class="r" style="color:var(--ok1)">2,722</td><td class="r" style="color:var(--wa2)">3,848</td><td class="r"><span class="bdg" style="background:#FFF0F0;color:var(--er2)">41%</span></td></tr>
-          <tr><td class="m">Z·8</td><td>RATA</td><td class="r">1,315</td><td class="r" style="color:var(--ok1)">1,315</td><td class="r">0</td><td class="r"><span class="bdg" style="background:#EAFAF1;color:var(--ok1)">100% ✓</span></td></tr>
+          <tr><td class="m">Z·1</td><td>RATA</td><td class="r">3,643</td><td class="r" style="color:var(--g2)">726</td><td class="r" style="color:var(--a2)">2,917</td><td class="r"><span class="bdg" style="background:var(--r5);color:var(--r2)">20%</span></td></tr>
+          <tr><td class="m">Z·3</td><td>RATA</td><td class="r">1,782</td><td class="r" style="color:var(--g2)">998</td><td class="r" style="color:var(--a2)">784</td><td class="r"><span class="bdg" style="background:var(--a5);color:var(--a2)">56%</span></td></tr>
+          <tr><td class="m">Z·4</td><td>RATA</td><td class="r">2,312</td><td class="r" style="color:var(--g2)">1,860</td><td class="r" style="color:var(--a2)">452</td><td class="r"><span class="bdg" style="background:var(--g5);color:var(--g2)">80%</span></td></tr>
+          <tr><td class="m">Z·5</td><td>RATA</td><td class="r">6,570</td><td class="r" style="color:var(--g2)">2,722</td><td class="r" style="color:var(--a2)">3,848</td><td class="r"><span class="bdg" style="background:var(--r5);color:var(--r2)">41%</span></td></tr>
+          <tr><td class="m">Z·8</td><td>RATA</td><td class="r">1,315</td><td class="r" style="color:var(--g2)">1,315</td><td class="r">0</td><td class="r"><span class="bdg" style="background:var(--g5);color:var(--g2)">100% ✓</span></td></tr>
           <tr class="tot"><td colspan="2">TOTAL</td><td class="r">15,622</td><td class="r">7,620</td><td class="r">8,002</td><td class="r">49%</td></tr>
         </tbody></table></div>
       </div>
     </div>
 
-    <!-- ══ GALLINA CIEGA ══ -->
-    <div id="tab-gallinaCiega" class="mv" style="display:none">
-      <div class="det-ph"><div class="det-ph-icon">🪲</div><div><div class="det-ph-title">Captura Adultos <b>Gallina Ciega</b></div><div class="det-ph-sub">Phyllophaga · Anomala · Diplotaxis · Trampa de luz por catorcena</div></div><div class="det-ph-stats"><div class="det-ph-stat"><div class="det-ph-sv" id="gc-tc">—</div><div class="det-ph-sl">Total cap.</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="gc-cm">—</div><div class="det-ph-sl">Máx. lote</div></div><div class="det-ph-stat"><div class="det-ph-sv" id="gc-ph">—</div><div class="det-ph-sl">% Phylloph.</div></div></div></div>
-      <div class="krow" style="grid-template-columns:repeat(5,1fr)">
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,#374151,#6B7280)"></div><div class="kc-icon" style="background:#F4F4F6;margin-bottom:6px">💡</div><div class="kc-lbl">No. Trampas</div><div class="kc-val" style="color:var(--t2)" id="gc-nt">—</div><div class="kc-sub">instaladas</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--er1),var(--er2))"></div><div class="kc-icon" style="background:#FFF0F0;margin-bottom:6px">🪲</div><div class="kc-lbl">Total Captura</div><div class="kc-val" style="color:var(--er2)" id="gc-tc2">—</div><div class="kc-sub danger">adultos</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa1),var(--wa2))"></div><div class="kc-icon" style="background:#FFF5E0;margin-bottom:6px">🏆</div><div class="kc-lbl">Captura Máxima</div><div class="kc-val" style="color:var(--wa1)" id="gc-cm2">—</div><div class="kc-sub">un solo lote</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--wa2),var(--wa3))"></div><div class="kc-icon" style="background:#FFF8E0;margin-bottom:6px">🔵</div><div class="kc-lbl">% Phyllophaga</div><div class="kc-val" style="color:var(--wa2)" id="gc-ph2">—</div><div class="kc-sub">dominante</div></div>
-        <div class="kc"><div class="kc-bar" style="background:linear-gradient(90deg,var(--ok1),var(--ok2))"></div><div class="kc-icon" style="background:#EAFAF1;margin-bottom:6px">📋</div><div class="kc-lbl">Lotes Muestreados</div><div class="kc-val" style="color:var(--ok1)" id="gc-lm">—</div><div class="kc-sub">con trampa</div></div>
+    <!-- ══ LOTE COSECHA ══ -->
+    <div id="T-lote" class="tab">
+      <div class="hero">
+        <div class="hero-ic">📦</div>
+        <div><div class="hero-title">Lote<br><b>Cosecha</b></div><div class="hero-sub">190 lotes evaluados · Severidad de daño por barrenador y rata</div></div>
+        <div class="hero-stats"><div class="hs"><div class="hs-v" id="LT-tot">190</div><div class="hs-l">Lotes</div></div></div>
       </div>
-      <div class="mtabs"><button class="mt on" onclick="MT('gc','g',this)">📊 Gráficas</button><button class="mt" onclick="MT('gc','t',this)">📋 Tabla Detalle</button></div>
-      <div id="gc-g" class="mv on">
-        <div class="g g2">
-          <div class="card cl" id="cd-gcz"><div class="sh"><span class="sh-icon">🗺️</span><span class="sh-title">Captura por Zona</span><div class="sh-line"></div></div><div class="ch-hint">🖱️ Clic → filtrar zona</div><div class="cw" style="height:175px"><canvas id="c-gcz"></canvas></div></div>
-          <div class="card"><div class="sh"><span class="sh-icon">📉</span><span class="sh-title">Tendencia de Captura</span><div class="sh-line"></div></div><div class="cw" style="height:175px"><canvas id="c-gct"></canvas></div></div>
-        </div>
-        <div class="g g2">
-          <div class="card"><div class="sh"><span class="sh-icon">🔬</span><span class="sh-title">Especie por Finca</span><div class="sh-line"></div></div><div class="leg"><span><span class="l-s" style="background:#3898D8"></span>Phyllophaga</span><span><span class="l-s" style="background:var(--in2)"></span>Anomala</span><span><span class="l-s" style="background:var(--ok3)"></span>Diplotaxis</span></div><div class="cw" style="height:160px"><canvas id="c-gcf"></canvas></div></div>
-          <div class="card"><div class="sh"><span class="sh-icon">🚨</span><span class="sh-title">Lotes Críticos</span><div class="sh-line"></div></div><div class="cw" style="height:160px"><canvas id="c-gcl"></canvas></div></div>
-        </div>
+      <div class="g g2">
+        <div class="card"><div style="font-size:11px;font-weight:700;color:var(--te3);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase">BARRENADOR</div><div class="cwc" style="height:180px"><canvas id="C-sev-b2" style="max-width:165px;max-height:165px"></canvas></div></div>
+        <div class="card"><div style="font-size:11px;font-weight:700;color:var(--te3);margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase">RATA</div><div class="cwc" style="height:180px"><canvas id="C-sev-r2" style="max-width:165px;max-height:165px"></canvas></div></div>
       </div>
-      <div id="gc-t" class="mv"><div class="tw"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th class="r">Cat.</th><th>Fecha</th><th>Trampa</th><th class="r">N°Tr.</th><th class="r">Phyllophaga</th><th class="r">Diplotaxis</th><th class="r">Anomala</th><th class="r">Total</th></tr></thead><tbody id="tb-gc"></tbody></table></div></div>
+      <div class="card" style="margin-top:12px"><div class="sh"><span class="sh-i">📋</span><span class="sh-t">Detalle Lote Cosecha</span><div class="sh-line"></div></div>
+        <div class="tw" style="max-height:340px;overflow-y:auto"><table class="dt"><thead><tr><th>Zona</th><th>Lote</th><th>Finca</th><th>Variedad</th><th>Sev. Barrenador</th><th>Sev. Rata</th><th class="r">Cat.</th></tr></thead><tbody id="TB-lote"></tbody></table></div>
+      </div>
     </div>
 
-  </div><!-- det-body -->
-</div><!-- detail -->
+  </div><!-- dc -->
+</div><!-- DET -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-/* ══ CONFIG ══ */
-const API   = "https://script.google.com/macros/s/AKfycbwLU1w40rUpRSjhsAXV2bZ3GPNbP5dppd8KHSWcHW54FUpFAr1K9cO97FZLXxTQ-Zga/exec";
-const CK    = "geomip_v11";
-const CM    = 10;
-const ZONAS = [1,3,4,5,8];
+/* ═════════════════════════════════════════════
+   CONFIG
+═════════════════════════════════════════════ */
+const API  = "https://script.google.com/macros/s/AKfycbwLU1w40rUpRSjhsAXV2bZ3GPNbP5dppd8KHSWcHW54FUpFAr1K9cO97FZLXxTQ-Zga/exec";
+const CK   = "geomip_v13";
+const CMIN = 10;
+const ZS   = [1,3,4,5,8];
 
-/* ══ Helpers ══ */
+/* helpers */
 const nv  = v=>{const x=parseFloat(String(v||0).replace(/,/g,""));return isNaN(x)?0:x;};
 const fmt = v=>{const n=Math.round(v);return n>=1000?n.toLocaleString("es-GT"):String(n);};
-const fmtN= v=>v>=1000?Number(v).toLocaleString("es-GT"):v;
+const fN  = v=>v>=1000?Number(v).toLocaleString("es-GT"):String(v||0);
 const pct = (a,b)=>b>0?Math.round(a/b*100):0;
 const avg = (arr,k)=>arr.length?(arr.reduce((s,r)=>s+nv(r[k]),0)/arr.length).toFixed(1):0;
 const ds  = v=>{try{return new Date(v).toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"});}catch{return v||"";}};
-const $   = (id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-const W   = (id,p)=>{const e=document.getElementById(id);if(e)e.style.width=Math.min(p,100)+"%";};
+const $t  = (id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+const $w  = (id,p)=>{const e=document.getElementById(id);if(e)e.style.width=Math.min(nv(p),100)+"%";};
 
-/* ══ Chart defaults ══ */
+/* Chart defaults */
 Chart.defaults.font.family="'Inter',sans-serif";
 Chart.defaults.font.size=11;
-Chart.defaults.color="#6B7280";
-const CG="rgba(107,114,128,.07)",CT="#9CA3AF";
-const TT={backgroundColor:"#1F2937",borderColor:"rgba(255,255,255,.1)",borderWidth:1,titleColor:"#E5E7EB",bodyColor:"#F9FAFB",titleFont:{family:"Inter",size:11,weight:"600"},bodyFont:{family:"Inter",size:12},padding:12,cornerRadius:8,displayColors:true,boxWidth:10,boxHeight:10,boxPadding:4};
+Chart.defaults.color="#64748B";
+const CG="rgba(100,116,139,.07)",CT="#94A3B8";
+const TT={backgroundColor:"#1E293B",borderColor:"rgba(255,255,255,.08)",borderWidth:1,titleColor:"#E2E8F0",bodyColor:"#F8FAFC",titleFont:{family:"Inter",size:11,weight:"600"},bodyFont:{family:"Inter",size:12},padding:12,cornerRadius:8,displayColors:true,boxWidth:10,boxHeight:10,boxPadding:4};
 const BASE={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:TT},scales:{x:{grid:{color:CG,lineWidth:.5},ticks:{color:CT,font:{size:11}}},y:{grid:{color:CG,lineWidth:.5},ticks:{color:CT,font:{size:11}}}}};
 const CH={};
-function MK(id,cfg){const el=document.getElementById(id);if(!el)return;if(CH[id])CH[id].destroy();CH[id]=new Chart(el,cfg);}
+function MK(id,cfg){
+  const el=document.getElementById(id);if(!el)return;
+  if(CH[id]){try{CH[id].destroy();}catch{}}
+  CH[id]=new Chart(el,cfg);
+}
 
-/* ══ State ══ */
-let DB={}, curModule=null;
+/* ═════════════════════════════════════════════
+   STATE
+═════════════════════════════════════════════ */
+let DB={}, CUR=null;
 const F={cat:null,zona:null,finca:null};
 
-/* ══ Filter Engine ══ */
-function FD(k){return(DB[k]||[]).filter(r=>{if(F.cat!==null&&nv(r.ID_Catorcena)!==F.cat)return false;if(F.zona!==null&&nv(r.ID_Zona)!==F.zona)return false;if(F.finca!==null&&(r.Nombre_finca||"").trim()!==F.finca)return false;return true;});}
-function SF(k,v){F[k]=v;syncPills();updateTags();refreshAll();}
-function clearF(){F.cat=null;F.zona=null;F.finca=null;syncPills();updateTags();refreshAll();}
-function syncPills(){
-  document.querySelectorAll("#p-cat .dpill").forEach(p=>p.classList.toggle("on",p.dataset.v===(F.cat===null?"all":String(F.cat))));
-  document.querySelectorAll("#p-zona .dpill").forEach(p=>p.classList.toggle("on",p.dataset.v===(F.zona===null?"all":String(F.zona))));
+/* ═════════════════════════════════════════════
+   FILTER ENGINE
+═════════════════════════════════════════════ */
+function FD(k){
+  return(DB[k]||[]).filter(r=>{
+    if(F.cat  !==null&&nv(r.ID_Catorcena)!==F.cat)  return false;
+    if(F.zona !==null&&nv(r.ID_Zona)     !==F.zona) return false;
+    if(F.finca!==null&&(r.Nombre_finca||"").trim()!==F.finca) return false;
+    return true;
+  });
 }
-function updateTags(){
+function SF(k,v){F[k]=v;renderPills();renderTags();refreshAll();}
+function clearF(){F.cat=null;F.zona=null;F.finca=null;renderPills();renderTags();refreshAll();}
+
+function renderPills(){
+  document.querySelectorAll("#F-cat  .fp").forEach(p=>p.classList.toggle("on",p.dataset.v===(F.cat ===null?"all":String(F.cat))));
+  document.querySelectorAll("#F-zona .fp").forEach(p=>p.classList.toggle("on",p.dataset.v===(F.zona===null?"all":String(F.zona))));
+}
+function renderTags(){
   const tags=[];
-  if(F.cat!==null)   tags.push({l:`Cat. ${F.cat}`,   c:()=>SF("cat",null)});
-  if(F.zona!==null)  tags.push({l:`Zona ${F.zona}`,  c:()=>SF("zona",null)});
-  if(F.finca!==null) tags.push({l:F.finca.slice(0,14),c:()=>SF("finca",null)});
-  const w=document.getElementById("atags"),s=document.getElementById("f-sep"),cb=document.getElementById("clear-btn");
-  w.innerHTML=tags.map(t=>`<div class="det-atag">${t.l}<span class="det-atag-x" onclick="(${t.c})()">✕</span></div>`).join("");
-  s.style.display=tags.length?"block":"none";cb.style.display=tags.length?"block":"none";
-  // Highlight active cards
-  ["cd-cat","cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-comp","cd-top","cd-efinca","cd-dano-zona"].forEach(id=>document.getElementById(id)?.classList.remove("hl"));
-  if(F.cat!==null) document.getElementById("cd-cat")?.classList.add("hl");
-  if(F.zona!==null)["cd-zpct","cd-ez","cd-ez2","cd-gcz","cd-dano-zona"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
-  if(F.finca!==null)["cd-top","cd-efinca"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
+  if(F.cat  !==null)tags.push({l:`Cat. ${F.cat}`,  fn:()=>SF("cat",null)});
+  if(F.zona !==null)tags.push({l:`Zona ${F.zona}`, fn:()=>SF("zona",null)});
+  if(F.finca!==null)tags.push({l:F.finca.slice(0,14),fn:()=>SF("finca",null)});
+  document.getElementById("F-tags").innerHTML=tags.map(t=>`<div class="ftag">${t.l}<span class="ftag-x" onclick="(${t.fn.toString()})()">✕</span></div>`).join("");
+  const show=tags.length>0;
+  document.getElementById("F-sep2").style.display=show?"block":"none";
+  document.getElementById("F-clear").style.display=show?"block":"none";
+  // highlight
+  ["CD-cat","CD-zpct","CD-ez","CD-comp","CD-top","CD-efinca","CD-gcz","CD-dzona","CD-chz"].forEach(id=>document.getElementById(id)?.classList.remove("hl"));
+  if(F.cat  !==null)document.getElementById("CD-cat")?.classList.add("hl");
+  if(F.zona !==null)["CD-zpct","CD-ez","CD-gcz","CD-dzona","CD-chz"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
+  if(F.finca!==null)["CD-top","CD-efinca"].forEach(id=>document.getElementById(id)?.classList.add("hl"));
 }
 
-/* ══ Cache ══ */
+/* ═════════════════════════════════════════════
+   CACHE
+═════════════════════════════════════════════ */
 const saveC=d=>{try{localStorage.setItem(CK,JSON.stringify({ts:Date.now(),d}));}catch{}};
-const loadC=()=>{try{const r=JSON.parse(localStorage.getItem(CK)||"null");if(!r)return null;const a=(Date.now()-r.ts)/60000;return a>CM?null:{d:r.d,age:Math.round(a)};}catch{return null;}};
+const loadC=()=>{try{const r=JSON.parse(localStorage.getItem(CK)||"null");if(!r)return null;const a=(Date.now()-r.ts)/60000;return a>CMIN?null:{d:r.d,age:Math.round(a)};}catch{return null;}};
 const clearC=()=>{try{localStorage.removeItem(CK);}catch{}};
 
-/* ══ Loading ══ */
-const LP=(p,msg)=>{document.getElementById("lf").style.width=p+"%";document.getElementById("lm").textContent=msg;};
-const LDot=(k,ok)=>{const e=document.getElementById("ld-"+k);if(e)e.classList.add(ok?"ok":"er");};
-
+/* ═════════════════════════════════════════════
+   LOADING
+═════════════════════════════════════════════ */
+const LP=(p,msg)=>{document.getElementById("LF").style.width=p+"%";document.getElementById("LM").textContent=msg;};
+function makeDots(){
+  const keys=["muestreo","control","ejecutados","gcCaptura","chinche","dano","dinamica","ronron","programa","lote","actividad"];
+  document.getElementById("LDTS").innerHTML=keys.map(k=>`<div class="ldt" id="LD-${k}" title="${k}"></div>`).join("");
+}
+const LDt=(k,ok)=>{const e=document.getElementById("LD-"+k);if(e)e.classList.add(ok?"ok":"er");};
 function setLive(ok){
-  ["hub-pip","det-pip"].forEach(id=>{const e=document.getElementById(id);if(e)e.className=(ok?"hub-live-pip on det-pip on":"hub-live-pip err det-pip err").split(" ").find(c=>c.startsWith(id.split("-")[0]))||"";});
   const t=new Date().toLocaleTimeString("es-GT");
-  $("hub-ts",ok?t:"sin conexión");$("det-ts",ok?t:"sin conexión");
-  // fix: set both pips
-  const hp=document.getElementById("hub-pip");if(hp)hp.className="hub-live-pip"+(ok?" on":" err");
-  const dp=document.getElementById("det-pip");if(dp)dp.className="det-pip"+(ok?" on":" err");
+  ["H-pip","D-pip"].forEach(id=>{const e=document.getElementById(id);if(!e)return;e.className=e.className.replace(/\s*(on|err)/g,"")+(ok?" on":" err");});
+  $t("H-ts",ok?t:"sin conexión");$t("D-ts",ok?t:"sin conexión");
 }
 
-/* ══ Boot ══ */
+/* ═════════════════════════════════════════════
+   BOOT
+═════════════════════════════════════════════ */
 async function boot(){
+  makeDots();
   const c=loadC();
-  if(c){LP(100,"Datos en caché...");DB=c.d;markDots();updateHubCounts();setLive(true);setTimeout(hideLoad,200);fetchFresh(true);}
-  else{LP(15,"Conectando a Google Sheets...");await fetchFresh(false);}
+  if(c){LP(100,"Cargando datos...");DB=c.d;markDots();updateHubStats();setLive(true);setTimeout(hideLoad,200);fetchFresh(true);}
+  else{LP(10,"Conectando a Google Sheets...");await fetchFresh(false);}
 }
 async function fetchFresh(bg){
-  document.querySelectorAll(".spin-ic").forEach(e=>e.style.display="block");
+  document.querySelectorAll(".spi").forEach(e=>e.style.display="block");
   try{
     if(!bg)LP(30,"Descargando datos...");
-    const ctrl=new AbortController(),tout=setTimeout(()=>ctrl.abort(),50000);
+    const ctrl=new AbortController(),tout=setTimeout(()=>ctrl.abort(),60000);
     const res=await fetch(API,{signal:ctrl.signal});clearTimeout(tout);
     if(!res.ok)throw new Error("HTTP "+res.status);
     const j=await res.json();
     if(!bg)LP(75,"Procesando...");
-    DB=j;saveC(j);markDots();updateHubCounts();
-    if(curModule){buildPills();buildAllCharts();buildStaticCharts();refreshAll();}
+    DB=j;saveC(j);markDots();updateHubStats();
+    if(CUR){buildPillsBar();refreshAll();buildStaticCharts();}
     setLive(true);
     if(!bg){LP(100,"¡Listo!");setTimeout(hideLoad,350);}
   }catch(e){
-    if(!bg){const c2=loadC();if(c2){DB=c2.d;markDots();updateHubCounts();setLive(false);LP(100,"Sin conexión · datos guardados");setTimeout(hideLoad,800);}else{LP(100,"Error: "+e.message);setLive(false);setTimeout(hideLoad,1800);}}
+    if(!bg){const c2=loadC();if(c2){DB=c2.d;markDots();updateHubStats();setLive(false);LP(100,"Sin conexión · datos guardados");setTimeout(hideLoad,800);}else{LP(100,"Error: "+e.message);setLive(false);setTimeout(hideLoad,1800);}}
     else setLive(false);
-  }finally{document.querySelectorAll(".spin-ic").forEach(e=>e.style.display="none");}
+  }finally{document.querySelectorAll(".spi").forEach(e=>e.style.display="none");}
 }
-function hideLoad(){const l=document.getElementById("loading");if(!l)return;l.classList.add("out");setTimeout(()=>{if(l.parentNode)l.remove();},700);}
+function hideLoad(){const l=document.getElementById("LOAD");if(!l)return;l.classList.add("out");setTimeout(()=>{if(l.parentNode)l.remove();},700);}
 async function doSync(){clearC();await fetchFresh(false);}
 
 function markDots(){
-  [["m","muestreo"],["c","control"],["e","ejecutados"],["r","ronron"],["d","dano"],["l","lote"]].forEach(([k,key])=>{LDot(k,Array.isArray(DB[key])&&DB[key].length>0);});
+  const keys=["muestreo","control","ejecutados","gcCaptura","chinche","dano","dinamica","ronron","programa","lote","actividad"];
+  keys.forEach(k=>LDt(k,Array.isArray(DB[k])&&DB[k].length>0));
 }
 
-function updateHubCounts(){
-  const m=DB.muestreo||[],c=DB.control||[],e=DB.ejecutados||[],r=DB.ronron||[],d=DB.dano||[];
-  $("cnt-muestreo",fmt(m.length)+" lotes");
-  $("cnt-control",fmt(c.length)+" lotes");
-  $("cnt-ejecutados",fmt(e.length)+" aplic.");
-  $("cnt-gc",fmt(r.length)+" muestras");
-  $("cnt-dano",fmt(d.length)+" muestras");
-  $("cnt-dp",fmt((DB.dinamica||[]).length||8)+" registros");
+function updateHubStats(){
+  const m=DB.muestreo||[],r=DB.gcCaptura||DB.ronron||[],ch=DB.chinche||[];
+  const pp=m.length?(m.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/m.length).toFixed(1):0;
+  const gcTot=r.reduce((s,x)=>s+nv(x.TotalCaptura||x.Total_Captura),0);
+  const totalRata=new Set([...(DB.muestreo||[]),...(DB.control||[]),...(DB.ejecutados||[])].map(x=>x.ID_Lote).filter(Boolean)).size;
+  $t("HS-lotes",fmt(totalRata));
+  $t("HS-cap",pp+"%");
+  $t("HS-gc",fmt(gcTot||13172));
+  $t("HS-chinche",fmt(ch.length||17));
+  $t("CNT-rata",fmt(totalRata)+" lotes");
+  $t("CNT-gcCap",fmt((DB.gcCaptura||[]).length||423)+" muestras");
+  $t("CNT-gcLarvas",fmt((DB.gcLarvas||[]).length||23)+" muestras");
+  $t("CNT-chinche",fmt(ch.length||17)+" registros");
+  $t("CNT-prog",fmt((DB.chincheProg||[]).length||248)+" registros");
+  $t("CNT-dano",fmt((DB.dano||[]).length||853)+" muestras");
+  $t("CNT-din",fmt((DB.dinamica||[]).length||136)+" registros");
+  $t("CNT-lote",fmt((DB.lote||[]).length||190)+" lotes");
 }
 
-/* ══ Hub filter ══ */
-function filterCat(cat,btn){
-  document.querySelectorAll(".hpill").forEach(p=>p.classList.remove("on"));
+/* ═════════════════════════════════════════════
+   HUB FILTER
+═════════════════════════════════════════════ */
+function hF(cat,btn){
+  document.querySelectorAll(".hcp").forEach(p=>p.classList.remove("on"));
   btn.classList.add("on");
-  document.querySelectorAll(".mod-card").forEach(c=>{
-    const show=cat===null||c.dataset.cat===cat;
-    c.style.display=show?"flex":"none";
-  });
+  document.querySelectorAll(".mc").forEach(c=>{c.style.display=(!cat||c.dataset.cat===cat)?"flex":"none";});
 }
 
-/* ══ Module Navigation ══ */
-const MODULE_INFO={
-  overview: {icon:"📊",title:"DASHBOARD GENERAL"},
-  muestreo: {icon:"🐭",title:"CAPTURA DE RATA CAÑERA"},
-  control:   {icon:"🛡️",title:"CONTROL DE RATA"},
-  ejecutados:{icon:"✅",title:"RODENTICIDA EJECUTADO"},
-  dano:      {icon:"🌾",title:"DAÑO COSECHA RATA-BARRENADOR"},
-  dinamica:  {icon:"🔬",title:"DINÁMICA POBLACIONAL"},
+/* ═════════════════════════════════════════════
+   MODULE NAVIGATION
+═════════════════════════════════════════════ */
+const MOD_META={
+  rata:       {icon:"🐭",title:"DASHBOARD INTEGRADO · RATA CAÑERA"},
+  gcCaptura:  {icon:"🪲",title:"CAPTURA ADULTOS GALLINA CIEGA"},
+  gcLarvas:   {icon:"🐛",title:"LARVAS GALLINA CIEGA"},
+  chinche:    {icon:"🦗",title:"MUESTREO CHINCHE SALIVOSA"},
+  programa:   {icon:"📋",title:"PROGRAMA CHINCHE & GALLINA CIEGA"},
+  dano:       {icon:"🌾",title:"DAÑO COSECHA RATA-BARRENADOR"},
+  dinamica:   {icon:"🔬",title:"DINÁMICA POBLACIONAL"},
+  actividad:  {icon:"📊",title:"ACTIVIDAD DE PLAGAS"},
   presupuesto:{icon:"💰",title:"PRESUPUESTO RODENTICIDA"},
-  gallinaCiega:{icon:"🪲",title:"CAPTURA ADULTOS GALLINA CIEGA"},
+  lote:       {icon:"📦",title:"LOTE COSECHA"},
 };
 
-function openModule(id){
-  curModule=id;
-  document.getElementById("hub").style.display="none";
-  document.getElementById("detail").style.display="block";
-  const info=MODULE_INFO[id]||{icon:"📊",title:id.toUpperCase()};
-  $("det-icon",info.icon); $("det-title",info.title);
-  document.querySelectorAll(".mv").forEach(e=>{e.style.display="none";e.classList.remove("on");});
-  const tab=document.getElementById("tab-"+id);
+function openM(id){
+  CUR=id;F.cat=null;F.zona=null;F.finca=null;
+  document.getElementById("HUB").style.display="none";
+  document.getElementById("DET").style.display="block";
+  const m=MOD_META[id]||{icon:"📊",title:id.toUpperCase()};
+  $t("D-icon",m.icon);$t("D-title",m.title);
+  document.querySelectorAll(".tab").forEach(t=>{t.classList.remove("on");t.style.display="none";});
+  const tab=document.getElementById("T-"+id);
   if(tab){tab.style.display="block";tab.classList.add("on");}
   window.scrollTo(0,0);
-  buildPills();buildAllCharts();buildStaticCharts();refreshAll();
+  buildPillsBar();refreshAll();buildStaticCharts();
 }
 
 function goBack(){
-  document.getElementById("detail").style.display="none";
-  document.getElementById("hub").style.display="block";
-  curModule=null;
-  window.scrollTo(0,0);
+  document.getElementById("DET").style.display="none";
+  document.getElementById("HUB").style.display="block";
+  CUR=null;window.scrollTo(0,0);
 }
 
-/* ══ Pills ══ */
-function buildPills(){
+/* ═════════════════════════════════════════════
+   PILLS BAR
+═════════════════════════════════════════════ */
+function buildPillsBar(){
   const m=DB.muestreo||[];
   const cats=[...new Set(m.map(r=>nv(r.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
   const zones=[...new Set(m.map(r=>nv(r.ID_Zona)).filter(Boolean))].sort((a,b)=>a-b);
-  document.getElementById("p-cat").innerHTML=`<button class="dpill on" data-v="all" onclick="SF('cat',null)">TODAS</button>`+cats.map(c=>`<button class="dpill" data-v="${c}" onclick="SF('cat',${c})">Cat.${c}</button>`).join("");
-  document.getElementById("p-zona").innerHTML=`<button class="dpill on" data-v="all" onclick="SF('zona',null)">TODAS</button>`+zones.map(z=>`<button class="dpill" data-v="${z}" onclick="SF('zona',${z})">Z·${z}</button>`).join("");
+  document.getElementById("F-cat").innerHTML=`<button class="fp on" data-v="all" onclick="SF('cat',null)">TODAS</button>`+cats.map(c=>`<button class="fp" data-v="${c}" onclick="SF('cat',${c})">Cat.${c}</button>`).join("");
+  document.getElementById("F-zona").innerHTML=`<button class="fp on" data-v="all" onclick="SF('zona',null)">TODAS</button>`+zones.map(z=>`<button class="fp" data-v="${z}" onclick="SF('zona',${z})">Z·${z}</button>`).join("");
+  renderTags();
 }
 
-/* ══ Refresh ══ */
-function refreshAll(){updateKPIs();buildAllCharts();renderTables();}
+/* ═════════════════════════════════════════════
+   REFRESH ALL
+═════════════════════════════════════════════ */
+function refreshAll(){updateKPIs();buildDynCharts();renderTables();}
 
-/* ══ KPIs ══ */
+/* ═════════════════════════════════════════════
+   KPIs
+═════════════════════════════════════════════ */
 function updateKPIs(){
-  const m=FD("muestreo"),c=FD("control"),e=FD("ejecutados"),r=DB.ronron||[],d=FD("dano");
-  const gcF=F.zona!==null?r.filter(x=>nv(x.ID_Zona)===F.zona):r;
+  const m=FD("muestreo"),c=FD("control"),e=FD("ejecutados"),d=FD("dano");
+  const gcR=DB.gcCaptura||DB.ronron||[];
+  const gcF=F.zona!==null?gcR.filter(x=>nv(x.ID_Zona)===F.zona):gcR;
+  const chF=F.zona!==null?(DB.chinche||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.chinche||[]);
+  const dpF=DB.dinamica||[];
+
   const kgRec=c.reduce((s,x)=>s+nv(x.Kg_Recomendados),0);
   const kgEje=e.length?e.reduce((s,x)=>s+nv(x.Kg_Aplicados),0):c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0);
   const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length;
@@ -907,170 +1051,222 @@ function updateKPIs(){
   const fv=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length;
   const pp=m.length?(m.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/m.length).toFixed(1):0;
   const aT=m.reduce((s,x)=>s+nv(x.Area||x.Area_lote_ha||0),0)||8037;
-  const aI=m.filter(x=>nv(x.Porcentaje_Captura)>=8).reduce((s,x)=>s+nv(x.Area||0),0);
   const avance=pct(kgEje,kgRec);
-  const maxCat=Math.max(...m.map(x=>nv(x.ID_Catorcena)).filter(Boolean),0);
+  const eff=c.length?pct(at,c.length):0;
 
-  // Overview
-  $("ph-cat",maxCat||"—");$("ph-lotes",fmt(m.length));$("ph-av",avance+"%");
-  $("o-am",fmt(aT));$("o-ams",m.length+" lotes muestreados");
-  $("o-ai",fmt(aI));$("o-ais",aI>0?pct(aI,aT)+"% del área":"—");
-  $("o-pc",pp+"%");$("o-pcs",nv(pp)>=8?"⚠ Sobre umbral 8%":"✓ Bajo umbral 8%");
-  $("o-kr",fmt(kgRec));$("o-ke",fmt(kgEje));$("o-kes",avance+"% del requerido");W("o-kep",avance);
-  $("o-av",avance+"%");W("o-avp",avance);
-  $("o-lm",fmt(m.length));$("o-at",fmt(at));$("o-pnd",fmt(pnd));$("o-fv",fmt(fv));
-  $("leg-at",at);$("leg-pnd",pnd);$("leg-fv",fv);
-
-  // Muestreo
-  $("m-nl",fmt(m.length));$("m-pc",pp+"%");$("m-nl2",fmt(m.length));$("m-pc2",pp+"%");
-  $("m-pcs",nv(pp)>=8?"⚠ Sobre umbral":"✓ Bajo umbral");
-  $("m-l8",fmt(m.filter(x=>nv(x.Porcentaje_Captura)>=8).length));
-  $("m-l82",fmt(m.filter(x=>nv(x.Porcentaje_Captura)>=8).length));
-  $("m-at",fmt(aT));$("m-kr",fmt(kgRec));$("m-ai",pct(aI,aT)+"%");
-
-  // Control
-  $("c-nl",fmt(c.length));$("c-at",fmt(at));$("c-at2",fmt(at));
-  $("c-ft",fmt(fv));$("c-pnd",fmt(pnd));$("c-pnd2",fmt(pnd));
-  $("c-kr",fmt(kgRec));$("c-ke",fmt(c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)));
-  $("c-ke2",fmt(c.reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)));
-
-  // Ejecutados
-  $("e-nl",fmt(e.length));$("e-kg",fmt(kgEje));
-  $("e-fn",fmt([...new Set(e.map(x=>x.Nombre_finca).filter(Boolean))].length));
-
-  // Daño
-  const dd=FD("dano");
-  $("d-tot",fmt(dd.length));$("d-barr",avg(dd,"Porc_Inten_Infest_Barrenador")+"%");$("d-rata",avg(dd,"Porc_Inten_Infest_Rata")+"%");
+  // RATA
+  $t("R-lotes",fmt(m.length));$t("R-pc",pp+"%");$t("R-av",avance+"%");$t("R-eff",eff+"%");
+  $t("R-m-nl",fmt(m.length));$t("R-m-pc",pp+"%");
+  $t("R-m-pcs",nv(pp)>=8?"⚠ Sobre umbral 8%":"✓ Bajo umbral 8%");
+  $t("R-m-l8",fmt(m.filter(x=>nv(x.Porcentaje_Captura)>=8).length));
+  $t("R-at",fmt(at));$t("R-pnd",fmt(pnd));$t("R-kg",fmt(kgEje));$w("R-kgp",avance);
+  $t("R-area",fmt(aT));$t("R-kgreq",fmt(kgRec));$t("R-fv",fmt(fv));
+  $t("R-avgen",avance+"%");$w("R-avgenp",avance);
+  $t("L-at",at);$t("L-pnd",pnd);$t("L-fv",fv);
+  $t("RATA-chip",(F.cat?`Cat.${F.cat}`:F.zona?`Z·${F.zona}`:F.finca?F.finca.slice(0,14):"Todos")+" · "+m.length+" lotes");
 
   // GC
-  const gcTot=gcF.reduce((s,x)=>s+nv(x.TotalCaptura),0);
-  const gcPh=gcF.reduce((s,x)=>s+nv(x.Phyllophaga),0);
-  $("gc-nt",fmt(gcF.reduce((s,x)=>s+nv(x.No_Trampas),0)||48));
-  $("gc-tc",fmt(gcTot||13172));$("gc-cm",fmt(Math.max(...gcF.map(x=>nv(x.TotalCaptura)),0)||3212));
-  $("gc-ph",(gcTot>0?Math.round(gcPh/gcTot*100):95)+"%");$("gc-lm",fmt(gcF.length||17));
-  $("gc-tc2",fmt(gcTot||13172));$("gc-cm2",fmt(Math.max(...gcF.map(x=>nv(x.TotalCaptura)),0)||3212));
-  $("gc-ph2",(gcTot>0?Math.round(gcPh/gcTot*100):95)+"%");
+  const gcTot=gcF.reduce((s,x)=>s+nv(x.TotalCaptura||x.Total_Captura||0),0);
+  const gcPh=gcF.reduce((s,x)=>s+nv(x.Phyllophaga||0),0);
+  $t("GC-tc",fmt(gcTot||13172));$t("GC-cm",fmt(Math.max(...gcF.map(x=>nv(x.TotalCaptura||x.Total_Captura||0)),0)||3212));
+  $t("GC-ph",(gcTot>0?Math.round(gcPh/gcTot*100):95)+"%");
+  $t("GC-nt",fmt(gcF.reduce((s,x)=>s+nv(x.No_Trampas||0),0)||48));
+  $t("GC-tc2",fmt(gcTot||13172));$t("GC-cm2",fmt(Math.max(...gcF.map(x=>nv(x.TotalCaptura||x.Total_Captura||0)),0)||3212));
+  $t("GC-ph2",(gcTot>0?Math.round(gcPh/gcTot*100):95)+"%");$t("GC-lm",fmt(gcF.length||17));
+
+  // Larvas GC
+  $t("GL-tot",fmt((DB.gcLarvas||[]).length||23));
+
+  // Chinche
+  $t("CH-tot",fmt(chF.length||17));$t("CH-ninfas",avg(chF,"Ninfas_m2")||"—");
+  $t("CH-tot2",fmt(chF.length||17));$t("CH-nf2",avg(chF,"Ninfas_m2")||"—");
+  $t("CH-lotes",fmt([...new Set(chF.map(x=>x.ID_Lote).filter(Boolean))].length||(chF.length||17)));
+
+  // Programa
+  $t("PG-tot",fmt((DB.chincheProg||[]).length||248));
+
+  // Daño
+  $t("DN-tot",fmt(d.length||853));$t("DN-barr",avg(d,"Porc_Inten_Infest_Barrenador")+"%");$t("DN-rata",avg(d,"Porc_Inten_Infest_Rata")+"%");
+
+  // Dinámica
+  const iprVals=dpF.map(r=>nv(r.IPR||r.Indice_Potencial_Reproductivo||0)).filter(v=>v>0);
+  const maxIPR=iprVals.length?Math.max(...iprVals):0;
+  $t("DP-ms",fmt(dpF.length||136));
+  $t("DP-ts",fmt(dpF.reduce((s,r)=>s+nv(r.Sigmodon||r.Total_Sigmodon||0),0)||50));
+  $t("DP-hg",fmt(dpF.reduce((s,r)=>s+nv(r.Hembras_Gestantes||0),0)||16));
+  $t("DP-te",fmt(dpF.reduce((s,r)=>s+nv(r.Hembriones||r.Total_Embriones||0),0)||65));
+  $t("DP-ipr",(maxIPR||.98).toFixed(2));$w("DP-iprp",(maxIPR||.98)*100);
+  $t("DP-rm",fmt(dpF.filter(r=>nv(r.IPR||r.Indice_Potencial_Reproductivo||0)>=.5).length||2));
+
+  // Actividad
+  $t("ACT-tot",fmt((DB.actividad||[]).length||1281));
+  $t("LT-tot",fmt((DB.lote||[]).length||190));
 }
 
-/* ══ All Dynamic Charts ══ */
-function buildAllCharts(){
+/* ═════════════════════════════════════════════
+   DYNAMIC CHARTS
+═════════════════════════════════════════════ */
+function buildDynCharts(){
   const m=FD("muestreo"),c=FD("control"),e=FD("ejecutados"),d=FD("dano");
-  const BLU="#4E6AD4",BLU_M="rgba(78,106,212,.82)",BLU_L="rgba(78,106,212,.18)";
-  const GRN="#16A34A",GRN_M="rgba(22,163,74,.82)",GRN_L="rgba(22,163,74,.15)";
-  const RED="#DC2626",RED_M="rgba(220,38,38,.82)",RED_L="rgba(220,38,38,.14)";
-  const AMB="#D97706",AMB_M="rgba(217,119,6,.82)",AMB_L="rgba(217,119,6,.15)";
+  const chF=(DB.chinche||[]);
+  const BLU="#4E6AD4",BLU_M="rgba(78,106,212,.82)",BLU_L="rgba(78,106,212,.12)";
+  const GRN="#16A34A",GRN_M="rgba(22,163,74,.82)",GRN_L="rgba(22,163,74,.12)";
+  const RED="#DC2626",RED_M="rgba(220,38,38,.82)",RED_L="rgba(220,38,38,.12)";
+  const AMB="#D97706",AMB_M="rgba(217,119,6,.82)",AMB_L="rgba(217,119,6,.12)";
+  const NAV="rgba(100,116,139,.08)";
 
-  const CM2={};
-  m.forEach(r=>{const cat=nv(r.ID_Catorcena);if(!CM2[cat])CM2[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0};
-    CM2[cat].s+=nv(r.Porcentaje_Captura);CM2[cat].n++;
-    CM2[cat].mac+=nv(r.Machos);CM2[cat].hem+=nv(r.Hembras);
-    CM2[cat].jov+=nv(r.Jovenes);CM2[cat].adu+=nv(r.Adultas);});
-  const cats=Object.keys(CM2).map(Number).sort((a,b)=>a-b);
-  const cPct=cats.length?cats.map(c=>+(CM2[c].s/CM2[c].n).toFixed(1)):[5,5,9,12,8,9,10,9,7,9,9];
-  const cLbl=cats.length?cats.map(String):["1","2","3","4","5","6","7","8","9","10","11"];
+  // catorcena map
+  const CM={};
+  m.forEach(r=>{const cat=nv(r.ID_Catorcena);if(!CM[cat])CM[cat]={s:0,n:0,mac:0,hem:0,jov:0,adu:0};
+    CM[cat].s+=nv(r.Porcentaje_Captura);CM[cat].n++;
+    CM[cat].mac+=nv(r.Machos);CM[cat].hem+=nv(r.Hembras);
+    CM[cat].jov+=nv(r.Jovenes);CM[cat].adu+=nv(r.Adultas);});
+  const CATS=Object.keys(CM).map(Number).sort((a,b)=>a-b);
+  const cPct=CATS.length?CATS.map(c=>+(CM[c].s/CM[c].n).toFixed(1)):[5,5,9,12,8,9,10,9,7,9,9];
+  const cLbl=CATS.length?CATS.map(String):["1","2","3","4","5","6","7","8","9","10","11"];
 
-  // % Captura Catorcena
-  MK("c-cat",{type:"bar",data:{labels:cLbl,datasets:[{label:"% Cap",data:cPct,backgroundColor:cPct.map((v,i)=>F.cat!==null&&cats[i]!==F.cat?"rgba(107,114,128,.1)":(v>=8?RED_M:GRN_M)),borderRadius:6}]},
-    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("cat",null);return;}const c=cats.length?cats[els[0].index]:els[0].index+1;F.cat===c?SF("cat",null):SF("cat",c);},
+  /* % Captura Catorcena */
+  MK("C-cat",{type:"bar",data:{labels:cLbl,datasets:[{label:"% Cap",data:cPct,borderRadius:5,
+    backgroundColor:cPct.map((v,i)=>F.cat!==null&&CATS[i]!==F.cat?NAV:(v>=8?RED_M:GRN_M))}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("cat",null);return;}const cc=CATS.length?CATS[els[0].index]:els[0].index+1;F.cat===cc?SF("cat",null):SF("cat",cc);},
       scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,ticks:{callback:v=>v+"%"}}},
       plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}}});
 
-  // Estado donut
+  /* Estado donut */
   const at=c.filter(x=>(x.Estado_Control||"").includes("TIEMPO")).length||126;
   const pnd=c.filter(x=>(x.Estado_Control||"").includes("PENDIENTE")).length||85;
-  const fv=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length||41;
-  MK("c-est",{type:"doughnut",data:{labels:["A Tiempo","Pendiente","Fuera"],datasets:[{data:[at,pnd,fv],backgroundColor:[GRN,RED,AMB],borderWidth:3,borderColor:"#fff",hoverOffset:6}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"66%",layout:{padding:10}}});
+  const fvn=c.filter(x=>(x.Estado_Control||"").includes("VENTANA")).length||41;
+  MK("C-est",{type:"doughnut",data:{labels:["A Tiempo","Pendiente","Fuera"],datasets:[{data:[at,pnd,fvn],backgroundColor:[GRN,RED,AMB],borderWidth:3,borderColor:"#fff",hoverOffset:7}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"66%",layout:{padding:10}}});
 
-  // % Zona
-  const zPct=ZONAS.map(z=>{const rw=m.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/rw.length).toFixed(1):0;});
-  MK("c-zpct",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"% Cap",data:zPct,backgroundColor:ZONAS.map((z,i)=>F.zona!==null&&z!==F.zona?"rgba(107,114,128,.08)":(zPct[i]>=8?RED_M:GRN_M)),borderRadius:6}]},
-    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZONAS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,ticks:{callback:v=>v+"%"}}},plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}}});
+  /* % Cap Zona */
+  const zPct=ZS.map(z=>{const rw=m.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porcentaje_Captura),0)/rw.length).toFixed(1):0;});
+  MK("C-zpct",{type:"bar",data:{labels:ZS.map(z=>`Z·${z}`),datasets:[{label:"% Cap",data:zPct,borderRadius:5,
+    backgroundColor:ZS.map((z,i)=>F.zona!==null&&z!==F.zona?NAV:(zPct[i]>=8?RED_M:GRN_M))}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},
+      scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,ticks:{callback:v=>v+"%"}}},
+      plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw}% captura`}}}}});
 
-  // Rodenticida
-  const rRec=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Recomendados),0))||[159,794,1707,1849,1002][ZONAS.indexOf(z)]);
-  const rEje=ZONAS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)))||[59,458,1049,1462,573];
-  const rCfg={type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"Recomendado",data:rRec,backgroundColor:"rgba(107,132,224,.22)",borderRadius:5},{label:"Ejecutado",data:rEje,backgroundColor:BLU_M,borderRadius:5}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}};
-  MK("c-rod",rCfg);setTimeout(()=>{MK("c-rod2",{...rCfg,data:{labels:rCfg.data.labels,datasets:rCfg.data.datasets.map(ds=>({...ds,data:[...ds.data]}))},options:{...rCfg.options}});},80);
+  /* Composición */
+  MK("C-comp",{type:"bar",data:{labels:cLbl,datasets:[
+    {label:"Machos", data:CATS.length?CATS.map(c=>CM[c].mac):[48,68,99,247,194,284,142,244,209,325,266],backgroundColor:"rgba(56,152,216,.82)",borderRadius:2,stack:"s"},
+    {label:"Hembras",data:CATS.length?CATS.map(c=>CM[c].hem):[40,65,101,180,190,361,120,200,157,244,229],backgroundColor:"rgba(212,83,126,.82)",borderRadius:2,stack:"s"},
+    {label:"Jóvenes",data:CATS.length?CATS.map(c=>CM[c].jov):[24,46,32,99,54,160,53,135,135,160,177],  backgroundColor:"rgba(74,222,128,.82)",borderRadius:2,stack:"s"},
+    {label:"Adultas",data:CATS.length?CATS.map(c=>CM[c].adu):[64,87,169,328,330,485,209,309,231,409,318],backgroundColor:AMB_M,borderRadius:2,stack:"s"},
+  ]},options:{...BASE,onClick:(ev,els)=>{if(!els.length)return;const cc=CATS.length?CATS[els[0].index]:els[0].index+1;F.cat===cc?SF("cat",null):SF("cat",cc);},
+    plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
 
-  // Estado por zona
-  const ezA=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("TIEMPO")).length);
-  const ezP=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("PENDIENTE")).length);
-  const ezF=ZONAS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("VENTANA")).length);
-  const ezCfg={type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[
-    {label:"A Tiempo", data:ezA.some(v=>v>0)?ezA:[3,21,45,36,3], backgroundColor:ZONAS.map(z=>F.zona!==null&&z!==F.zona?GRN_L:GRN_M),borderRadius:4,stack:"s"},
-    {label:"Pendiente",data:ezP.some(v=>v>0)?ezP:[3,21,15,34,10],backgroundColor:ZONAS.map(z=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:4,stack:"s"},
-    {label:"Fuera",    data:ezF.some(v=>v>0)?ezF:[2,11,12,13,3], backgroundColor:ZONAS.map(z=>F.zona!==null&&z!==F.zona?AMB_L:AMB_M),borderRadius:4,stack:"s"},
-  ]},options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZONAS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}};
-  MK("c-ez",ezCfg);setTimeout(()=>{MK("c-ez2",{...ezCfg,data:{labels:ezCfg.data.labels,datasets:ezCfg.data.datasets.map(ds=>({...ds,data:[...ds.data],backgroundColor:[...ds.backgroundColor]}))},options:{...ezCfg.options}});},80);
+  /* Estado zona */
+  const ezA=ZS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("TIEMPO")).length);
+  const ezP=ZS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("PENDIENTE")).length);
+  const ezF=ZS.map(z=>c.filter(x=>nv(x.ID_Zona)===z&&(x.Estado_Control||"").includes("VENTANA")).length);
+  MK("C-ez",{type:"bar",data:{labels:ZS.map(z=>`Z·${z}`),datasets:[
+    {label:"A Tiempo", data:ezA.some(v=>v>0)?ezA:[3,21,45,36,3], backgroundColor:ZS.map(z=>F.zona!==null&&z!==F.zona?GRN_L:GRN_M),borderRadius:3,stack:"s"},
+    {label:"Pendiente",data:ezP.some(v=>v>0)?ezP:[3,21,15,34,10],backgroundColor:ZS.map(z=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:3,stack:"s"},
+    {label:"Fuera",    data:ezF.some(v=>v>0)?ezF:[2,11,12,13,3], backgroundColor:ZS.map(z=>F.zona!==null&&z!==F.zona?AMB_L:AMB_M),borderRadius:3,stack:"s"},
+  ]},options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},
+    plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
 
-  // Composición
-  MK("c-comp",{type:"bar",data:{labels:cLbl,datasets:[
-    {label:"Machos", data:cats.length?cats.map(c=>CM2[c].mac):[48,68,99,247,194,284,142,244,209,325,266],backgroundColor:"rgba(56,152,216,.82)",borderRadius:3,stack:"s"},
-    {label:"Hembras",data:cats.length?cats.map(c=>CM2[c].hem):[40,65,101,180,190,361,120,200,157,244,229],backgroundColor:"rgba(212,83,126,.82)",borderRadius:3,stack:"s"},
-    {label:"Jóvenes",data:cats.length?cats.map(c=>CM2[c].jov):[24,46,32,99,54,160,53,135,135,160,177],  backgroundColor:"rgba(74,222,128,.82)",borderRadius:3,stack:"s"},
-    {label:"Adultas",data:cats.length?cats.map(c=>CM2[c].adu):[64,87,169,328,330,485,209,309,231,409,318],backgroundColor:AMB_M,borderRadius:3,stack:"s"},
-  ]},options:{...BASE,onClick:(ev,els)=>{if(!els.length)return;const c=cats.length?cats[els[0].index]:els[0].index+1;F.cat===c?SF("cat",null):SF("cat",c);},plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
-
-  // Top lotes
+  /* Top lotes */
   const topR=[...m].sort((a,b)=>nv(b.Porcentaje_Captura)-nv(a.Porcentaje_Captura)).slice(0,10);
   const topFn=topR.map(r=>r.Nombre_finca||"");
-  MK("c-top",{type:"bar",data:{labels:topR.map(r=>`${(r.Nombre_finca||"").slice(0,9)} ${String(r.ID_Lote||"").slice(-4)}`),datasets:[{label:"%",data:topR.map(r=>nv(r.Porcentaje_Captura)),backgroundColor:topR.map(r=>nv(r.Porcentaje_Captura)>=8?RED_M:GRN_M),borderRadius:4}]},
-    options:{...BASE,indexAxis:"y",onClick:(ev,els)=>{if(!els.length)return;const fn=topFn[els[0].index];F.finca===fn?SF("finca",null):SF("finca",fn);},scales:{x:{...BASE.scales.x,ticks:{callback:v=>v+"%"}},y:{...BASE.scales.y,ticks:{font:{size:10}}}},plugins:{...BASE.plugins,tooltip:TT}}});
+  MK("C-top",{type:"bar",data:{labels:topR.map(r=>`${(r.Nombre_finca||"").slice(0,9)} ${String(r.ID_Lote||"").slice(-4)}`),datasets:[{label:"%",data:topR.map(r=>nv(r.Porcentaje_Captura)),backgroundColor:topR.map(r=>nv(r.Porcentaje_Captura)>=8?RED_M:GRN_M),borderRadius:4}]},
+    options:{...BASE,indexAxis:"y",onClick:(ev,els)=>{if(!els.length)return;const fn=topFn[els[0].index];F.finca===fn?SF("finca",null):SF("finca",fn);},
+      scales:{x:{...BASE.scales.x,ticks:{callback:v=>v+"%"}},y:{...BASE.scales.y,ticks:{font:{size:10}}}},plugins:{...BASE.plugins,tooltip:TT}}});
 
-  // Kg por finca
+  /* Rodenticida */
+  const rRec=ZS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Recomendados),0))||[159,794,1707,1849,1002][ZS.indexOf(z)]);
+  const rEje=ZS.map(z=>Math.round(c.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.Kg_Ejecutados),0)))||[59,458,1049,1462,573];
+  MK("C-rod",{type:"bar",data:{labels:ZS.map(z=>`Z·${z}`),datasets:[{label:"Recomendado",data:rRec,backgroundColor:"rgba(107,132,224,.22)",borderRadius:4},{label:"Ejecutado",data:rEje,backgroundColor:BLU_M,borderRadius:4}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
+
+  /* Kg finca */
   const fMap={};e.forEach(r=>{const f=(r.Nombre_finca||"").trim();fMap[f]=(fMap[f]||0)+nv(r.Kg_Aplicados);});
-  const topF=Object.entries(Object.keys(fMap).length?fMap:{"CONCEPCIÓN LA NORIA":2000,"MIXQUEÑO":588,"LA ENCANTADORA":512,"CAÑAVERALES":383,"PATRICIA":314,"PALMIRA":225,"VICTORY":212,"LAS FLORES":207,"MALAGA":194,"BARRANQUILLA":186}).sort((a,b)=>b[1]-a[1]).slice(0,12);
-  MK("c-efinca",{type:"bar",data:{labels:topF.map(f=>f[0].slice(0,14)),datasets:[{label:"Kg",data:topF.map(f=>f[1]),backgroundColor:topF.map(f=>F.finca===f[0]?"rgba(22,163,74,.95)":BLU_M),borderRadius:5}]},
+  const topF=Object.entries(Object.keys(fMap).length?fMap:{"CONCEPCIÓN LA NORIA":2000,"MIXQUEÑO":588,"LA ENCANTADORA":512,"CAÑAVERALES":383,"PATRICIA":314,"PALMIRA":225}).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  MK("C-efinca",{type:"bar",data:{labels:topF.map(f=>f[0].slice(0,13)),datasets:[{label:"Kg",data:topF.map(f=>f[1]),backgroundColor:topF.map(f=>F.finca===f[0]?"rgba(22,163,74,.95)":BLU_M),borderRadius:4}]},
     options:{...BASE,onClick:(ev,els)=>{if(!els.length)return;const fn=topF[els[0].index][0];F.finca===fn?SF("finca",null):SF("finca",fn);},scales:{x:{...BASE.scales.x,ticks:{font:{size:10}}},y:{...BASE.scales.y}},plugins:{...BASE.plugins,tooltip:TT}}});
 
-  // Daño
+  /* Daño tendencia */
   const catsDano=[...new Set(d.map(x=>nv(x.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
-  MK("c-dano-trend",{type:"line",data:{labels:catsDano.map(String),datasets:[
+  MK("C-dano-trend",{type:"line",data:{labels:catsDano.map(String),datasets:[
     {label:"Barrenador",data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(1):0;}),borderColor:AMB,borderWidth:2.5,pointRadius:5,pointBackgroundColor:AMB,fill:true,backgroundColor:AMB_L,tension:.3},
     {label:"Rata",data:catsDano.map(cat=>{const rw=d.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(1):0;}),borderColor:RED,borderWidth:2,pointRadius:4,pointBackgroundColor:RED,fill:true,backgroundColor:RED_L,tension:.3},
   ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
 
-  const dZB=ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(2):0;});
-  const dZR=ZONAS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(2):0;});
-  MK("c-dano-zona",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"Barrenador",data:dZB,backgroundColor:ZONAS.map(z=>F.zona!==null&&z!==F.zona?AMB_L:AMB_M),borderRadius:5},{label:"Rata",data:dZR,backgroundColor:ZONAS.map(z=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:5}]},
-    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZONAS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT}}});
+  /* Daño zona */
+  const dZB=ZS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Barrenador),0)/rw.length).toFixed(2):0;});
+  const dZR=ZS.map(z=>{const rw=d.filter(x=>nv(x.ID_Zona)===z);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Porc_Inten_Infest_Rata),0)/rw.length).toFixed(2):0;});
+  MK("C-dzona",{type:"bar",data:{labels:ZS.map(z=>`Z·${z}`),datasets:[{label:"Barrenador",data:dZB,backgroundColor:ZS.map(z=>F.zona!==null&&z!==F.zona?AMB_L:AMB_M),borderRadius:4},{label:"Rata",data:dZR,backgroundColor:ZS.map(z=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:4}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT}}});
 
+  /* Severidades */
   const lote=DB.lote||[];
   const sB={},sR={};
-  lote.forEach(r=>{const sb=(r["MUY SEVERO"]||"S/D").toString().trim();const sr=(r["MUY SEVERO.1"]||"S/D").toString().trim();sB[sb]=(sB[sb]||0)+1;sR[sr]=(sR[sr]||0)+1;});
-  MK("c-sev-barr",{type:"doughnut",data:{labels:Object.keys(sB),datasets:[{data:Object.values(sB),backgroundColor:["#DC2626","#16A34A","#D97706","#4ADE80","#FF6060","#0284C7"],borderWidth:3,borderColor:"#fff",hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:10}}});
-  MK("c-sev-rata",{type:"doughnut",data:{labels:Object.keys(sR),datasets:[{data:Object.values(sR),backgroundColor:["#4ADE80","#D97706","#DC2626","#991B1B","#16A34A","#0284C7"],borderWidth:3,borderColor:"#fff",hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:8}}});
+  lote.forEach(r=>{const sb=(r["MUY SEVERO"]||r.Severidad_Barrenador||"S/D").toString().trim();const sr=(r["MUY SEVERO.1"]||r.Severidad_Rata||"S/D").toString().trim();sB[sb]=(sB[sb]||0)+1;sR[sr]=(sR[sr]||0)+1;});
+  const SC=["#DC2626","#16A34A","#D97706","#4ADE80","#FF6060","#0284C7"];
+  [["C-sev-barr",sB],["C-sev-rata",sR],["C-sev-b2",sB],["C-sev-r2",sR]].forEach(([id,data])=>{
+    const keys=Object.keys(data);
+    if(!keys.length)return;
+    MK(id,{type:"doughnut",data:{labels:keys,datasets:[{data:Object.values(data),backgroundColor:SC,borderWidth:3,borderColor:"#fff",hoverOffset:5}]},options:{plugins:{legend:{display:false},tooltip:TT},cutout:"62%",layout:{padding:10}}});
+  });
 
-  const gcAll=DB.ronron||[];
-  const gcZ=ZONAS.map(z=>gcAll.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.TotalCaptura),0));
-  MK("c-gcz",{type:"bar",data:{labels:ZONAS.map(z=>`Z·${z}`),datasets:[{label:"Adultos",data:gcZ.some(v=>v>0)?gcZ:[0,11886,987,0,299],backgroundColor:ZONAS.map(z=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:5}]},
-    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZONAS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT}}});
+  /* Chinche charts */
+  const chZona=ZS.map(z=>chF.filter(x=>nv(x.ID_Zona)===z).length);
+  MK("C-chz",{type:"bar",data:{labels:ZS.map(z=>`Z·${z}`),datasets:[{label:"Muestras",data:chZona.some(v=>v>0)?chZona:[4,3,5,3,2],backgroundColor:ZS.map(z=>F.zona!==null&&z!==F.zona?"rgba(13,148,136,.1)":"rgba(13,148,136,.82)"),borderRadius:5}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT}}});
+
+  const chCats=[...new Set(chF.map(x=>nv(x.ID_Catorcena)).filter(Boolean))].sort((a,b)=>a-b);
+  MK("C-chcat",{type:"line",data:{labels:chCats.length?chCats.map(String):["1","2","3","4","5","6","7","8","9","10","11"],datasets:[{label:"Ninfas prom.",data:chCats.length?chCats.map(cat=>{const rw=chF.filter(x=>nv(x.ID_Catorcena)===cat);return rw.length?+(rw.reduce((s,x)=>s+nv(x.Ninfas_m2||x.Ninfas||0),0)/rw.length).toFixed(1):0;}):[2,3,5,4,6,8,7,9,6,5,4],borderColor:"rgba(13,148,136,.9)",borderWidth:2.5,pointRadius:4,pointBackgroundColor:"#0D9488",fill:true,backgroundColor:"rgba(13,148,136,.08)",tension:.3}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
+
+  /* GC zona */
+  const gcR=DB.gcCaptura||DB.ronron||[];
+  const gcZ=ZS.map(z=>gcR.filter(x=>nv(x.ID_Zona)===z).reduce((s,x)=>s+nv(x.TotalCaptura||x.Total_Captura||0),0));
+  MK("C-gcz",{type:"bar",data:{labels:ZS.map(z=>`Z·${z}`),datasets:[{label:"Adultos",data:gcZ.some(v=>v>0)?gcZ:[0,11886,987,0,299],backgroundColor:ZS.map(z=>F.zona!==null&&z!==F.zona?RED_L:RED_M),borderRadius:5}]},
+    options:{...BASE,onClick:(ev,els)=>{if(!els.length){SF("zona",null);return;}const z=ZS[els[0].index];F.zona===z?SF("zona",null):SF("zona",z);},plugins:{...BASE.plugins,tooltip:TT}}});
 }
 
-/* ══ Static Charts ══ */
+/* ═════════════════════════════════════════════
+   STATIC CHARTS
+═════════════════════════════════════════════ */
 function buildStaticCharts(){
-  const gc=DB.ronron||[];
-  const BLU="#4E6AD4";
+  const gcR=DB.gcCaptura||DB.ronron||[];
+  const RED="#DC2626",BLU="#4E6AD4";
 
-  MK("c-ipr",{type:"line",data:{labels:["21 oct","29 ene","30 ene","31 ene","21 feb","27 feb","2 mar","3 mar"],datasets:[{label:"IPR",data:[.25,.08,0,.06,.35,.22,.69,.98],borderColor:"#0284C7",borderWidth:2.5,pointRadius:6,pointBorderColor:"#fff",pointBorderWidth:2,pointBackgroundColor:[.25,.08,0,.06,.35,.22,.69,.98].map(v=>v>=.8?"#DC2626":v>=.5?"#D97706":"#0284C7"),fill:true,backgroundColor:"rgba(2,132,199,.08)",tension:.35}]},options:{...BASE,scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,max:1.1}},plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` IPR: ${ctx.raw}`}}}}});
+  /* IPR */
+  const dpF=DB.dinamica||[];
+  const iprData=dpF.length?dpF.slice(0,20).map(r=>({x:ds(r.Fecha||r.Fecha_muestreo),y:nv(r.IPR||r.Indice_Potencial_Reproductivo||0)})).filter(p=>p.y>0):
+    [{x:"21 oct 25",y:.25},{x:"29 ene",y:.08},{x:"30 ene",y:0},{x:"31 ene",y:.06},{x:"21 feb",y:.35},{x:"27 feb",y:.22},{x:"2 mar",y:.69},{x:"3 mar",y:.98}];
+  MK("C-ipr",{type:"line",data:{
+    labels:iprData.map(p=>p.x),
+    datasets:[{label:"IPR",data:iprData.map(p=>p.y),borderColor:"#0284C7",borderWidth:2.5,pointRadius:6,pointBorderColor:"#fff",pointBorderWidth:2,pointBackgroundColor:iprData.map(p=>p.y>=.8?"#DC2626":p.y>=.5?"#D97706":"#0284C7"),fill:true,backgroundColor:"rgba(2,132,199,.08)",tension:.35}]
+  },options:{...BASE,scales:{x:{...BASE.scales.x},y:{...BASE.scales.y,min:0,max:1.1}},plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` IPR: ${ctx.raw.toFixed(2)}`}}}}});
 
+  /* Presupuesto */
   const pZ=["Z·1","Z·3","Z·4","Z·5","Z·8"],pR=[3643,1782,2312,6570,1315],pE=[726,998,1860,2722,1315];
   const pPct=[20,56,80,41,100],pCols=["#DC2626","#D97706","#16A34A","#D97706","#0284C7"];
-  document.getElementById("pres-prog").innerHTML=pZ.map((z,i)=>`<div class="pr"><span class="pr-lbl">${z}</span><div class="pr-track"><div class="pr-fill" style="background:${pCols[i]};width:${pPct[i]}%"></div></div><span class="pr-val" style="color:${pCols[i]}">${pPct[i]}%</span></div>`).join("");
-  MK("c-pres",{type:"bar",data:{labels:pZ,datasets:[{label:"1er Rev.",data:pR,backgroundColor:"rgba(107,132,224,.22)",borderRadius:5},{label:"Entregado",data:pE,backgroundColor:"rgba(78,106,212,.82)",borderRadius:5}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
+  const presEl=document.getElementById("PRES-prog");
+  if(presEl)presEl.innerHTML=pZ.map((z,i)=>`<div class="pr"><span class="pr-l">${z}</span><div class="pr-t"><div class="pr-f" style="background:${pCols[i]};width:${pPct[i]}%"></div></div><span class="pr-v" style="color:${pCols[i]}">${pPct[i]}%</span></div>`).join("");
+  MK("C-pres",{type:"bar",data:{labels:pZ,datasets:[{label:"1er Rev.",data:pR,backgroundColor:"rgba(107,132,224,.22)",borderRadius:4},{label:"Entregado",data:pE,backgroundColor:"rgba(78,106,212,.82)",borderRadius:4}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
 
-  const gcByDate={};gc.forEach(x=>{const d=ds(x.Fecha);gcByDate[d]=(gcByDate[d]||0)+nv(x.TotalCaptura);});
-  const gcDates=Object.keys(gcByDate);
-  MK("c-gct",{type:"line",data:{labels:gcDates.length?gcDates:["27 feb","1 mar","3 mar","5 mar","7 mar","9 mar","11 mar","13 mar","15 mar","17 mar"],datasets:[{label:"Adultos",data:gcDates.length?Object.values(gcByDate):[0,0,7,0,0,0,0,0,6347,6825],borderColor:"#DC2626",borderWidth:2.5,pointRadius:4,pointBackgroundColor:"#DC2626",fill:true,backgroundColor:"rgba(220,38,38,.08)",tension:.2}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.raw.toLocaleString("es-GT")} adultos`}}}}});
+  /* GC tendencia */
+  const gcByDate={};gcR.forEach(x=>{const d2=ds(x.Fecha);gcByDate[d2]=(gcByDate[d2]||0)+nv(x.TotalCaptura||x.Total_Captura||0);});
+  const gcDts=Object.keys(gcByDate);
+  MK("C-gct",{type:"line",data:{labels:gcDts.length?gcDts:["27 feb","1 mar","3 mar","5 mar","7 mar","9 mar","11 mar","13 mar","15 mar","17 mar"],datasets:[{label:"Adultos",data:gcDts.length?Object.values(gcByDate):[0,0,7,0,0,0,0,0,6347,6825],borderColor:RED,borderWidth:2.5,pointRadius:4,pointBackgroundColor:RED,fill:true,backgroundColor:"rgba(220,38,38,.08)",tension:.2}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT}}});
 
-  const fincas=[...new Set(gc.map(x=>x.Nombre_finca).filter(Boolean))];
-  MK("c-gcf",{type:"bar",data:{labels:fincas.length?fincas:["CAÑAVERALES","MIXQUEÑO","SANTA ISABEL"],datasets:[{label:"Phyllophaga",data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Phyllophaga),0)):[11260,987,215],backgroundColor:"rgba(56,152,216,.85)",borderRadius:4,stack:"s"},{label:"Anomala",data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Anomala),0)):[626,0,0],backgroundColor:"rgba(2,168,216,.85)",borderRadius:4,stack:"s"},{label:"Diplotaxis",data:fincas.length?fincas.map(f=>gc.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Diplotaxis),0)):[0,0,84],backgroundColor:"rgba(74,222,128,.85)",borderRadius:4,stack:"s"}]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
+  /* GC especie */
+  const fincas=[...new Set(gcR.map(x=>x.Nombre_finca).filter(Boolean))];
+  MK("C-gcf",{type:"bar",data:{labels:fincas.length?fincas:["CAÑAVERALES","MIXQUEÑO","SANTA ISABEL"],datasets:[
+    {label:"Phyllophaga",data:fincas.length?fincas.map(f=>gcR.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Phyllophaga||0),0)):[11260,987,215],backgroundColor:"rgba(56,152,216,.85)",borderRadius:3,stack:"s"},
+    {label:"Anomala",    data:fincas.length?fincas.map(f=>gcR.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Anomala||0),0)):[626,0,0],backgroundColor:"rgba(2,132,199,.85)",borderRadius:3,stack:"s"},
+    {label:"Diplotaxis", data:fincas.length?fincas.map(f=>gcR.filter(x=>x.Nombre_finca===f).reduce((s,x)=>s+nv(x.Diplotaxis||0),0)):[0,0,84],backgroundColor:"rgba(74,222,128,.85)",borderRadius:3,stack:"s"},
+  ]},options:{...BASE,plugins:{...BASE.plugins,tooltip:TT},scales:{x:{...BASE.scales.x,stacked:true},y:{...BASE.scales.y,stacked:true}}}});
 
-  const gcTop=[...gc].sort((a,b)=>nv(b.TotalCaptura)-nv(a.TotalCaptura)).slice(0,10);
-  MK("c-gcl",{type:"bar",data:{labels:gcTop.length?gcTop.map(x=>String(x.ID_Lote||"").slice(-7)):["0043601","0043602","0043502","0043501","0082603","0082403","0850101","0081801","0850309","0850402"],datasets:[{label:"Adultos",data:gcTop.length?gcTop.map(x=>nv(x.TotalCaptura)):[3836,3513,2429,2108,699,158,158,130,55,36],backgroundColor:"rgba(220,38,38,.82)",borderRadius:4}]},options:{...BASE,scales:{x:{...BASE.scales.x,ticks:{font:{size:9}}},y:{...BASE.scales.y}},plugins:{...BASE.plugins,tooltip:TT}}});
+  /* GC top lotes */
+  const gcTop=[...gcR].sort((a,b)=>nv(b.TotalCaptura||b.Total_Captura||0)-nv(a.TotalCaptura||a.Total_Captura||0)).slice(0,10);
+  MK("C-gcl",{type:"bar",data:{labels:gcTop.length?gcTop.map(x=>String(x.ID_Lote||"").slice(-7)):["0043601","0043602","0043502","0043501","0082603","0082403","0850101","0081801","0850309","0850402"],datasets:[{label:"Adultos",data:gcTop.length?gcTop.map(x=>nv(x.TotalCaptura||x.Total_Captura||0)):[3836,3513,2429,2108,699,158,158,130,55,36],backgroundColor:"rgba(220,38,38,.82)",borderRadius:4}]},options:{...BASE,scales:{x:{...BASE.scales.x,ticks:{font:{size:9}}},y:{...BASE.scales.y}},plugins:{...BASE.plugins,tooltip:TT}}});
 }
 
-/* ══ Badge ══ */
+/* ═════════════════════════════════════════════
+   BADGE
+═════════════════════════════════════════════ */
 function bdg(txt){
   const t=(txt||"").replace(/🟢|🔴|🟠/g,"").trim().toUpperCase();
   const ok=t==="REPRESENTATIVO"||t.includes("TIEMPO");
@@ -1079,55 +1275,84 @@ function bdg(txt){
   return `<span class="bdg" style="background:${col.bg};color:${col.c};border:1px solid ${col.b}40">${txt||""}</span>`;
 }
 
-/* ══ Tables ══ */
+/* ═════════════════════════════════════════════
+   TABLES
+═════════════════════════════════════════════ */
 function renderTables(){
   const m=FD("muestreo"),c=FD("control"),e=FD("ejecutados"),d=FD("dano");
-  const gc=F.zona!==null?(DB.ronron||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.ronron||[]);
+  const gcR=DB.gcCaptura||DB.ronron||[];
+  const gcF=F.zona!==null?gcR.filter(x=>nv(x.ID_Zona)===F.zona):gcR;
+  const chF=F.zona!==null?(DB.chinche||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.chinche||[]);
+  const dpF=DB.dinamica||[];
+  const pgF=DB.chincheProg||[];
+  const actF=F.zona!==null?(DB.actividad||[]).filter(x=>nv(x.ID_Zona)===F.zona):(DB.actividad||[]);
+  const lote=DB.lote||[];
+  const gcLarvas=DB.gcLarvas||[];
 
-  document.getElementById("tb-m").innerHTML=m.slice(0,400).map(r=>{const pc=nv(r.Porcentaje_Captura);return `<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td><td>${bdg(r.Estado_Muestreo)}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r">${nv(r.Area||r.Area_lote_ha).toFixed(1)}</td><td class="r">${nv(r.Total_de_trampas||r.Trampas_colocadas||0)}</td><td class="r" style="${nv(r.Diferencia_Trampas)<0?"color:var(--er2)":""}">${r.Diferencia_Trampas||""}</td><td class="r" style="${pc>=8?"color:var(--wa2);font-weight:700":"color:var(--t3)"}">${pc}</td><td class="r">${r.Porcentaje_Captura_Ajustado||""}</td><td class="r" style="${nv(r.Kg_a_aplicar)>0?"color:var(--wa2);font-weight:600":""}">${nv(r.Kg_a_aplicar).toFixed(1)}</td></tr>`;}).join("");
-  $("ti-m",m.length>400?`Mostrando 400 de ${m.length} registros`:"");
+  /* RATA tabla integrada */
+  const rataMap={};
+  m.forEach(r=>{const k=r.ID_Lote;if(!rataMap[k])rataMap[k]={z:r.ID_Zona,l:r.ID_Lote,f:r.Nombre_finca,cat:r.ID_Catorcena,pc:nv(r.Porcentaje_Captura),kgReq:nv(r.Kg_a_aplicar||0),est:"—",kgEje:0,av:0};});
+  c.forEach(r=>{const k=r.ID_Lote;if(rataMap[k]){rataMap[k].est=(r.Estado_Control||"").replace(/🟢|🔴|🟠/g,"").trim();rataMap[k].kgEje=nv(r.Kg_Ejecutados);rataMap[k].av=nv(r.Avance_de_ejecucion);}else{rataMap[k]={z:r.ID_Zona,l:r.ID_Lote,f:r.Nombre_finca,cat:r.ID_Catorcena,pc:nv(r.Porcentaje_Captura)||0,kgReq:nv(r.Kg_Recomendados),est:(r.Estado_Control||"").replace(/🟢|🔴|🟠/g,"").trim(),kgEje:nv(r.Kg_Ejecutados),av:nv(r.Avance_de_ejecucion)};}});
+  const rataRows=Object.values(rataMap).sort((a,b)=>b.pc-a.pc);
+  const elRata=document.getElementById("TB-rata");
+  if(elRata)elRata.innerHTML=rataRows.slice(0,400).map(r=>`<tr><td class="m">${r.z||""}</td><td class="m">${r.l||""}</td><td style="font-weight:500">${r.f||""}</td><td class="r">${r.cat||""}</td><td class="r" style="${r.pc>=8?"color:var(--a2);font-weight:700":"color:var(--te3)"}">${r.pc}</td><td class="r" style="color:var(--a2)">${fmt(r.kgReq)}</td><td>${r.est!=="—"?bdg(r.est):"<span style='color:var(--te4);font-size:11px'>—</span>"}</td><td class="r" style="${r.kgEje>0?"color:var(--g2);font-weight:600":"color:var(--te4)"}">${fmt(r.kgEje)}</td><td class="r"><span style="color:${r.av>=100?"var(--g2)":r.av>0?"var(--a2)":"var(--te4)"};font-weight:700">${r.av||0}%</span></td></tr>`).join("");
+  $t("TI-rata",rataRows.length>400?`Mostrando 400 de ${rataRows.length}`:"");
 
-  document.getElementById("tb-c").innerHTML=c.slice(0,400).map(r=>{const pc=nv(r.Porcentaje_Captura),idx=nv(r.Indice_Cumplimiento);return `<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r" style="color:var(--t3)">${r.Catorcena_Control||"—"}</td><td>${bdg((r.Estado_Control||"").replace(/🟢|🔴|🟠/g,"").trim())}</td><td class="r" style="${pc>=8?"color:var(--wa2);font-weight:700":"color:var(--t3)"}">${pc}</td><td class="r" style="color:var(--wa2)">${nv(r.Kg_Recomendados).toFixed(1)}</td><td class="r" style="${nv(r.Kg_Ejecutados)>0?"color:var(--ok1);font-weight:600":"color:var(--t4)"}">${nv(r.Kg_Ejecutados).toFixed(1)}</td><td class="r" style="${idx>=1?"color:var(--ok1)":idx>0?"color:var(--wa2)":"color:var(--t4)"}">${idx>0?idx.toFixed(2):"—"}</td><td class="r" style="${nv(r.Retraso_Catorcenas)>0?"color:var(--wa2)":""}">${r.Retraso_Catorcenas||"—"}</td><td class="r"><span style="color:${nv(r.Avance_de_ejecucion)>=100?"var(--ok1)":nv(r.Avance_de_ejecucion)>0?"var(--wa2)":"var(--t4)"};font-weight:700">${r.Avance_de_ejecucion||0}%</span></td></tr>`;}).join("");
-  $("ti-c",c.length>400?`Mostrando 400 de ${c.length}`:"");
+  /* GC */
+  const elGc=document.getElementById("TB-gc");
+  if(elGc)elGc.innerHTML=gcF.map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td class="r">${r.ID_Catorcena||""}</td><td>${ds(r.Fecha)}</td><td>${r.Tipo_trampa||""}</td><td class="r">${r.No_Trampas||""}</td><td class="r" style="${nv(r.Phyllophaga||0)>500?"color:var(--a2);font-weight:600":""}">${fN(nv(r.Phyllophaga||0))}</td><td class="r">${fN(nv(r.Diplotaxis||0))}</td><td class="r">${fN(nv(r.Anomala||0))}</td><td class="r" style="${nv(r.TotalCaptura||r.Total_Captura||0)>500?"color:var(--r3);font-weight:700":"color:var(--g2)"}">${fN(nv(r.TotalCaptura||r.Total_Captura||0))}</td></tr>`).join("");
 
-  document.getElementById("tb-e").innerHTML=e.slice(0,400).map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r">${r.Porcentaje_Captura_referencia||"—"}</td><td class="r" style="color:var(--ok1);font-weight:700">${nv(r.Kg_Aplicados).toFixed(1)}</td><td>${r.Producto||""}</td><td>${r.Condicion_Cañal||""}</td></tr>`).join("");
-  $("ti-e",e.length>400?`Mostrando 400 de ${e.length}`:"");
+  /* GC Larvas */
+  const elGcL=document.getElementById("TB-gcL");
+  if(elGcL)elGcL.innerHTML=gcLarvas.map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r" style="${nv(r.Larvas_m2||r.Total_Larvas||0)>3?"color:var(--a2);font-weight:600":""}">${nv(r.Larvas_m2||r.Total_Larvas||r.Larvas||0)}</td></tr>`).join("");
+  $t("TI-gcL",gcLarvas.length===0?"Sin datos en esta hoja":"");
 
-  document.getElementById("tb-d").innerHTML=d.slice(0,400).map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${r.Variedad||""}</td><td>${ds(r.Fecha)}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r" style="${nv(r.Porc_Infest_Barrenador)>20?"color:var(--wa2)":""}">${nv(r.Porc_Infest_Barrenador).toFixed(1)}</td><td class="r" style="${nv(r.Porc_Infest_Rata)>5?"color:var(--wa2)":""}">${nv(r.Porc_Infest_Rata).toFixed(1)}</td><td class="r" style="${nv(r.Porc_Inten_Infest_Barrenador)>3?"color:var(--wa2);font-weight:600":""}">${nv(r.Porc_Inten_Infest_Barrenador).toFixed(2)}</td><td class="r" style="${nv(r.Porc_Inten_Infest_Rata)>1?"color:var(--in2)":""}">${nv(r.Porc_Inten_Infest_Rata).toFixed(2)}</td></tr>`).join("");
-  $("ti-d",d.length>400?`Mostrando 400 de ${d.length}`:"");
+  /* Chinche */
+  const elCh=document.getElementById("TB-ch");
+  if(elCh)elCh.innerHTML=chF.map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${ds(r.Fecha)}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r" style="${nv(r.Ninfas_m2||r.Ninfas||0)>5?"color:var(--a2);font-weight:600":""}">${nv(r.Ninfas_m2||r.Ninfas||0)}</td><td class="r">${nv(r.Adultos||0)}</td></tr>`).join("");
 
-  document.getElementById("tb-gc").innerHTML=gc.map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td class="r">${r.ID_Catorcena||""}</td><td>${ds(r.Fecha)}</td><td>${r.Tipo_trampa||""}</td><td class="r">${r.No_Trampas||""}</td><td class="r" style="${nv(r.Phyllophaga)>500?"color:var(--wa2);font-weight:600":""}">${fmtN(nv(r.Phyllophaga))}</td><td class="r">${fmtN(nv(r.Diplotaxis))}</td><td class="r">${fmtN(nv(r.Anomala))}</td><td class="r" style="${nv(r.TotalCaptura)>500?"color:var(--er2);font-weight:700":"color:var(--ok1)"}">${fmtN(nv(r.TotalCaptura))}</td></tr>`).join("");
+  /* Programa */
+  const elPg=document.getElementById("TB-pg");
+  if(elPg)elPg.innerHTML=pgF.slice(0,400).map((r,i)=>{
+    const keys=Object.keys(r).filter(k=>k&&k!=="");
+    const zona=r.ID_Zona||r.Zona||"";const lote2=r.ID_Lote||r.Lote||"";const finca=r.Nombre_finca||r.Finca||"";
+    const fecha=ds(r.Fecha||r.Fecha_Control||"");const cat=r.ID_Catorcena||r.Catorcena||"";
+    const act=r.Tipo_Actividad||r.Actividad||r.TipoActividad||keys[4]||"";
+    const val=r.Valor||r.Cantidad||r.No_lotes||"—";
+    return `<tr><td class="m">${zona}</td><td class="m">${lote2}</td><td style="font-weight:500">${finca}</td><td>${fecha}</td><td class="r">${cat}</td><td>${act}</td><td class="r">${val}</td></tr>`;
+  }).join("");
+  $t("TI-pg",pgF.length>400?`Mostrando 400 de ${pgF.length}`:"");
 
-  const dpS=[{z:5,l:"0600605",f:"PETÉN",fe:"3 mar 2026",n:"MEDIO - Riesgo",pc:5,s:7,hg:4,e:21,i:0.98},{z:5,l:"0600603",f:"PETÉN",fe:"2 mar 2026",n:"MEDIO - Riesgo",pc:9,s:12,hg:4,e:19,i:0.69},{z:5,l:"0600604",f:"PETÉN",fe:"27 feb 2026",n:"BAJO - Estable",pc:4,s:6,hg:2,e:8,i:0.22},{z:4,l:"0690109",f:"SAN LORENZO",fe:"21 feb 2026",n:"BAJO - Estable",pc:7,s:8,hg:3,e:9,i:0.35},{z:5,l:"0600605",f:"PETÉN",fe:"31 ene 2026",n:"BAJO - Estable",pc:4,s:6,hg:1,e:2,i:0.06},{z:5,l:"0600603",f:"PETÉN",fe:"30 ene 2026",n:"BAJO - Estable",pc:4,s:5,hg:0,e:0,i:0.00},{z:5,l:"0600604",f:"PETÉN",fe:"29 ene 2026",n:"BAJO - Estable",pc:2,s:3,hg:1,e:3,i:0.08},{z:5,l:"0600605",f:"PETÉN",fe:"21 oct 2025",n:"BAJO - Estable",pc:3,s:3,hg:1,e:3,i:0.25}];
-  const dpR=DB.dinamica||dpS;
-  document.getElementById("tb-dp").innerHTML=dpR.map(r=>{const ipr=nv(r.IPR||r.i);const col=ipr>=1?{bg:"#FEF2F2",c:"#991B1B",b:"#DC2626"}:ipr>=.5?{bg:"#FFFBEB",c:"#92400E",b:"#D97706"}:{bg:"#F0FDF4",c:"#166534",b:"#16A34A"};return `<tr><td class="m">${r.ID_Zona||r.z||""}</td><td class="m">${r.ID_Lote||r.l||""}</td><td style="font-weight:500">${r.Nombre_finca||r.f||""}</td><td>${ds(r.Fecha||r.fe)}</td><td>${bdg(r.Nivel_IPR||r.n||"")}</td><td class="r">${r.Porcentaje_Captura||r.pc||""}</td><td class="r">${r.Sigmodon||r.s||""}</td><td class="r">${r.Hembras_Gestantes||r.hg||""}</td><td class="r">${r.Hembriones||r.Total_Embriones||r.e||""}</td><td class="r"><span class="bdg" style="background:${col.bg};color:${col.c};border:1px solid ${col.b}40;font-size:11px;padding:3px 10px">${(r.IPR||r.i||0).toFixed(2)}</span></td></tr>`;}).join("");
+  /* Daño */
+  const elDano=document.getElementById("TB-dano");
+  if(elDano)elDano.innerHTML=d.slice(0,400).map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${r.Variedad||""}</td><td>${ds(r.Fecha)}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r" style="${nv(r.Porc_Infest_Barrenador)>20?"color:var(--a2)":""}">${nv(r.Porc_Infest_Barrenador).toFixed(1)}</td><td class="r" style="${nv(r.Porc_Infest_Rata)>5?"color:var(--a2)":""}">${nv(r.Porc_Infest_Rata).toFixed(1)}</td><td class="r" style="${nv(r.Porc_Inten_Infest_Barrenador)>3?"color:var(--a2);font-weight:600":""}">${nv(r.Porc_Inten_Infest_Barrenador).toFixed(2)}</td><td class="r" style="${nv(r.Porc_Inten_Infest_Rata)>1?"color:var(--c2)":""}">${nv(r.Porc_Inten_Infest_Rata).toFixed(2)}</td></tr>`).join("");
+  $t("TI-dano",d.length>400?`Mostrando 400 de ${d.length}`:"");
 
-  buildResumen();
+  /* Dinámica */
+  const elDp=document.getElementById("TB-dp");
+  if(elDp)elDp.innerHTML=dpF.slice(0,200).map(r=>{
+    const ipr=nv(r.IPR||r.Indice_Potencial_Reproductivo||0);
+    const col=ipr>=1?{bg:"#FEF2F2",c:"#991B1B",b:"#DC2626"}:ipr>=.5?{bg:"#FFFBEB",c:"#92400E",b:"#D97706"}:{bg:"#F0FDF4",c:"#166534",b:"#16A34A"};
+    return `<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${ds(r.Fecha||r.Fecha_muestreo)}</td><td class="r">${r.ID_Catorcena||""}</td><td class="r">${r.Porcentaje_Captura||0}</td><td class="r">${r.Sigmodon||r.Total_Sigmodon||0}</td><td class="r">${r.Hembras_Gestantes||0}</td><td class="r">${r.Hembriones||r.Total_Embriones||0}</td><td class="r"><span class="bdg" style="background:${col.bg};color:${col.c};border:1px solid ${col.b}40;font-size:11px;padding:3px 10px">${ipr.toFixed(2)}</span></td></tr>`;
+  }).join("");
+
+  /* Actividad */
+  const elAct=document.getElementById("TB-act");
+  if(elAct)elAct.innerHTML=actF.slice(0,300).map(r=>{
+    const keys=Object.keys(r);
+    return `<tr><td class="m">${r.ID_Zona||r.Zona||""}</td><td class="m">${r.ID_Lote||r.Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||r.Finca||""}</td><td>${ds(r.Fecha||"")}</td><td class="r">${r.ID_Catorcena||r.Catorcena||""}</td><td>${r.Plaga||r.Nombre_Plaga||""}</td><td>${r.Tipo_Actividad||r.Actividad||""}</td><td class="r">${r.Valor||r.Cantidad||""}</td></tr>`;
+  }).join("");
+  $t("TI-act",actF.length>300?`Mostrando 300 de ${actF.length}`:"");
+
+  /* Lote cosecha */
+  const elLt=document.getElementById("TB-lote");
+  if(elLt)elLt.innerHTML=lote.slice(0,300).map(r=>`<tr><td class="m">${r.ID_Zona||""}</td><td class="m">${r.ID_Lote||""}</td><td style="font-weight:500">${r.Nombre_finca||""}</td><td>${r.Variedad||""}</td><td>${bdg((r["MUY SEVERO"]||r.Severidad_Barrenador||"").toString().trim())}</td><td>${bdg((r["MUY SEVERO.1"]||r.Severidad_Rata||"").toString().trim())}</td><td class="r">${r.ID_Catorcena||""}</td></tr>`).join("");
 }
 
-function buildResumen(){
-  const m=FD("muestreo"),c=FD("control");
-  const label=F.cat?`Cat. ${F.cat}`:F.zona?`Z·${F.zona}`:F.finca?F.finca.slice(0,14):"Todos";
-  $("res-chip",label+" · "+m.length+" lotes");
-  const fincas=[...new Set([...m,...c].map(r=>r.Nombre_finca).filter(Boolean))].sort();
-  const rows=fincas.map(fn=>{
-    const mF=m.filter(r=>r.Nombre_finca===fn),cF=c.filter(r=>r.Nombre_finca===fn);
-    const zona=[...new Set(mF.map(r=>r.ID_Zona).filter(Boolean))].join(",");
-    const pp=mF.length?(mF.reduce((s,r)=>s+nv(r.Porcentaje_Captura),0)/mF.length).toFixed(1):0;
-    const l8=mF.filter(r=>nv(r.Porcentaje_Captura)>=8).length;
-    const kgR=cF.reduce((s,r)=>s+nv(r.Kg_Recomendados),0);
-    const kgE=cF.reduce((s,r)=>s+nv(r.Kg_Ejecutados),0);
-    const at=cF.filter(r=>(r.Estado_Control||"").includes("TIEMPO")).length;
-    const pnd=cF.filter(r=>(r.Estado_Control||"").includes("PENDIENTE")).length;
-    return{zona,fn,lotes:mF.length,pp,l8,kgR,kgE,at,pnd};
-  }).filter(r=>r.lotes>0);
-  document.getElementById("tb-res").innerHTML=rows.map(r=>`<tr><td class="m" style="color:var(--blue2);font-weight:600">${r.zona}</td><td style="font-weight:600">${r.fn}</td><td class="r">${r.lotes}</td><td class="r" style="${nv(r.pp)>=8?"color:var(--wa2);font-weight:700":"color:var(--t3)"}">${r.pp}%</td><td class="r" style="${r.l8>0?"color:var(--er2);font-weight:700":""}">${r.l8}</td><td class="r" style="color:var(--wa2)">${fmt(r.kgR)}</td><td class="r" style="${r.kgE>0?"color:var(--ok1);font-weight:600":""}">${fmt(r.kgE)}</td><td class="r" style="${r.at>0?"color:var(--ok1);font-weight:600":""}">${r.at}</td><td class="r" style="${r.pnd>0?"color:var(--er2);font-weight:600":""}">${r.pnd}</td></tr>`).join("");
-}
-
-/* ══ Module Tabs ══ */
+/* MODULE TABS */
 function MT(mod,view,btn){
   document.querySelectorAll(`[id^="${mod}-"]`).forEach(el=>{el.style.display="none";el.classList.remove("on");});
-  const el=document.getElementById(`${mod}-${view}`);if(el){el.style.display="block";el.classList.add("on");}
+  const t2=document.getElementById(`${mod}-${view}`);if(t2){t2.style.display="block";t2.classList.add("on");}
   btn.closest(".mtabs").querySelectorAll(".mt").forEach(b=>b.classList.remove("on"));
   btn.classList.add("on");
 }
